@@ -1,11 +1,13 @@
 istio:
   enabled: true
 
-elasticsearch:
-  create: true
-  master: 
-    count: 1
-  data:
-    count: 1
-    persistence:
-      size: 5Gi
+image:
+  imagePullSecrets:
+  - private-registry-mil
+
+jaeger:
+  spec:
+    allInOne:
+      options:
+        imagePullSecrets:
+        - private-registry-mil
