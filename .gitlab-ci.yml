@@ -1,6 +1,3 @@
 include:
   - project: 'platform-one/big-bang/pipeline-templates/pipeline-templates'
     file: '/templates/package-tests.yml' 
-variables:
-  ISTIO_GATEWAY_NS: istio-system
-  PROJECT_NAME: istio-system
