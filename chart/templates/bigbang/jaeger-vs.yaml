@@ -1,0 +1,36 @@
+{{- if and .Values.istio.enabled .Values.istio.jaeger.enabled -}}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: jaeger
+  namespace: {{ default .Release.Namespace .Values.jaeger.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "jaeger-operator.fullname" . }}
+    helm.sh/chart: {{ include "jaeger-operator.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/part-of: jaeger
+    app.kubernetes.io/component: jaeger
+  {{- if .Values.istio.jaeger.labels }}
+{{ toYaml .Values.istio.jaeger.labels | indent 4 }}
+  {{- end }}
+  {{- if .Values.istio.jaeger.annotations }}
+  annotations:
+{{ toYaml .Values.istio.jaeger.annotations | indent 4 }}
+  {{- end }}
+spec:
+  gateways:
+  {{- range .Values.istio.jaeger.gateways }}
+    - {{ . }}
+  {{- end }}
+  hosts:
+  {{- range .Values.istio.jaeger.hosts }}
+    - {{ tpl . $}}
+  {{- end }}
+  http:
+    - route:
+        - destination:
+            port:
+              number: 16686
+            host: jaeger-jaeger-operator-jaeger-query
+{{- end }}

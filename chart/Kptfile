@@ -1,0 +1,11 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: chart
+upstream:
+  type: git
+  git:
+    commit: fe4ae0cd2aa67a19cd570893e2312a7785e58e2b
+    repo: https://github.com/jaegertracing/helm-charts
+    directory: charts/jaeger-operator
+    ref: main

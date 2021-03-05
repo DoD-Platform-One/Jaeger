@@ -1,0 +1,97 @@
+# Default values for jaeger-operator.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+hostname: bigbang.dev
+istio:
+  # Toggle istio integration 
+  enabled: false
+  jaeger:
+    # Toggle vs creation
+    enabled: true
+    annotations: {}
+    labels: {}
+    gateways:
+      - istio-system/main
+    hosts:
+      - tracing.{{ .Values.hostname }}
+      - jaeger.{{ .Values.hostname }}
+
+
+image:
+  repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
+  tag: 1.21.2
+  pullPolicy: Always
+  imagePullSecrets:
+  - private-registry
+  
+
+crd:
+  install: true
+
+elasticsearch:
+  enabled: false
+  username: elastic
+  name: logging-ek
+  namespace: logging
+  # password:
+  
+jaeger:
+  # Specifies whether Jaeger instance should be created
+  create: true
+  # namespace where Jaeger resource should be created default to .Release.Namespace
+  spec: 
+    strategy: production
+    allInOne:
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.2
+
+      options: 
+        log-level: info 
+        imagePullSecrets:
+        - private-registry
+    collector:
+      maxReplicas: 1
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 100m
+          memory: 128Mi
+    volumeMounts:
+      - name: certificates
+        mountPath: /es/certificates/
+        readOnly: true
+    volumes:
+      - name: certificates
+        secret:
+          secretName: elasticsearch-certificates
+
+rbac:
+  # Specifies whether RBAC resources should be created
+  create: true
+  pspEnabled: false
+  clusterRole: true
+
+serviceAccount:
+  # Specifies whether a ServiceAccount should be created
+  create: true
+  # The name of the ServiceAccount to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: jaeger
+
+resources: 
+  limits:
+   cpu: 100m
+   memory: 128Mi
+  requests:
+   cpu: 100m
+   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+securityContext: {}

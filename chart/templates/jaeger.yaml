@@ -1,0 +1,34 @@
+{{- if .Values.jaeger.create }}
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: {{ include "jaeger-operator.fullname" . }}-jaeger
+  namespace: {{ default .Release.Namespace .Values.jaeger.namespace }}
+{{- with .Values.jaeger.spec }}
+spec:
+  strategy: {{ .strategy }}
+  allInOne:
+{{ toYaml .allInOne | indent 4 }}
+  collector:
+{{ toYaml .collector | indent 4 }}
+{{- if $.Values.elasticsearch.enabled  }}
+  storage:
+    type: elasticsearch
+    options:
+      es:
+        server-urls: https://{{ $.Values.elasticsearch.name }}-es-http.{{ $.Values.elasticsearch.namespace }}.svc:9200
+        tls:
+          enabled: "true"
+          ca: /es/certificates/ca.crt
+    secretName: jaeger-secret
+  volumeMounts:
+    - name: certificates
+      mountPath: /es/certificates/
+      readOnly: true
+  volumes:
+    - name: certificates
+      secret:
+        secretName: elasticsearch-certificates
+{{ end }}
+{{- end }}
+{{- end }}
