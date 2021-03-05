@@ -11,3 +11,17 @@ jaeger:
       options:
         imagePullSecrets:
         - private-registry-mil
+    agent:
+      imagePullSecrets:
+        - private-registry-mil
+    collector:
+      imagePullSecrets:
+        - private-registry-mil  
+      serviceAccount: jaeger   
+    ingester:
+      imagePullSecrets:
+      - private-registry-mil
+    query:
+      imagePullSecrets:
+      - private-registry-mil
+    

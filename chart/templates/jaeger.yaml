@@ -6,6 +6,7 @@ metadata:
   namespace: {{ default .Release.Namespace .Values.jaeger.namespace }}
 {{- with .Values.jaeger.spec }}
 spec:
+  serviceAccount: jaeger
   strategy: {{ .strategy }}
   allInOne:
 {{ toYaml .allInOne | indent 4 }}
