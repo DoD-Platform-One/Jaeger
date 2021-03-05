@@ -44,7 +44,6 @@ jaeger:
     strategy: production
     allInOne:
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.2
-
       options: 
         log-level: info 
         imagePullSecrets:
