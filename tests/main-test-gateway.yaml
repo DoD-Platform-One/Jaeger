@@ -8,7 +8,7 @@ spec:
     istio: ingressgateway
   servers:
   - hosts:
-    - 'podinfo.bigbang.dev'
+    - 'tracing.bigbang.dev'
     port:
       name: http
       number: 80
@@ -16,7 +16,7 @@ spec:
     tls:
       httpsRedirect: true
   - hosts:
-    - 'podinfo.bigbang.dev'
+    - 'tracing.bigbang.dev'
     port:
       name: https
       number: 443
