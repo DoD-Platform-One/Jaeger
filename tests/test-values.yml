@@ -8,9 +8,8 @@ image:
 jaeger:
   spec:
     allInOne:
-      options:
-        imagePullSecrets:
-        - private-registry-mil
+      imagePullSecrets:
+      - private-registry-mil
     agent:
       imagePullSecrets:
         - private-registry-mil

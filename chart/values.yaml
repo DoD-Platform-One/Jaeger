@@ -43,26 +43,27 @@ jaeger:
   spec: 
     strategy: production
     allInOne:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.2
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
+      pullPolicy: Always
       options: 
         log-level: info 
-        imagePullSecrets:
-        - private-registry
+      imagePullSecrets:
+      - private-registry
     agent:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.2
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
       imagePullSecrets:
       - private-registry
     ingester:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.2
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
       imagePullSecrets:
       - private-registry
     query:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.2
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
       imagePullSecrets:
       - private-registry
     collector:
       maxReplicas: 1
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.2
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
       imagePullSecrets:
       - private-registry
       resources:
