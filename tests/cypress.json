@@ -3,6 +3,6 @@
   "supportFile": false,
   "fixturesFolder": false,
   "env": {
-    "url": "podinfo.bigbang.dev"
+    "url": "tracing.bigbang.dev"
   }
 }
