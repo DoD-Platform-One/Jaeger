@@ -10,6 +10,8 @@ spec:
   strategy: {{ .strategy }}
   annotations:
 {{ toYaml .annotations | indent 4}}
+  query:
+{{ toYaml .query | indent 4 }}
   allInOne:
 {{ toYaml .allInOne | indent 4 }}
   collector:
