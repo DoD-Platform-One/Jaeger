@@ -32,5 +32,5 @@ spec:
         - destination:
             port:
               number: 16686
-            host: jaeger-jaeger-operator-jaeger-query
+            host: {{ .Release.Name }}-jaeger-operator-jaeger-query
 {{- end }}
