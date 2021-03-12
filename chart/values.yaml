@@ -61,6 +61,9 @@ jaeger:
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
       imagePullSecrets:
       - private-registry
+      annotations:
+        sidecar.istio.io/inject: "true"
+        traffic.sidecar.istio.io/excludeOutboundPorts: "*"
     collector:
       maxReplicas: 5
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
@@ -73,9 +76,6 @@ jaeger:
         limits:
           cpu: 200m
           memory: 128Mi
-    annotations:
-      sidecar.istio.io/inject: "true"
-      traffic.sidecar.istio.io/includeInboundPorts: "16686"
     volumeMounts:
       - name: certificates
         mountPath: /es/certificates/
