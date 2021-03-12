@@ -8,6 +8,8 @@ metadata:
 spec:
   serviceAccount: {{ include "jaeger-operator.serviceAccountName" $ }}
   strategy: {{ .strategy }}
+  annotations:
+{{ toYaml .annotations | indent 4}}
   allInOne:
 {{ toYaml .allInOne | indent 4 }}
   collector:
