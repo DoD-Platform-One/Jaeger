@@ -41,7 +41,9 @@ jaeger:
   create: true
   # namespace where Jaeger resource should be created default to .Release.Namespace
   spec: 
-    strategy: production
+    strategy: allInOne
+    annotations:
+      sidecar.istio.io/inject: "true"
     allInOne:
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
       pullPolicy: Always
@@ -51,19 +53,27 @@ jaeger:
       - private-registry
     agent:
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
+      options: 
+        log-level: info
       imagePullSecrets:
       - private-registry
     ingester:
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
+      options: 
+        log-level: info
       imagePullSecrets:
       - private-registry
     query:
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
+      options: 
+        log-level: info
       imagePullSecrets:
       - private-registry
     collector:
       maxReplicas: 5
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
+      options: 
+        log-level: info
       imagePullSecrets:
       - private-registry
       resources:
