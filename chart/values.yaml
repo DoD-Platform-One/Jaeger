@@ -15,7 +15,6 @@ istio:
       - istio-system/main
     hosts:
       - tracing.{{ .Values.hostname }}
-      - jaeger.{{ .Values.hostname }}
 
 
 image:
