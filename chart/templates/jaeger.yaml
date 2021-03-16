@@ -26,10 +26,10 @@ spec:
           enabled: "true"
           ca: /es/certificates/ca.crt
     esIndexCleaner:
-      image: {{ .Values.retention.image }}
-      schedule: {{ .Values.retention.schedule }}
-      numberOfDays: {{ .Values.retention.days }}
-      enabled: {{ .Values.retention.enabled }}
+      image: {{ $.Values.retention.image }}
+      schedule: {{ $.Values.retention.schedule }}
+      numberOfDays: {{ $.Values.retention.days }}
+      enabled: {{ $.Values.retention.enabled }}
     secretName: jaeger-secret
   volumeMounts:
     - name: certificates
