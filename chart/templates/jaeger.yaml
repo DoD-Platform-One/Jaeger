@@ -9,7 +9,9 @@ spec:
   serviceAccount: {{ include "jaeger-operator.serviceAccountName" $ }}
   strategy: {{ .strategy }}
   annotations:
-{{ toYaml .annotations | indent 4}}
+{{ toYaml .annotations | indent 4 }}
+  labels:
+{{ toYaml .labels | indent 4 }}
   query:
 {{ toYaml .query | indent 4 }}
   allInOne:

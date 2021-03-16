@@ -49,6 +49,7 @@ jaeger:
     strategy: allInOne
     annotations:
       sidecar.istio.io/inject: "true"
+    labels: {}
     allInOne:
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
       pullPolicy: Always
@@ -56,6 +57,13 @@ jaeger:
         log-level: info 
       imagePullSecrets:
       - private-registry
+      resources:
+        requests:
+          cpu: 200m
+          memory: 128Mi
+        limits:
+          cpu: 200m
+          memory: 128Mi
     agent:
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
       options: 
