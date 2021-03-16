@@ -35,7 +35,13 @@ elasticsearch:
   name: logging-ek
   namespace: logging
   # password:
-  
+
+retention:
+  enabled: false
+  schedule: "0 * * * *"
+  days: 5
+  image: registry.dso.mil/platform-one/big-bang/apps/sandbox/jaeger/jaeger-es-index-cleaner:1.21.0
+
 jaeger:
   # Specifies whether Jaeger instance should be created
   create: true
@@ -57,6 +63,7 @@ jaeger:
         log-level: info
       imagePullSecrets:
       - private-registry
+    
     ingester:
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
       options: 
