@@ -32,7 +32,7 @@ spec:
       workingDir: /e2e
       env:
         - name: cypress_url
-          value: "http://jaeger-query:16686
+          value: "http://jaeger-query:16686"
       args:
       - "--"
       - "--reporter-options=list"
