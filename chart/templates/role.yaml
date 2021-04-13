@@ -112,6 +112,27 @@ rules:
   - horizontalpodautoscalers
   verbs:
   - '*'
+## needed if support for injecting sidecars based on namespace annotation is required
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - 'get'
+  - 'list'
+  - 'watch'
+
+## needed if support for injecting sidecars based on deployment annotation is required, across all namespaces
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+  - watch
 {{- if .Values.rbac.pspEnabled }}
 - apiGroups: ['policy']
   resources: ['podsecuritypolicies']
