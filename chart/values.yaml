@@ -19,14 +19,10 @@ istio:
 
 image:
   repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
-  tag: 1.21.2
+  tag: 1.22.0
   pullPolicy: Always
   imagePullSecrets:
   - private-registry
-  
-
-crd:
-  install: true
 
 elasticsearch:
   enabled: false
@@ -39,20 +35,21 @@ retention:
   enabled: false
   schedule: "0 * * * *"
   days: 5
-  image: registry.dso.mil/platform-one/big-bang/apps/sandbox/jaeger/jaeger-es-index-cleaner:1.21.0
-
+  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.22.0
+  imagePullSecrets:
+      - private-registry
 jaeger:
   # Specifies whether Jaeger instance should be created
   create: true
   # namespace where Jaeger resource should be created default to .Release.Namespace
   spec: 
+    # allInOne for dev purposes
+    # production for HA setup
     strategy: allInOne
-    annotations:
-      sidecar.istio.io/inject: "true"
+    annotations: {}
     labels: {}
     allInOne:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
-      pullPolicy: Always
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.22.0
       options: 
         log-level: info 
       imagePullSecrets:
@@ -65,27 +62,29 @@ jaeger:
           cpu: 200m
           memory: 128Mi
     agent:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
+      maxReplicas: 5
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.22.0
       options: 
         log-level: info
       imagePullSecrets:
       - private-registry
-    
     ingester:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
+      maxReplicas: 5
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingestor:1.22.0
       options: 
         log-level: info
       imagePullSecrets:
       - private-registry
     query:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
+      maxReplicas: 5
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.22.0
       options: 
         log-level: info
       imagePullSecrets:
       - private-registry
     collector:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.21.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.22.0
       options: 
         log-level: info
       imagePullSecrets:
