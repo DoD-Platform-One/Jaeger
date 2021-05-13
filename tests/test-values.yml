@@ -24,3 +24,8 @@ jaeger:
       imagePullSecrets:
       - private-registry-mil
     
+bbtests:
+  cypress:
+    artifacts: true
+    envs:
+      cypress_url: "http://jaeger-query:16686"
