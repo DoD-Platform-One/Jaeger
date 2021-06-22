@@ -19,7 +19,7 @@ istio:
 
 image:
   repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
-  tag: 1.22.0
+  tag: 1.23.0
   pullPolicy: Always
   imagePullSecrets:
   - private-registry
@@ -35,7 +35,7 @@ retention:
   enabled: false
   schedule: "0 * * * *"
   days: 5
-  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.22.0
+  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.23.0
   imagePullSecrets:
       - private-registry
 jaeger:
@@ -49,7 +49,7 @@ jaeger:
     annotations: {}
     labels: {}
     allInOne:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.22.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.23.0
       annotations:
         sidecar.istio.io/inject: "true"
         traffic.sidecar.istio.io/includeInboundPorts: "16686"
@@ -69,28 +69,28 @@ jaeger:
           memory: 128Mi
     agent:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.22.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.23.0
       options: 
         log-level: info
       imagePullSecrets:
       - private-registry
     ingester:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingestor:1.22.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingestor:1.23.0
       options: 
         log-level: info
       imagePullSecrets:
       - private-registry
     query:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.22.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.23.0
       options: 
         log-level: info
       imagePullSecrets:
       - private-registry
     collector:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.22.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.23.0
       options: 
         log-level: info
       imagePullSecrets:
@@ -117,12 +117,23 @@ rbac:
   pspEnabled: false
   clusterRole: true
 
+service:
+  type: ClusterIP
+  # Specify a specific node port when type is NodePort
+  # nodePort: 32500
+
 serviceAccount:
   # Specifies whether a ServiceAccount should be created
   create: true
   # The name of the ServiceAccount to use.
   # If not set and create is true, a name is generated using the fullname template
   name: jaeger-instance
+
+# Specifies extra environment variables passed to the operator:
+extraEnv: []
+  # Specifies log-level for the operator:
+  # - name: LOG-LEVEL
+  #   value: debug
 
 resources: 
   limits:
@@ -139,3 +150,5 @@ tolerations: []
 affinity: {}
 
 securityContext: {}
+
+priorityClassName:
