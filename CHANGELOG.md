@@ -4,7 +4,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
-## [2.21.4-bb.6]
+## [2.21.4-bb.0]
 ### Changed
 - Upstream chart merged with 2.21.4 -- merged in even though upstream support for Jaeger 1.23.0 is not yet available
 - Images from registry1.dso.mil/ironbank/opensource/jaegertracing bumped to 1.23.0
