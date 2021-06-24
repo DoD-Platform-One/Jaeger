@@ -11,7 +11,7 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-{{ include "jaeger-operator.labels" . | indent 6 }}
+{{ include "jaeger-operator.selector.labels" . | indent 6 }}
   template:
     metadata:
       name: {{ include "jaeger-operator.fullname" . }}
