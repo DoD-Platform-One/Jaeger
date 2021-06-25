@@ -47,3 +47,9 @@ Create chart name and version as used by the chart label.
 app.kubernetes.io/name: {{ include "jaeger-operator.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{/* Generate selector labels -- see issue #512.  This allows helm upgrades to happen */}}
+{{- define "jaeger-operator.selector.labels" }}
+app.kubernetes.io/name: {{ include "jaeger-operator.name" . }}
+{{- end }}
+
