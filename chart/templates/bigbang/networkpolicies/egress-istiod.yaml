@@ -1,0 +1,21 @@
+{{- if and .Values.networkPolicies.enabled .Values.istio.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: egress-jaeger-istiod
+  namespace: {{ .Release.Namespace }}
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          app.kubernetes.io/name: istio-controlplane   # label name for istio-system namespace
+      podSelector:
+        matchLabels:
+          istio: pilot   # label match for istiod pods
+  - ports:
+    - port: 15012
+{{- end }}

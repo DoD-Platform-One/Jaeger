@@ -25,7 +25,12 @@ jaeger:
       - private-registry-mil
     
 bbtests:
+  enabled: true
   cypress:
     artifacts: true
     envs:
       cypress_url: "http://jaeger-query:16686"
+
+networkPolicies:
+  enabled: true
+  controlPlaneCidr: 172.16.0.0/12  

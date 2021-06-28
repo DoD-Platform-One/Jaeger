@@ -1,0 +1,23 @@
+{{ if .Values.networkPolicies.enabled }}
+# Allow data to be sent to the ingest port for Jaeger to
+# accept traffic.
+# TODO Check the ingest component when production mode is enabled
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: ingress-jaeger-ingest
+  namespace: {{ .Release.Namespace }}
+spec:
+  policyTypes:
+    - Ingress
+  podSelector:
+    matchLabels:
+      {{- if eq .Values.jaeger.spec.strategy "allInOne" }}
+      app.kubernetes.io/component: all-in-one   
+      {{- else }}
+      app.kubernetes.io/component: ingest
+      {{- end }}
+  ingress:
+  - ports:
+    - port: 9411
+{{- end }}

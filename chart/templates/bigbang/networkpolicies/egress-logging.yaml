@@ -1,0 +1,28 @@
+{{ if and .Values.networkPolicies.enabled .Values.elasticsearch.enabled }}
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: egress-jaeger-elasticsearch
+  namespace: {{ .Release.Namespace }}
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      {{- if eq .Values.jaeger.spec.strategy "allInOne" }}
+      app.kubernetes.io/component: all-in-one   
+      {{- else }}
+      app.kubernetes.io/component: query
+      {{- end }}
+  egress:
+  - ports:
+    - port: 9200
+    to: 
+    - namespaceSelector:
+        matchLabels:
+          app.kubernetes.io/name: {{ .Values.elasticsearch.namespace }}
+      podSelector:           
+        matchLabels: # copied from svc "logging-ek-es-http" in logging namespace
+          common.k8s.elastic.co/type: elasticsearch
+          elasticsearch.k8s.elastic.co/cluster-name: {{ .Values.elasticsearch.name }}
+{{- end }}

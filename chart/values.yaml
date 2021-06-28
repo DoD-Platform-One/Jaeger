@@ -16,7 +16,6 @@ istio:
     hosts:
       - tracing.{{ .Values.hostname }}
 
-
 image:
   repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
   tag: 1.23.0
@@ -150,5 +149,13 @@ tolerations: []
 affinity: {}
 
 securityContext: {}
+
+networkPolicies:
+  enabled: false
+  ingressLabels:
+    app: istio-ingressgateway
+    istio: ingressgateway
+  # See `kubectl cluster-info` and then resolve to IP
+  controlPlaneCidr: 0.0.0.0/0
 
 priorityClassName:
