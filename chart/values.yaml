@@ -45,6 +45,9 @@ jaeger:
     # allInOne for dev purposes
     # production for HA setup
     strategy: allInOne
+    # Disable ingress by default in favor of istio
+    ingress:
+      enabled: false
     annotations: {}
     labels: {}
     allInOne:
