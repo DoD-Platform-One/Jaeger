@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [2.22.0-bb.0]
 ### Changed
 - Updated to upstream 2.22.0 chart, 1.24.0 images from Ironbank
-- Removed ingress by default, provided values passthrough as a toggle
+- Removed ingress by default, provided values passthrough
 
 ## [2.21.4-bb.2]
 ### Changed
