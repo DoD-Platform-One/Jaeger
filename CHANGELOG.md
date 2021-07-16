@@ -4,6 +4,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [2.22.0-bb.1]
+### Changed
+- Updated to use ports 8383 and 8686 for network policy
+- Added name label for selectors to match correctly
+
 ## [2.22.0-bb.0]
 ### Changed
 - Updated to upstream 2.22.0 chart, 1.24.0 images from Ironbank
