@@ -1,0 +1,1 @@
+registry1.dso.mil/ironbank/big-bang/base:8.4

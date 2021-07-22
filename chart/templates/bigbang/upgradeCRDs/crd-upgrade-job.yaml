@@ -1,0 +1,44 @@
+{{- if .Values.crdUpgrade.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jaeger-crd-upgrade
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook": "pre-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+  labels:
+    {{ include "jaeger-operator.labels" . | nindent 4 }}
+spec:
+  template:
+    metadata:
+      name: jaeger-crd-upgrade
+      annotations:
+        sidecar.istio.io/inject: 'false'
+    spec:
+      serviceAccountName: jaeger-crd-sa
+      imagePullSecrets:
+      {{- range .Values.image.imagePullSecrets }}
+        - name: {{ . }}
+      {{- end }}
+      restartPolicy: OnFailure
+      containers:
+        - name: jaeger-crd-upgrade
+          image: "{{ .Values.crdUpgrade.image }}"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              echo "Applying upgraded Jaeger CRDs..."
+              kubectl apply -f /crds/*.yaml 2>&1
+              echo "Upgrade complete!"
+          volumeMounts:
+            - name: jaeger-crds
+              mountPath: /crds/
+      volumes:
+        - name: jaeger-crds
+          configMap:
+            name: "jaeger-crd-configmap"
+{{- end }}
