@@ -17,6 +17,9 @@ istio:
       - istio-system/main
     hosts:
       - tracing.{{ .Values.hostname }}
+crdUpgrade:
+  enabled: true
+  image: "registry1.dso.mil/ironbank/big-bang/base:8.4"
 
 image:
   repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
@@ -37,8 +40,7 @@ retention:
   schedule: "0 * * * *"
   days: 5
   image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.24.0
-  imagePullSecrets:
-      - private-registry
+
 jaeger:
   # Specifies whether Jaeger instance should be created
   create: true
@@ -62,8 +64,6 @@ jaeger:
         collector:
           zipkin:
             host-port: ":9411"
-      imagePullSecrets:
-      - private-registry
       resources:
         requests:
           cpu: 200m
@@ -83,22 +83,16 @@ jaeger:
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingestor:1.24.0
       options: 
         log-level: info
-      imagePullSecrets:
-      - private-registry
     query:
-      maxReplicas: 5
+      replicas: 5
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.24.0
       options: 
         log-level: info
-      imagePullSecrets:
-      - private-registry
     collector:
       maxReplicas: 5
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.24.0
       options: 
         log-level: info
-      imagePullSecrets:
-      - private-registry
       resources:
         requests:
           cpu: 200m

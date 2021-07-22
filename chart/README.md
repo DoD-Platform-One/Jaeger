@@ -14,7 +14,7 @@ This chart bootstraps a jaeger-operator deployment on a [Kubernetes](http://kube
 
 ## Prerequisites
 
-- Kubernetes 1.16+
+- Kubernetes 1.19+
 
 ## Installing the Chart
 

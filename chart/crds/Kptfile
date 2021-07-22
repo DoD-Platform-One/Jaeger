@@ -1,0 +1,11 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: crds
+upstream:
+  type: git
+  git:
+    commit: 825be14122492aaa78aecff55ecb8b04088f1cf2
+    repo: https://github.com/jaegertracing/jaeger-operator
+    directory: /deploy/crds
+    ref: v1.24.0
