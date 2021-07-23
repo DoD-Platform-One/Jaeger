@@ -17,9 +17,6 @@ istio:
       - istio-system/main
     hosts:
       - tracing.{{ .Values.hostname }}
-crdUpgrade:
-  enabled: true
-  image: "registry1.dso.mil/ironbank/big-bang/base:8.4"
 
 image:
   repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
