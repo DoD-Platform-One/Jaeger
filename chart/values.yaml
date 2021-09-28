@@ -77,7 +77,7 @@ jaeger:
       - private-registry
     ingester:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingestor:1.24.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.24.0
       options: 
         log-level: info
     query:
