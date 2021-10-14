@@ -1,0 +1,29 @@
+{
+    "baseBranches": ["main"],
+    "configWarningReuseIssue": false,
+    "dependencyDashboard": true,
+    "dependencyDashboardAutoclose": true,
+    "dependencyDashboardHeader": "- [ ] Sync upstream helm chart version with updated dependencies.",
+    "dependencyDashboardTitle": "Renovate: Upgrade Jaeger Package Dependencies",
+    "dependencyDashboardLabels": ["jaeger","renovate","Package Sustainment"],
+    "draftPR": true,
+    "enabledManagers": ["helm-values","regex"],
+    "ignorePaths": ["chart/charts/**"],
+    "labels": ["jaeger","renovate"],
+    "packageRules": [
+        {
+            "matchDatasources": ["docker"],
+            "groupName": "Ironbank"
+        }
+    ],
+    "regexManagers": [
+        {
+            "fileMatch": ["^chart/values\\.yaml$"],
+            "matchStrings": [
+                "image:\\s*(?<depName>.+):(?<currentValue>[\\d\\.]+)"
+            ],
+            "datasourceTemplate": "docker"
+        }
+    ],
+    "separateMajorMinor": false
+}
