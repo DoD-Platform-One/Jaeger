@@ -4,6 +4,9 @@
 openshift:
   enabled: false
 
+sso:
+  enabled: false
+
 hostname: bigbang.dev
 istio:
   # Toggle istio integration 
