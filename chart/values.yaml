@@ -7,6 +7,9 @@ openshift:
 sso:
   enabled: false
 
+monitoring:
+  enabled: false
+
 hostname: bigbang.dev
 istio:
   # Toggle istio integration 

@@ -19,6 +19,9 @@ metadata:
 {{ toYaml .Values.istio.jaeger.annotations | indent 4 }}
   {{- end }}
 spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: jaeger
   action: ALLOW
   rules:
   - from:
