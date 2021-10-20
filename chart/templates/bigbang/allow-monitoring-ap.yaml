@@ -12,6 +12,9 @@ spec:
   rules:
   - from:
     - source:
+        principals:
+	- cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-prometheus
+    - source:
         namespaces:
         - monitoring
     to:
