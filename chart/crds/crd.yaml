@@ -1,10 +1,12 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  annotations:
-    controller-gen.kubebuilder.io/version: v0.5.0
-  creationTimestamp: null
   name: jaegers.jaegertracing.io
+  annotations:
+    "helm.sh/hook": crd-install
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+  labels:
+    app: jaeger-operator
 spec:
   group: jaegertracing.io
   names:
@@ -5047,6 +5049,8 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: atomic
+                  ingressClassName:
+                    type: string
                   labels:
                     additionalProperties:
                       type: string
@@ -6149,6 +6153,9 @@ spec:
                       type: string
                     nullable: true
                     type: object
+                  grpcNodePort:
+                    format: int32
+                    type: integer
                   image:
                     type: string
                   labels:
@@ -10676,6 +10683,11 @@ spec:
                           type: object
                         type: array
                         x-kubernetes-list-type: atomic
+                    type: object
+                  grpcPlugin:
+                    properties:
+                      image:
+                        type: string
                     type: object
                   options:
                     type: object
