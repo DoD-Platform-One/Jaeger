@@ -26,7 +26,7 @@ istio:
 
 image:
   repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
-  tag: 1.24.0
+  tag: 1.27.0
   pullPolicy: Always
   imagePullSecrets:
   - private-registry
@@ -42,7 +42,7 @@ retention:
   enabled: false
   schedule: "0 * * * *"
   days: 5
-  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.24.0
+  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.27.0
 
 jaeger:
   # Specifies whether Jaeger instance should be created
@@ -58,7 +58,7 @@ jaeger:
     annotations: {}
     labels: {}
     allInOne:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.24.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.27.0
       annotations:
         sidecar.istio.io/inject: "true"
         traffic.sidecar.istio.io/includeInboundPorts: "16686"
@@ -76,24 +76,24 @@ jaeger:
           memory: 128Mi
     agent:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.24.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.27.0
       options: 
         log-level: info
       imagePullSecrets:
       - private-registry
     ingester:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.24.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.27.0
       options: 
         log-level: info
     query:
       replicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.24.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.27.0
       options: 
         log-level: info
     collector:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.24.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.27.0
       options: 
         log-level: info
       resources:
@@ -122,6 +122,8 @@ service:
   type: ClusterIP
   # Specify a specific node port when type is NodePort
   # nodePort: 32500
+  # Annotations for service
+  annotations: {}
 
 serviceAccount:
   # Specifies whether a ServiceAccount should be created
@@ -129,12 +131,18 @@ serviceAccount:
   # The name of the ServiceAccount to use.
   # If not set and create is true, a name is generated using the fullname template
   name: jaeger-instance
+  # Annotations for serviceAccount
+  annotations: {}
 
 # Specifies extra environment variables passed to the operator:
 extraEnv: []
   # Specifies log-level for the operator:
   # - name: LOG-LEVEL
   #   value: debug
+
+extraLabels: {}
+  # Specifies extra labels for the operator deployment:
+  # foo: bar
 
 resources: 
   limits:
