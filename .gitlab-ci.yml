@@ -1,4 +1,0 @@
-include:
-  - project: 'platform-one/big-bang/pipeline-templates/pipeline-templates'
-    file: '/templates/package-tests.yml' 
-    ref: master
