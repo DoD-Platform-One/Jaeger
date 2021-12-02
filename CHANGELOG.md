@@ -3,7 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
----
+
+## [2.27.0-bb.0]
+### Changed
+- Updated to the upstream 2.27.0 chart.  All images updated to 1.28.0.
+
 ## [2.26.0-bb.0]
 ### Changed
 - Updated to the upstream 2.26.0 chart.  All images updated to 1.27.0.
