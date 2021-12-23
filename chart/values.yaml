@@ -144,6 +144,9 @@ extraLabels: {}
   # Specifies extra labels for the operator deployment:
   # foo: bar
 
+annotations: {}
+  # bigbang.dev/istioVersion: 1.10.3
+
 resources: 
   limits:
    cpu: 100m
