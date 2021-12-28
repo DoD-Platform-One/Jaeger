@@ -1,6 +1,6 @@
 # jaeger-operator
 
-![Version: 2.27.0-bb.0](https://img.shields.io/badge/Version-2.27.0--bb.0-informational?style=flat-square) ![AppVersion: 1.28.0](https://img.shields.io/badge/AppVersion-1.28.0-informational?style=flat-square)
+![Version: 2.27.0-bb.1](https://img.shields.io/badge/Version-2.27.0--bb.1-informational?style=flat-square) ![AppVersion: 1.28.0](https://img.shields.io/badge/AppVersion-1.28.0-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -47,7 +47,7 @@ helm install jaeger-operator chart/
 | istio.jaeger.hosts[0] | string | `"tracing.{{ .Values.hostname }}"` |  |
 | image.repository | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator"` |  |
 | image.tag | string | `"1.28.0"` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.pullPolicy | string | `"Always"` |  |
 | image.imagePullSecrets[0] | string | `"private-registry"` |  |
 | elasticsearch.enabled | bool | `false` |  |
 | elasticsearch.username | string | `"elastic"` |  |
@@ -103,6 +103,7 @@ helm install jaeger-operator chart/
 | serviceAccount.annotations | object | `{}` |  |
 | extraEnv | list | `[]` |  |
 | extraLabels | object | `{}` |  |
+| annotations | object | `{}` |  |
 | resources.limits.cpu | string | `"100m"` |  |
 | resources.limits.memory | string | `"128Mi"` |  |
 | resources.requests.cpu | string | `"100m"` |  |
