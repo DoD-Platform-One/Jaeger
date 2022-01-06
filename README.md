@@ -1,6 +1,6 @@
 # jaeger-operator
 
-![Version: 2.27.0-bb.1](https://img.shields.io/badge/Version-2.27.0--bb.1-informational?style=flat-square) ![AppVersion: 1.28.0](https://img.shields.io/badge/AppVersion-1.28.0-informational?style=flat-square)
+![Version: 2.27.0-bb.2](https://img.shields.io/badge/Version-2.27.0--bb.2-informational?style=flat-square) ![AppVersion: 1.28.0](https://img.shields.io/badge/AppVersion-1.28.0-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -53,6 +53,9 @@ helm install jaeger-operator chart/
 | elasticsearch.username | string | `"elastic"` |  |
 | elasticsearch.name | string | `"logging-ek"` |  |
 | elasticsearch.namespace | string | `"logging"` |  |
+| elasticsearch.storage.options.es.server-urls | string | `"https://{{ $.Values.elasticsearch.name }}-es-http.{{ $.Values.elasticsearch.namespace }}.svc:9200"` |  |
+| elasticsearch.storage.options.es.tls.enabled | string | `"true"` |  |
+| elasticsearch.storage.options.es.tls.ca | string | `"/es/certificates/ca.crt"` |  |
 | retention.enabled | bool | `false` |  |
 | retention.schedule | string | `"0 * * * *"` |  |
 | retention.days | int | `5` |  |

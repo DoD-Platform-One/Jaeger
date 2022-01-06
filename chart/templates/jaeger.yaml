@@ -20,20 +20,20 @@ spec:
 {{ toYaml .allInOne | indent 4 }}
   collector:
 {{ toYaml .collector | indent 4 }}
-{{- if $.Values.elasticsearch.enabled  }}
+{{- end }}
+{{- if .Values.elasticsearch.enabled  }}
   storage:
     type: elasticsearch
+    {{- if .Values.elasticsearch.storage.options.es }}
     options:
       es:
-        server-urls: https://{{ $.Values.elasticsearch.name }}-es-http.{{ $.Values.elasticsearch.namespace }}.svc:9200
-        tls:
-          enabled: "true"
-          ca: /es/certificates/ca.crt
+        {{- tpl (toYaml .Values.elasticsearch.storage.options.es) . | nindent 8 }}
+    {{- end }}
     esIndexCleaner:
-      image: {{ $.Values.retention.image }}
-      schedule: {{ $.Values.retention.schedule }}
-      numberOfDays: {{ $.Values.retention.days }}
-      enabled: {{ $.Values.retention.enabled }}
+      image: {{ .Values.retention.image }}
+      schedule: {{ .Values.retention.schedule }}
+      numberOfDays: {{ .Values.retention.days }}
+      enabled: {{ .Values.retention.enabled }}
     secretName: jaeger-secret
   volumeMounts:
     - name: certificates
@@ -44,5 +44,4 @@ spec:
       secret:
         secretName: elasticsearch-certificates
 {{ end }}
-{{- end }}
 {{- end }}
