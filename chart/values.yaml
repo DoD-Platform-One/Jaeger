@@ -12,7 +12,7 @@ monitoring:
 
 hostname: bigbang.dev
 istio:
-  # Toggle istio integration 
+  # Toggle istio integration
   enabled: false
   jaeger:
     # Toggle vs creation
@@ -37,6 +37,14 @@ elasticsearch:
   name: logging-ek
   namespace: logging
   # password:
+  storage:
+    options:
+      # A complete list of Jaeger-ElasticSearch options is available here: https://github.com/jaegertracing/documentation/blob/master/data/cli/1.28/jaeger-query-elasticsearch.yaml
+      es:
+        server-urls: "https://{{ $.Values.elasticsearch.name }}-es-http.{{ $.Values.elasticsearch.namespace }}.svc:9200"
+        tls:
+          enabled: "true"
+          ca: /es/certificates/ca.crt
 
 retention:
   enabled: false
@@ -48,7 +56,7 @@ jaeger:
   # Specifies whether Jaeger instance should be created
   create: true
   # namespace where Jaeger resource should be created default to .Release.Namespace
-  spec: 
+  spec:
     # allInOne for dev purposes
     # production for HA setup
     strategy: allInOne
@@ -62,8 +70,8 @@ jaeger:
       annotations:
         sidecar.istio.io/inject: "true"
         traffic.sidecar.istio.io/includeInboundPorts: "16686"
-      options: 
-        log-level: info 
+      options:
+        log-level: info
         collector:
           zipkin:
             host-port: ":9411"
@@ -77,24 +85,24 @@ jaeger:
     agent:
       maxReplicas: 5
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.28.0
-      options: 
+      options:
         log-level: info
       imagePullSecrets:
       - private-registry
     ingester:
       maxReplicas: 5
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.28.0
-      options: 
+      options:
         log-level: info
     query:
       replicas: 5
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.28.0
-      options: 
+      options:
         log-level: info
     collector:
       maxReplicas: 5
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.28.0
-      options: 
+      options:
         log-level: info
       resources:
         requests:
@@ -147,7 +155,7 @@ extraLabels: {}
 annotations: {}
   # bigbang.dev/istioVersion: 1.10.3
 
-resources: 
+resources:
   limits:
    cpu: 100m
    memory: 128Mi
