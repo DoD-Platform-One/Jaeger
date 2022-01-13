@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.27.0-bb.3]
+### Added
+- Added OSCAL document cnotaining NIST 800-53 controls
+
 ## [2.27.0-bb.2]
 ### Added
 - Added support for arbitrary ElasticSearch storage options in the Jaeger CR
