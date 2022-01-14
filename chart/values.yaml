@@ -180,3 +180,10 @@ networkPolicies:
   controlPlaneCidr: 0.0.0.0/0
 
 priorityClassName:
+
+bbtests:
+  enabled: false
+  cypress:
+    artifacts: true
+    envs:
+      cypress_url: "http://jaeger-query:16686"
