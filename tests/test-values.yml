@@ -3,10 +3,6 @@ istio:
     
 bbtests:
   enabled: true
-  cypress:
-    artifacts: true
-    envs:
-      cypress_url: "http://jaeger-query:16686"
 
 networkPolicies:
   enabled: true
