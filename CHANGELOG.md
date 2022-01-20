@@ -15,6 +15,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Added support for arbitrary ElasticSearch storage options in the Jaeger CR
 
+## [2.27.1-bb.0]
+### Changed
+- Upgraded to the upstream 2.27.1 chart
+- Updated operator image to 1.29.1
+- Updated service images to 1.29.0
+
 ## [2.27.0-bb.1]
 ### Added
 - Added support for pod annotations on the operator

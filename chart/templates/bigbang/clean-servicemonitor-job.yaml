@@ -1,0 +1,104 @@
+{{- if and .Values.cleanSvcMonitor.enabled .Values.monitoring.enabled }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jaeger-clean-svc-monitor-sa
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: jaeger-clean-svc-monitor-role
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
+rules:
+- apiGroups:
+  - monitoring.coreos.com
+  resources:
+  - servicemonitors
+  verbs:
+  - get
+  - list
+  - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: jaeger-clean-svc-monitor-binding
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-weight": "-8"
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: jaeger-clean-svc-monitor-role
+subjects:
+- kind: ServiceAccount
+  name: jaeger-clean-svc-monitor-sa
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jaeger-clean-svc-monitor
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-weight": "-5"
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      name: jaeger-clean-svc-monitor
+      labels:
+        app.kubernetes.io/name: jaeger-clean-svc-monitor
+    spec:
+      serviceAccountName: jaeger-clean-svc-monitor-sa
+      containers:
+        - name: bb-jaeger-clean-svc-monitor
+          image: {{ .Values.cleanSvcMonitor.image.repository }}:{{ .Values.cleanSvcMonitor.image.tag }}
+          workingDir: /crds
+          command:
+            - /bin/bash
+            - -ec
+            - |
+              # Clean up only needed if Svc Monitor exists from pre-1.29.x
+              if kubectl get servicemonitor -n {{ .Release.Namespace }} {{ include "jaeger-operator.fullname" . }}-metrics 2> /dev/null; then
+                echo "Cleaning up old servicemonitor..."
+                kubectl delete servicemonitor -n {{ .Release.Namespace }} {{ include "jaeger-operator.fullname" . }}-metrics
+              else
+                echo "No clean up needed!"
+              fi
+              {{- if .Values.istio.enabled }}
+              until curl -fsI http://localhost:15021/healthz/ready; do
+                echo "Waiting for Istio sidecar proxy..."
+                sleep 3
+              done
+              sleep 5
+              echo "Stopping the istio proxy..."
+              curl -X POST http://localhost:15020/quitquitquit
+              {{- end }}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
+      {{- if .Values.image.imagePullSecrets }}
+      imagePullSecrets:
+        {{- range .Values.image.imagePullSecrets }}
+        - name: {{ . }}
+        {{- end }}
+      {{- end }}
+      restartPolicy: OnFailure
+{{- end }}

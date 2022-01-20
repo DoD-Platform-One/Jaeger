@@ -24,9 +24,17 @@ istio:
     hosts:
       - tracing.{{ .Values.hostname }}
 
+# Only needed for upgrade from pre-1.29.x
+# Deletes the servicemonitor that targetted deprecated metrics endpoints
+cleanSvcMonitor:
+  enabled: true
+  image:
+    repository: registry1.dso.mil/ironbank/big-bang/base
+    tag: 1.0.0
+
 image:
   repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
-  tag: 1.28.0
+  tag: 1.29.1
   pullPolicy: Always
   imagePullSecrets:
   - private-registry
@@ -50,7 +58,7 @@ retention:
   enabled: false
   schedule: "0 * * * *"
   days: 5
-  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.28.0
+  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.29.0
 
 jaeger:
   # Specifies whether Jaeger instance should be created
@@ -66,7 +74,7 @@ jaeger:
     annotations: {}
     labels: {}
     allInOne:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.28.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.29.0
       annotations:
         sidecar.istio.io/inject: "true"
         traffic.sidecar.istio.io/includeInboundPorts: "16686"
@@ -84,25 +92,25 @@ jaeger:
           memory: 128Mi
     agent:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.28.0
-      options:
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.29.0
+      options: 
         log-level: info
       imagePullSecrets:
       - private-registry
     ingester:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.28.0
-      options:
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.29.0
+      options: 
         log-level: info
     query:
       replicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.28.0
-      options:
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.29.0
+      options: 
         log-level: info
     collector:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.28.0
-      options:
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.29.0
+      options: 
         log-level: info
       resources:
         requests:
