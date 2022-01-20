@@ -1,6 +1,6 @@
 # jaeger-operator
 
-![Version: 2.27.0-bb.4](https://img.shields.io/badge/Version-2.27.0--bb.4-informational?style=flat-square) ![AppVersion: 1.28.0](https://img.shields.io/badge/AppVersion-1.28.0-informational?style=flat-square)
+![Version: 2.27.1-bb.0](https://img.shields.io/badge/Version-2.27.1--bb.0-informational?style=flat-square) ![AppVersion: 1.29.1](https://img.shields.io/badge/AppVersion-1.29.1-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -45,8 +45,11 @@ helm install jaeger-operator chart/
 | istio.jaeger.labels | object | `{}` |  |
 | istio.jaeger.gateways[0] | string | `"istio-system/main"` |  |
 | istio.jaeger.hosts[0] | string | `"tracing.{{ .Values.hostname }}"` |  |
+| cleanSvcMonitor.enabled | bool | `true` |  |
+| cleanSvcMonitor.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` |  |
+| cleanSvcMonitor.image.tag | string | `"1.0.0"` |  |
 | image.repository | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator"` |  |
-| image.tag | string | `"1.28.0"` |  |
+| image.tag | string | `"1.29.1"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.imagePullSecrets[0] | string | `"private-registry"` |  |
 | elasticsearch.enabled | bool | `false` |  |
@@ -59,13 +62,13 @@ helm install jaeger-operator chart/
 | retention.enabled | bool | `false` |  |
 | retention.schedule | string | `"0 * * * *"` |  |
 | retention.days | int | `5` |  |
-| retention.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.28.0"` |  |
+| retention.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.29.0"` |  |
 | jaeger.create | bool | `true` |  |
 | jaeger.spec.strategy | string | `"allInOne"` |  |
 | jaeger.spec.ingress.enabled | bool | `false` |  |
 | jaeger.spec.annotations | object | `{}` |  |
 | jaeger.spec.labels | object | `{}` |  |
-| jaeger.spec.allInOne.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.28.0"` |  |
+| jaeger.spec.allInOne.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.29.0"` |  |
 | jaeger.spec.allInOne.annotations."sidecar.istio.io/inject" | string | `"true"` |  |
 | jaeger.spec.allInOne.annotations."traffic.sidecar.istio.io/includeInboundPorts" | string | `"16686"` |  |
 | jaeger.spec.allInOne.options.log-level | string | `"info"` |  |
@@ -75,17 +78,17 @@ helm install jaeger-operator chart/
 | jaeger.spec.allInOne.resources.limits.cpu | string | `"200m"` |  |
 | jaeger.spec.allInOne.resources.limits.memory | string | `"128Mi"` |  |
 | jaeger.spec.agent.maxReplicas | int | `5` |  |
-| jaeger.spec.agent.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.28.0"` |  |
+| jaeger.spec.agent.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.29.0"` |  |
 | jaeger.spec.agent.options.log-level | string | `"info"` |  |
 | jaeger.spec.agent.imagePullSecrets[0] | string | `"private-registry"` |  |
 | jaeger.spec.ingester.maxReplicas | int | `5` |  |
-| jaeger.spec.ingester.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.28.0"` |  |
+| jaeger.spec.ingester.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.29.0"` |  |
 | jaeger.spec.ingester.options.log-level | string | `"info"` |  |
 | jaeger.spec.query.replicas | int | `5` |  |
-| jaeger.spec.query.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.28.0"` |  |
+| jaeger.spec.query.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.29.0"` |  |
 | jaeger.spec.query.options.log-level | string | `"info"` |  |
 | jaeger.spec.collector.maxReplicas | int | `5` |  |
-| jaeger.spec.collector.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.28.0"` |  |
+| jaeger.spec.collector.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.29.0"` |  |
 | jaeger.spec.collector.options.log-level | string | `"info"` |  |
 | jaeger.spec.collector.resources.requests.cpu | string | `"200m"` |  |
 | jaeger.spec.collector.resources.requests.memory | string | `"128Mi"` |  |

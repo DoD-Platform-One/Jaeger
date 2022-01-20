@@ -1,4 +1,4 @@
-{{- if .Values.networkPolicies.enabled }}
+{{- if and .Values.monitoring.enabled .Values.networkPolicies.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -7,7 +7,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-{{ include "jaeger-operator.labels" . | indent 6 }}   
+      {{- include "jaeger-operator.labels" . | nindent 6 }}
   policyTypes:
   - Ingress
   ingress:
@@ -19,8 +19,6 @@ spec:
         matchLabels:
           app: prometheus
     ports:
-    - port: 8383
-      protocol: TCP
-    - port: 8686
+    - port: 8080
       protocol: TCP
 {{- end }}
