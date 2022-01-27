@@ -13,6 +13,7 @@ monitoring:
 hostname: bigbang.dev
 istio:
   # Toggle istio integration
+  mtls: true
   enabled: false
   jaeger:
     # Toggle vs creation
@@ -75,9 +76,6 @@ jaeger:
     labels: {}
     allInOne:
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.29.0
-      annotations:
-        sidecar.istio.io/inject: "true"
-        traffic.sidecar.istio.io/includeInboundPorts: "16686"
       options:
         log-level: info
         collector:

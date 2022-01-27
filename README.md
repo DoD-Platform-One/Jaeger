@@ -1,6 +1,6 @@
 # jaeger-operator
 
-![Version: 2.27.1-bb.0](https://img.shields.io/badge/Version-2.27.1--bb.0-informational?style=flat-square) ![AppVersion: 1.29.1](https://img.shields.io/badge/AppVersion-1.29.1-informational?style=flat-square)
+![Version: 2.27.1-bb.1](https://img.shields.io/badge/Version-2.27.1--bb.1-informational?style=flat-square) ![AppVersion: 1.29.1](https://img.shields.io/badge/AppVersion-1.29.1-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -39,6 +39,7 @@ helm install jaeger-operator chart/
 | sso.enabled | bool | `false` |  |
 | monitoring.enabled | bool | `false` |  |
 | hostname | string | `"bigbang.dev"` |  |
+| istio.mtls | bool | `true` |  |
 | istio.enabled | bool | `false` |  |
 | istio.jaeger.enabled | bool | `true` |  |
 | istio.jaeger.annotations | object | `{}` |  |
@@ -69,8 +70,6 @@ helm install jaeger-operator chart/
 | jaeger.spec.annotations | object | `{}` |  |
 | jaeger.spec.labels | object | `{}` |  |
 | jaeger.spec.allInOne.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.29.0"` |  |
-| jaeger.spec.allInOne.annotations."sidecar.istio.io/inject" | string | `"true"` |  |
-| jaeger.spec.allInOne.annotations."traffic.sidecar.istio.io/includeInboundPorts" | string | `"16686"` |  |
 | jaeger.spec.allInOne.options.log-level | string | `"info"` |  |
 | jaeger.spec.allInOne.options.collector.zipkin.host-port | string | `":9411"` |  |
 | jaeger.spec.allInOne.resources.requests.cpu | string | `"200m"` |  |
