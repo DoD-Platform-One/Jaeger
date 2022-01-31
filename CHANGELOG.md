@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ---
 ## [2.27.0-bb.5]
 ### Added
+- Update Chart.yaml to follow new standardization for release automation
+- Added renovate check to update new standardization
+
+## [2.27.0-bb.5]
+### Added
 - Add istio mtls STRICT
 
 ## [2.27.0-bb.4]
