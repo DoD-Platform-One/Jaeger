@@ -21,6 +21,15 @@
                 "image:\\s*(?<depName>.+):(?<currentValue>[\\d\\.]+)"
             ],
             "datasourceTemplate": "docker"
+        },
+        {
+            "fileMatch": ["^chart/Chart\\.yaml$"],
+            "matchStrings": [
+                "- Jaeger:\\s+(?<currentValue>.+)"
+            ],
+            "depNameTemplate": "ironbank/opensource/jaegertracing/jaeger-operator",
+            "registryUrlTemplate": "https://registry1.dso.mil",
+            "datasourceTemplate": "docker"
         }
     ],
     "separateMajorMinor": false
