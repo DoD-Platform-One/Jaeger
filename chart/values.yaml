@@ -81,6 +81,9 @@ jaeger:
         collector:
           zipkin:
             host-port: ":9411"
+      annotations:
+        sidecar.istio.io/inject: "true"
+        traffic.sidecar.istio.io/includeInboundPorts: "16686"
       resources:
         requests:
           cpu: 200m
