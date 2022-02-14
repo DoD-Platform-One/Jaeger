@@ -1,6 +1,6 @@
 # jaeger-operator
 
-![Version: 2.27.1-bb.2](https://img.shields.io/badge/Version-2.27.1--bb.2-informational?style=flat-square) ![AppVersion: 1.29.1](https://img.shields.io/badge/AppVersion-1.29.1-informational?style=flat-square)
+![Version: 2.27.1-bb.3](https://img.shields.io/badge/Version-2.27.1--bb.3-informational?style=flat-square) ![AppVersion: 1.29.1](https://img.shields.io/badge/AppVersion-1.29.1-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -72,6 +72,8 @@ helm install jaeger-operator chart/
 | jaeger.spec.allInOne.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.29.0"` |  |
 | jaeger.spec.allInOne.options.log-level | string | `"info"` |  |
 | jaeger.spec.allInOne.options.collector.zipkin.host-port | string | `":9411"` |  |
+| jaeger.spec.allInOne.annotations."sidecar.istio.io/inject" | string | `"true"` |  |
+| jaeger.spec.allInOne.annotations."traffic.sidecar.istio.io/includeInboundPorts" | string | `"16686"` |  |
 | jaeger.spec.allInOne.resources.requests.cpu | string | `"200m"` |  |
 | jaeger.spec.allInOne.resources.requests.memory | string | `"128Mi"` |  |
 | jaeger.spec.allInOne.resources.limits.cpu | string | `"200m"` |  |
