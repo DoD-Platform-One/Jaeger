@@ -1,6 +1,6 @@
 # jaeger-operator
 
-![Version: 2.27.1-bb.3](https://img.shields.io/badge/Version-2.27.1--bb.3-informational?style=flat-square) ![AppVersion: 1.29.1](https://img.shields.io/badge/AppVersion-1.29.1-informational?style=flat-square)
+![Version: 2.27.1-bb.4](https://img.shields.io/badge/Version-2.27.1--bb.4-informational?style=flat-square) ![AppVersion: 1.29.1](https://img.shields.io/badge/AppVersion-1.29.1-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -39,13 +39,13 @@ helm install jaeger-operator chart/
 | sso.enabled | bool | `false` |  |
 | monitoring.enabled | bool | `false` |  |
 | hostname | string | `"bigbang.dev"` |  |
-| istio.mtls | bool | `true` |  |
 | istio.enabled | bool | `false` |  |
 | istio.jaeger.enabled | bool | `true` |  |
 | istio.jaeger.annotations | object | `{}` |  |
 | istio.jaeger.labels | object | `{}` |  |
 | istio.jaeger.gateways[0] | string | `"istio-system/main"` |  |
 | istio.jaeger.hosts[0] | string | `"tracing.{{ .Values.hostname }}"` |  |
+| istio.mtls.mode | string | `"STRICT"` |  |
 | cleanSvcMonitor.enabled | bool | `true` |  |
 | cleanSvcMonitor.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` |  |
 | cleanSvcMonitor.image.tag | string | `"1.0.0"` |  |

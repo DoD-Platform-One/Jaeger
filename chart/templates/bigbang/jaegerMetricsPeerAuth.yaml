@@ -1,0 +1,16 @@
+{{- if and .Values.istio.enabled .Values.monitoring.enabled (eq .Values.istio.mtls.mode "STRICT") }}
+apiVersion: "security.istio.io/v1beta1"
+kind: PeerAuthentication
+metadata:
+  name: jaeger-metrics-exception
+  namespace: {{ .Release.Namespace }}
+spec:
+  mtls:
+    mode: {{ .Values.istio.mtls.mode }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: jaeger-operator
+  portLevelMtls:
+    "8080":
+      mode: PERMISSIVE
+{{- end }}
