@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.29.0-bb.0]
+### Updated
+- Updated to 2.29.0 upstream chart and updated all images to 1.32.0
+- Added webhooks (missing from 2.29.0 upstream chart) and webhook certificate job to generate cert and patch the webhooks
+
 ## [2.27.1-bb.4]
 ### Changed
 - Modified PeerAuthentication to allow for passing in mode

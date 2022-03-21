@@ -77,6 +77,15 @@ rules:
   - patch
   - update
   - watch
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+  - get
+  - list
+  - update
 # Ingress for kubernetes 1.14 or higher
 - apiGroups:
   - networking.k8s.io
@@ -128,6 +137,14 @@ rules:
   - update
   - watch
 - apiGroups:
+  - image.openshift.io
+  resources:
+  - imagestreams
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - autoscaling
   resources:
   - horizontalpodautoscalers
@@ -155,6 +172,18 @@ rules:
   - watch
 
 ## for the Elasticsearch auto-provisioning
+- apiGroups:
+  - logging.openshift.io
+  resources:
+  - elasticsearch
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
   - logging.openshift.io
   resources:
@@ -192,9 +221,21 @@ rules:
   resources:
   - namespaces
   verbs:
-  - 'get'
-  - 'list'
-  - 'watch'
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - namespaces/status
+  verbs:
+  - get
+  - patch
+  - update
 
 ## needed if support for injecting sidecars based on deployment annotation is required, across all namespaces
 - apiGroups:
