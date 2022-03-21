@@ -1,0 +1,22 @@
+{{- if and .Values.istio.enabled (eq .Values.istio.mtls.mode "STRICT") }}
+apiVersion: "security.istio.io/v1beta1"
+kind: PeerAuthentication
+metadata:
+  name: jaeger-operator-exceptions
+  namespace: {{ .Release.Namespace }}
+spec:
+  mtls:
+    mode: {{ .Values.istio.mtls.mode }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "jaeger-operator.name" . }}
+  portLevelMtls:
+    # Webhook exception
+    "9443":
+      mode: PERMISSIVE
+    {{- if .Values.monitoring.enabled }}
+    # Servicemonitor exception
+    "8383":
+      mode: PERMISSIVE
+    {{- end }}
+{{- end }}

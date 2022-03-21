@@ -1,0 +1,28 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  labels:
+    name: {{ include "jaeger-operator.fullname" . }}-webhook
+  name: {{ include "jaeger-operator.fullname" . }}-webhook
+webhooks:
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    service:
+      name: {{ include "jaeger-operator.fullname" . }}-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-jaegertracing-io-v1-jaeger
+  failurePolicy: Fail
+  name: vjaeger.kb.io
+  rules:
+  - apiGroups:
+    - jaegertracing.io
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - jaegers
+  sideEffects: None
