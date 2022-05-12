@@ -72,7 +72,7 @@ webhookCertGen:
 
 image:
   repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
-  tag: 1.32.0
+  tag: 1.33.0
   pullPolicy: Always
   imagePullSecrets:
   - private-registry
@@ -96,7 +96,7 @@ retention:
   enabled: false
   schedule: "0 * * * *"
   days: 5
-  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.32.0
+  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.33.0
 
 jaeger:
   # Specifies whether Jaeger instance should be created
@@ -112,7 +112,7 @@ jaeger:
     annotations: {}
     labels: {}
     allInOne:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.32.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.33.0
       options:
         log-level: info
         collector:
@@ -130,24 +130,24 @@ jaeger:
           memory: 128Mi
     agent:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.32.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.33.0
       options: 
         log-level: info
       imagePullSecrets:
       - private-registry
     ingester:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.32.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.33.0
       options: 
         log-level: info
     query:
       replicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.32.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.33.0
       options: 
         log-level: info
     collector:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.32.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.33.0
       options: 
         log-level: info
       resources:
@@ -165,6 +165,10 @@ jaeger:
       - name: certificates
         secret:
           secretName: elasticsearch-certificates
+
+# This section will be used to configure the operator upgrade strategy in the deployment.yaml
+operatorUpdateStrategy:
+  type: RollingUpdate
 
 rbac:
   # Specifies whether RBAC resources should be created

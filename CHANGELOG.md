@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.30.0-bb.0]
+### Changed
+- Updated charts using 1.33.0 manifests
+- Updated images to 1.33.0
+- Updated update documentation and renamed to "DEVELOPMENT_MAINTENANCE.md" to match other standards
+
 ## [2.29.0-bb.1]
 ### Fixed
 - Fixed OSCAL schema validation issues
