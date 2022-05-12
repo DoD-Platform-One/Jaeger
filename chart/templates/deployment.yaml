@@ -11,7 +11,9 @@ metadata:
 spec:
   replicas: 1
   strategy:
-    type: Recreate
+  {{- if .Values.operatorUpdateStrategy }}
+    {{- toYaml .Values.operatorUpdateStrategy | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
 {{ include "jaeger-operator.selector.labels" . | indent 6 }}
