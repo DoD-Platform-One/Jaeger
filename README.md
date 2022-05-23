@@ -1,6 +1,6 @@
 # jaeger-operator
 
-![Version: 2.30.0-bb.1](https://img.shields.io/badge/Version-2.30.0--bb.0-informational?style=flat-square) ![AppVersion: 1.33.0](https://img.shields.io/badge/AppVersion-1.33.0-informational?style=flat-square)
+![Version: 2.30.0-bb.1](https://img.shields.io/badge/Version-2.30.0--bb.1-informational?style=flat-square) ![AppVersion: 1.33.0](https://img.shields.io/badge/AppVersion-1.33.0-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -101,6 +101,7 @@ helm install jaeger-operator chart/
 | jaeger.spec.volumeMounts[0].readOnly | bool | `true` |  |
 | jaeger.spec.volumes[0].name | string | `"certificates"` |  |
 | jaeger.spec.volumes[0].secret.secretName | string | `"elasticsearch-certificates"` |  |
+| operatorUpdateStrategy.type | string | `"RollingUpdate"` |  |
 | rbac.create | bool | `true` |  |
 | rbac.pspEnabled | bool | `false` |  |
 | rbac.clusterRole | bool | `true` |  |
