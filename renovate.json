@@ -25,7 +25,9 @@
         {
             "fileMatch": ["^chart/Chart\\.yaml$"],
             "matchStrings": [
-                "- Jaeger:\\s+(?<currentValue>.+)"
+                "- Jaeger:\\s+(?<currentValue>.+)",
+                "appVersion:\\s+(?<currentValue>.+)"
+
             ],
             "depNameTemplate": "ironbank/opensource/jaegertracing/jaeger-operator",
             "registryUrlTemplate": "https://registry1.dso.mil",
