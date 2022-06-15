@@ -1,3 +1,4 @@
+{{- if and (or .Values.webhooks.mutatingWebhook.create .Values.webhooks.validatingWebhook.create) (.Values.webhooks.service.create) }}
 {{- if .Values.webhookCertGen.enabled }}
 apiVersion: v1
 kind: ServiceAccount
@@ -82,10 +83,10 @@ spec:
           args:
             - create
             - --cert-name=tls.crt
-            - --host={{ include "jaeger-operator.fullname" . }}-webhook-service.{{ .Release.Namespace }}.svc
+            - --host={{ default "jaeger-operator-webhook-service" .Values.webhooks.service.name }}.{{ .Release.Namespace }}.svc
             - --key-name=tls.key
             - --namespace={{ .Release.Namespace }}
-            - --secret-name=jaeger-operator-service-cert
+            - --secret-name={{ .Values.certs.certificate.secretName }}
           resources:
             {{- toYaml .Values.webhookCertGen.resources | nindent 12 }}
         {{- if .Values.istio.enabled }}
@@ -120,4 +121,5 @@ spec:
       securityContext:
         {{- toYaml .Values.webhookCertGen.securityContext | nindent 8 }}
       {{- end }}
+{{- end }}
 {{- end }}

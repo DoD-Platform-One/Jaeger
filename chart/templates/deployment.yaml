@@ -10,13 +10,13 @@ metadata:
 {{- end }}
 spec:
   replicas: 1
-  strategy:
   {{- if .Values.operatorUpdateStrategy }}
+  strategy:
     {{- toYaml .Values.operatorUpdateStrategy | nindent 4 }}
   {{- end }}
   selector:
     matchLabels:
-{{ include "jaeger-operator.selector.labels" . | indent 6 }}
+      {{ include "jaeger-operator.selector.labels" . | nindent 6 }}
   template:
     metadata:
       name: {{ include "jaeger-operator.fullname" . }}
@@ -54,8 +54,12 @@ spec:
           - containerPort: 8383
             name: metrics
           - containerPort: 9443
-            name: webhook
+            name: webhook-server
             protocol: TCP
+          volumeMounts:
+          - mountPath: /tmp/k8s-webhook-server/serving-certs
+            name: cert
+            readOnly: true
           args: ["start"]
           env:
             - name: WATCH_NAMESPACE
@@ -81,10 +85,11 @@ spec:
             {{- end }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-          volumeMounts:
-          - mountPath: /tmp/k8s-webhook-server/serving-certs
-            name: cert
-            readOnly: true
+      volumes:
+      - name: cert
+        secret:
+          defaultMode: 420
+          secretName: {{ default "jaeger-operator-service-cert" .Values.certs.certificate.secretName }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -97,8 +102,3 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
-      volumes:
-      - name: cert
-        secret:
-          defaultMode: 420
-          secretName: jaeger-operator-service-cert

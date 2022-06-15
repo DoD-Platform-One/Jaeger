@@ -73,7 +73,7 @@ webhookCertGen:
 
 image:
   repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
-  tag: 1.33.0
+  tag: 1.34.1
   pullPolicy: Always
   imagePullSecrets:
   - private-registry
@@ -97,7 +97,7 @@ retention:
   enabled: false
   schedule: "0 * * * *"
   days: 5
-  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.33.0
+  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.34.1
 
 jaeger:
   # Specifies whether Jaeger instance should be created
@@ -113,7 +113,7 @@ jaeger:
     annotations: {}
     labels: {}
     allInOne:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.33.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.34.1
       options:
         log-level: info
         collector:
@@ -133,9 +133,11 @@ jaeger:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
+      strategy:
+        type: RollingUpdate
     agent:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.33.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.34.1
       options: 
         log-level: info
       imagePullSecrets:
@@ -144,27 +146,33 @@ jaeger:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
+      strategy:
+        type: RollingUpdate
     ingester:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.33.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.34.1
       options: 
         log-level: info
       securityContext:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
+      strategy:
+        type: RollingUpdate
     query:
       replicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.33.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.34.1
       options: 
         log-level: info
       securityContext:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
+      strategy:
+        type: RollingUpdate
     collector:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.33.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.34.1
       options: 
         log-level: info
       resources:
@@ -178,6 +186,8 @@ jaeger:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
+      strategy:
+        type: RollingUpdate
     volumeMounts:
       - name: certificates
         mountPath: /es/certificates/
@@ -196,6 +206,25 @@ rbac:
   create: true
   pspEnabled: false
   clusterRole: true
+
+certs:
+  issuer:
+    create: false
+    name: ""
+  certificate:
+    create: false
+    namespace: ""
+    secretName: "jaeger-operator-webhook-cert"
+
+webhooks:
+  mutatingWebhook:
+    create: true
+  validatingWebhook:
+    create: true
+  service:
+    annotations: {}
+    create: true
+    name: ""
 
 service:
   type: ClusterIP
@@ -223,9 +252,6 @@ extraLabels: {}
   # Specifies extra labels for the operator deployment:
   # foo: bar
 
-annotations: {}
-  # bigbang.dev/istioVersion: 1.10.3
-
 resources:
   limits:
    cpu: 100m
@@ -244,6 +270,9 @@ securityContext:
   runAsNonRoot: true
   runAsUser: 1001
   runAsGroup: 1001
+
+annotations: {}
+  # bigbang.dev/istioVersion: 1.10.3
 
 networkPolicies:
   enabled: false
