@@ -1,3 +1,4 @@
+{{- if and (or .Values.webhooks.mutatingWebhook.create .Values.webhooks.validatingWebhook.create) (.Values.webhooks.service.create) }}
 {{- if .Values.webhookCertGen.enabled }}
 apiVersion: v1
 kind: ServiceAccount
@@ -111,17 +112,34 @@ spec:
       name: {{ include "jaeger-operator.fullname" . }}-webhook-patch
     spec:
       containers:
-        - name: patch
+        {{- if .Values.webhooks.mutatingWebhook.create }}
+        - name: patch-mutating
           image: {{ .Values.webhookCertGen.image.repository }}:{{ .Values.webhookCertGen.image.tag }}
           imagePullPolicy: {{ .Values.webhookCertGen.image.pullPolicy }}
           args:
             - patch
-            - --webhook-name={{ include "jaeger-operator.fullname" . }}-webhook
+            - --webhook-name=jaeger-operator-mutating-webhook-configuration
             - --namespace={{ .Release.Namespace }}
-            - --secret-name=jaeger-operator-service-cert
-            - --patch-failure-policy=Fail
+            - --secret-name={{ .Values.certs.certificate.secretName }}
+            - --patch-mutating=true
+            - --patch-validating=false
           resources:
             {{- toYaml .Values.webhookCertGen.resources | nindent 12 }}
+        {{- end }}
+        {{- if .Values.webhooks.validatingWebhook.create }}
+        - name: patch-validating
+          image: {{ .Values.webhookCertGen.image.repository }}:{{ .Values.webhookCertGen.image.tag }}
+          imagePullPolicy: {{ .Values.webhookCertGen.image.pullPolicy }}
+          args:
+            - patch
+            - --webhook-name=jaeger-operator-validating-webhook-configuration
+            - --namespace={{ .Release.Namespace }}
+            - --secret-name={{ .Values.certs.certificate.secretName }}
+            - --patch-mutating=false
+            - --patch-validating=true
+          resources:
+            {{- toYaml .Values.webhookCertGen.resources | nindent 12 }}
+        {{- end }}
         {{- if .Values.istio.enabled }}
         - name: cleanup-proxy
           image: {{ .Values.webhookCertGen.cleanupProxy.image.repository }}:{{ .Values.webhookCertGen.cleanupProxy.image.tag }}
@@ -154,4 +172,5 @@ spec:
       securityContext:
         {{- toYaml .Values.webhookCertGen.securityContext | nindent 8 }}
       {{- end }}
+{{- end }}
 {{- end }}

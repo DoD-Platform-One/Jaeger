@@ -1,46 +1,24 @@
-# How to upgrade the Jaeger Package chart
+# Code Changes for Updates
 
-Jaeger is a modified/customized version of an upstream chart, however, due to current maintenance issues of the upstream charts, it is currently being updated manually via manifests. The below details the steps required to update to a new version of the Jaeger package.
+Jaeger is a modified/customized version of an upstream chart. The below details the steps required to update to a new version of the Jaeger package.
 
-1. Navigate to the [Jaeger releases](https://github.com/jaegertracing/jaeger-operator/releases) and find the release that corresponds to the targeted update version available in Iron Bank and download the manifests file.  Keep the file on hand for later. (Note it will download as a "jaeger-operator.yaml" file)
+1. Navigate to the [upstream chart repo and folder](https://github.com/jaegertracing/helm-charts/tree/main/charts/jaeger-operator) and find the tag that corresponds with the new chart version for this image update. For example, if updating the Jaeger images to 1.28 you would check the [chart values](https://github.com/jaegertracing/helm-charts/blob/main/charts/jaeger-operator/values.yaml#L7) and switch Gitlab tags until you find the latest chart version that uses 1.28 images. In this case that is [`jaeger-operator-2.27.0`](https://github.com/jaegertracing/helm-charts/blob/jaeger-operator-2.27.0/charts/jaeger-operator/values.yaml#L7) (as of this doc construction).
 
 2. Checkout the `renovate/ironbank` branch. This branch will already have the updates you need for the images.
 
-3. Compare the manifests file you downloaded previously to the `chart/crds/crd.yaml` file.  You will add the changes that appear in the manifest file to the crd.yaml file until you reach the first helm separation (You will see "---") which separates the crd portion from other components in the file (examples: Role, RoleBinding, Service, Deployment, etc.)
+2. From the root of the repo run `kpt pkg update chart@jaeger-operator-2.27.0 --strategy alpha-git-patch` replacing `jaeger-operator-2.27.0` with the version tag you got in step 1. You may be prompted to resolve some conflicts - choose what makes sense (if there are BB additions/changes keep them, if there are upstream additions/changes keep them).
 
-4. Compare each additional component to its corresponding component in `chart\templates` and make changes as necessary (Note: because of formatting, it may also help to download the previous manifest file that corresponds to the version of jaeger you are updating from, and see if any changes have been made to these sections)
+3. Modify the `version` in `Chart.yaml` - you will want to append `-bb.0` to the chart version from upstream.
 
-5. Update all images in values.yaml to the target version
+5. Update `CHANGELOG.md` adding an entry for the new version and noting all changes (at minimum should include `Updated Jaeger to x.x.x`).
 
-6. Modify the `version` in `Chart.yaml` - to a new minor version.
-    ```yaml
-    apiVersion: v1
-    description: jaeger-operator Helm chart for Kubernetes
-    name: jaeger-operator
-    version: x.xx.x-bb.x
-    appVersion: x.xx.x
-    home: https://www.jaegertracing.io/
-    icon: https://www.jaegertracing.io/img/jaeger-icon-reverse-color.svg
-    sources:
-    - https://github.com/jaegertracing/jaeger-operator
-    dependencies:
-    - name: gluon
-        version: 0.2.8
-        repository: oci://registry.dso.mil/platform-one/big-bang/apps/library-charts/gluon
-    annotations:
-    bigbang.dev/applicationVersions: |
-        - Jaeger: x.xx.x
-    ```
+6. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/platform-one/big-bang/apps/library-charts/gluon/-/blob/master/docs/bb-package-readme.md).
 
-7. Update `CHANGELOG.md` adding an entry for the new version and noting all changes (at minimum should include `Updated Jaeger to x.x.x`).
+8. Push up your changes, validate that CI passes. If there are any failures follow the information in the pipeline to make the necessary updates and reach out to the team if needed.
 
-8. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/platform-one/big-bang/apps/library-charts/gluon/-/blob/master/docs/bb-package-readme.md).
+9. Perform the steps below for manual testing. CI provides a good set of basic smoke tests but it is beneficial to run some additional checks.
 
-9. Push up your changes, validate that CI passes. If there are any failures follow the information in the pipeline to make the necessary updates and reach out to the team if needed.
-
-10. Perform the steps below for manual testing. CI provides a good set of basic smoke tests but it is beneficial to run some additional checks.
-
-# Testing new Jaeger version
+# Manual Testing for Updates
 
 NOTE: For these testing steps it is good to do them on both a clean install and an upgrade. For clean install, point jaeger to your branch. For an upgrade do an install with jaeger pointing to the latest tag, then perform a helm upgrade with jaeger pointing to your branch.
 
@@ -56,3 +34,75 @@ Testing Steps:
 - Navigate to Prometheus and validate that the Jaeger operator targets show as UP.
 
 When in doubt with any testing or upgrade steps ask one of the CODEOWNERS for assistance.
+
+# Modifications made to upstream chart
+
+This is a high-level list of modifications that Big Bang has made to the upstream helm chart. You can use this as as cross-check to make sure that no modifications were lost during the upgrade process.
+
+## chart/templates/bigbang
+
+- Files added to support networkPolicies, cert generation, monitoring, mTLS enforcement, VirtualService, etc
+
+## chart/Chart.yaml
+
+- Append `-bb.x` versioning to version
+- Add gluon dependency chart for helm tests (also run `helm dependency update chart/` to store this):
+    ```yaml
+    dependencies:
+    - name: gluon
+        version: 0.2.9
+        repository: oci://registry.dso.mil/platform-one/big-bang/apps/library-charts/gluon
+    ```
+- Add bigbang dev annotation for release automation:
+    ```yaml
+    annotations:
+      bigbang.dev/applicationVersions: |
+        - Jaeger: 1.34.1
+    ```
+
+## chart/templates/_helpers.tpl
+
+- Added selector label template to support upgrades
+    ```yaml
+    {{/* Generate selector labels -- see issue #512.  This allows helm upgrades to happen */}}
+    {{- define "jaeger-operator.selector.labels" }}
+    app.kubernetes.io/name: {{ include "jaeger-operator.name" . }}
+    {{- end }}
+    ```
+- Added `name: {{ include "jaeger-operator.fullname" . }}` to `"jaeger-operator.labels"` template
+
+## chart/templates/deployment.yaml
+
+- `spec.selector.matchLabels` changed to `{{ include "jaeger-operator.selector.labels" . | nindent 6 }}`
+- Upgrade strategy added below `spec.replicas`:
+    ```yaml
+    {{- if .Values.operatorUpdateStrategy }}
+    strategy:
+      {{- toYaml .Values.operatorUpdateStrategy | nindent 4 }}
+    {{- end }}
+    ```
+- Annotations values added below `extraLabels`:
+    ```yaml
+    {{- if .Values.annotations }}
+    annotations:
+      {{ toYaml .Values.annotations | nindent 8 }}
+    {{- end }}
+    ```
+
+## chart/templates/jaeger.yaml
+
+- Changed name to `jaeger`
+- Refactored to support certain parts of the spec rather than a simple toYaml (should we re-evaluate this?)
+
+## chart/templates/tests
+
+- Gluon cypress test template added
+
+## chart/tests
+
+- Cypress config and test added
+
+## chart/values.yaml
+
+- Substantial values additions/changes to use IB images, support BB core interactions, etc
+- When in doubt ask about these changes

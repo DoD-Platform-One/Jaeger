@@ -53,4 +53,3 @@ name: {{ include "jaeger-operator.fullname" . }}
 {{- define "jaeger-operator.selector.labels" }}
 app.kubernetes.io/name: {{ include "jaeger-operator.name" . }}
 {{- end }}
-

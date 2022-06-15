@@ -15,6 +15,11 @@ This chart bootstraps a jaeger-operator deployment on a [Kubernetes](http://kube
 ## Prerequisites
 
 - Kubernetes 1.19+
+- Helm 3
+- cert-manager 1.6.1+ installed, or certificate for webhook service in a secret
+
+## Check compability matrix
+See the compatibility matrix [here](./COMPATIBILITY.md).
 
 ## Installing the Chart
 
@@ -24,10 +29,10 @@ Add the Jaeger Tracing Helm repository:
 $ helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
 ```
 
-To install the chart with the release name `my-release`:
+To install the chart with the release name `my-release` in `observability` namespace: 
 
 ```console
-$ helm install --name my-release jaegertracing/jaeger-operator
+$ helm install my-release jaegertracing/jaeger-operator -n observability
 ```
 
 The command deploys jaeger-operator on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -52,11 +57,10 @@ The following table lists the configurable parameters of the jaeger-operator cha
 | :---------------------- | :---------------------------------------------------------------------------------------------------------- | :------------------------------ |
 | `extraLabels`           | Additional labels to jaeger-operator deployment  | `{}`
 | `image.repository`      | Controller container image repository                                                                       | `jaegertracing/jaeger-operator` |
-| `image.tag`             | Controller container image tag                                                                              | `1.32.0`                        |
+| `image.tag`             | Controller container image tag                                                                              | `1.34.1`                        |
 | `image.pullPolicy`      | Controller container image pull policy                                                                      | `IfNotPresent`                  |
 | `jaeger.create`         | Jaeger instance will be created                                                                             | `false`                         |
 | `jaeger.spec`           | Jaeger instance specification                                                                               | `{}`                            |
-| `crd.install`           | CustomResourceDefinition will be installed                                                                  | `true`                          |
 | `rbac.create`           | All required roles and rolebindings will be created                                                         | `true`                          |
 | `serviceAccount.create` | Service account to use                                                                                      | `true`                          |
 | `rbac.pspEnabled`       | Pod security policy for pod will be created and included in rbac role                                       | `false`                         |
@@ -77,6 +81,13 @@ You can also specify any non-array parameter using the `--set key=value[,key=val
 ```console
 $ helm install jaegertracing/jaeger-operator --name my-release \
     --set rbac.create=false
+```
+
+To install the chart without creating the CRDs (any files under `chart/crds`) make use of the `--skip-crds` flag. For example,
+
+```console
+$ helm install jaegertracing/jaeger-operator --name my-release \
+    --skip-crds
 ```
 
 ## After the Helm Installation
