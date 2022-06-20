@@ -70,6 +70,9 @@ webhookCertGen:
     runAsNonRoot: true
     runAsUser: 65532
     runAsGroup: 65532
+    capabilities:
+          drop:
+            - all
 
 image:
   repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
@@ -133,6 +136,9 @@ jaeger:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
+        capabilities:
+          drop:
+            - all
       strategy:
         type: RollingUpdate
     agent:
@@ -146,6 +152,9 @@ jaeger:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
+        capabilities:
+          drop:
+            - all
       strategy:
         type: RollingUpdate
     ingester:
@@ -157,6 +166,9 @@ jaeger:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
+        capabilities:
+          drop:
+            - all
       strategy:
         type: RollingUpdate
     query:
@@ -168,6 +180,9 @@ jaeger:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
+        capabilities:
+          drop:
+            - all
       strategy:
         type: RollingUpdate
     collector:
@@ -186,6 +201,9 @@ jaeger:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
+        capabilities:
+          drop:
+            - all
       strategy:
         type: RollingUpdate
     volumeMounts:
@@ -270,6 +288,9 @@ securityContext:
   runAsNonRoot: true
   runAsUser: 1001
   runAsGroup: 1001
+  capabilities:
+    drop:
+      - all
 
 annotations: {}
   # bigbang.dev/istioVersion: 1.10.3
