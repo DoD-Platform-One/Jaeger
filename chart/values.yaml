@@ -190,9 +190,6 @@ jaeger:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
-        capabilities:
-          drop:
-            - all
       strategy:
         type: RollingUpdate
     collector:
