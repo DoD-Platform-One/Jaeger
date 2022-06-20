@@ -70,9 +70,6 @@ webhookCertGen:
     runAsNonRoot: true
     runAsUser: 65532
     runAsGroup: 65532
-    capabilities:
-          drop:
-            - all
 
 image:
   repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
