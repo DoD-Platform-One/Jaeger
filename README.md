@@ -1,6 +1,6 @@
 # jaeger-operator
 
-![Version: 2.32.2-bb.0](https://img.shields.io/badge/Version-2.32.2--bb.0-informational?style=flat-square) ![AppVersion: 1.34.1](https://img.shields.io/badge/AppVersion-1.34.1-informational?style=flat-square)
+![Version: 2.32.2-bb.1](https://img.shields.io/badge/Version-2.32.2--bb.1-informational?style=flat-square) ![AppVersion: 1.34.1](https://img.shields.io/badge/AppVersion-1.34.1-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -48,7 +48,7 @@ helm install jaeger-operator chart/
 | istio.mtls | object | `{"mode":"STRICT"}` | Default jaeger peer authentication |
 | istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
 | cleanSvcMonitor | object | `{"enabled":false,"image":{"repository":"registry1.dso.mil/ironbank/big-bang/base","tag":"1.17.0"}}` | Only needed for upgrade from pre-1.29.x, Deletes the servicemonitor that targetted deprecated metrics endpoints |
-| webhookCertGen | object | `{"affinity":{},"cleanupProxy":{"image":{"pullPolicy":"IfNotPresent","repository":"registry1.dso.mil/ironbank/big-bang/base","tag":"1.17.0"}},"enabled":true,"image":{"pullPolicy":"IfNotPresent","repository":"registry1.dso.mil/ironbank/opensource/ingress-nginx/kube-webhook-certgen","tag":"v1.1.1"},"nodeSelector":{},"resources":{"limits":{"cpu":"50m","memory":"50Mi"},"requests":{"cpu":"50m","memory":"50Mi"}},"securityContext":{"runAsGroup":65532,"runAsNonRoot":true,"runAsUser":65532},"tolerations":{}}` | Job to generate and patch webhooks with certificate |
+| webhookCertGen | object | `{"affinity":{},"cleanupProxy":{"image":{"pullPolicy":"IfNotPresent","repository":"registry1.dso.mil/ironbank/big-bang/base","tag":"1.17.0"}},"enabled":true,"image":{"pullPolicy":"IfNotPresent","repository":"registry1.dso.mil/ironbank/opensource/ingress-nginx/kube-webhook-certgen","tag":"v1.1.1"},"nodeSelector":{},"resources":{"limits":{"cpu":"50m","memory":"50Mi"},"requests":{"cpu":"50m","memory":"50Mi"}},"securityContext":{"capabilities":{"drop":["all"]},"runAsGroup":65532,"runAsNonRoot":true,"runAsUser":65532},"tolerations":{}}` | Job to generate and patch webhooks with certificate |
 | webhookCertGen.enabled | bool | `true` | If disabled must use cert manager and manually patch webhook |
 | image.repository | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator"` |  |
 | image.tag | string | `"1.34.1"` |  |
@@ -82,6 +82,7 @@ helm install jaeger-operator chart/
 | jaeger.spec.allInOne.securityContext.runAsNonRoot | bool | `true` |  |
 | jaeger.spec.allInOne.securityContext.runAsUser | int | `1001` |  |
 | jaeger.spec.allInOne.securityContext.runAsGroup | int | `1001` |  |
+| jaeger.spec.allInOne.securityContext.capabilities.drop[0] | string | `"all"` |  |
 | jaeger.spec.allInOne.strategy.type | string | `"RollingUpdate"` |  |
 | jaeger.spec.agent.maxReplicas | int | `5` |  |
 | jaeger.spec.agent.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.34.1"` |  |
@@ -90,6 +91,7 @@ helm install jaeger-operator chart/
 | jaeger.spec.agent.securityContext.runAsNonRoot | bool | `true` |  |
 | jaeger.spec.agent.securityContext.runAsUser | int | `1001` |  |
 | jaeger.spec.agent.securityContext.runAsGroup | int | `1001` |  |
+| jaeger.spec.agent.securityContext.capabilities.drop[0] | string | `"all"` |  |
 | jaeger.spec.agent.strategy.type | string | `"RollingUpdate"` |  |
 | jaeger.spec.ingester.maxReplicas | int | `5` |  |
 | jaeger.spec.ingester.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.34.1"` |  |
@@ -97,6 +99,7 @@ helm install jaeger-operator chart/
 | jaeger.spec.ingester.securityContext.runAsNonRoot | bool | `true` |  |
 | jaeger.spec.ingester.securityContext.runAsUser | int | `1001` |  |
 | jaeger.spec.ingester.securityContext.runAsGroup | int | `1001` |  |
+| jaeger.spec.ingester.securityContext.capabilities.drop[0] | string | `"all"` |  |
 | jaeger.spec.ingester.strategy.type | string | `"RollingUpdate"` |  |
 | jaeger.spec.query.replicas | int | `5` |  |
 | jaeger.spec.query.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.34.1"` |  |
@@ -104,6 +107,7 @@ helm install jaeger-operator chart/
 | jaeger.spec.query.securityContext.runAsNonRoot | bool | `true` |  |
 | jaeger.spec.query.securityContext.runAsUser | int | `1001` |  |
 | jaeger.spec.query.securityContext.runAsGroup | int | `1001` |  |
+| jaeger.spec.query.securityContext.capabilities.drop[0] | string | `"all"` |  |
 | jaeger.spec.query.strategy.type | string | `"RollingUpdate"` |  |
 | jaeger.spec.collector.maxReplicas | int | `5` |  |
 | jaeger.spec.collector.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.34.1"` |  |
@@ -115,6 +119,7 @@ helm install jaeger-operator chart/
 | jaeger.spec.collector.securityContext.runAsNonRoot | bool | `true` |  |
 | jaeger.spec.collector.securityContext.runAsUser | int | `1001` |  |
 | jaeger.spec.collector.securityContext.runAsGroup | int | `1001` |  |
+| jaeger.spec.collector.securityContext.capabilities.drop[0] | string | `"all"` |  |
 | jaeger.spec.collector.strategy.type | string | `"RollingUpdate"` |  |
 | jaeger.spec.volumeMounts[0].name | string | `"certificates"` |  |
 | jaeger.spec.volumeMounts[0].mountPath | string | `"/es/certificates/"` |  |
@@ -152,6 +157,7 @@ helm install jaeger-operator chart/
 | securityContext.runAsNonRoot | bool | `true` |  |
 | securityContext.runAsUser | int | `1001` |  |
 | securityContext.runAsGroup | int | `1001` |  |
+| securityContext.capabilities.drop[0] | string | `"all"` |  |
 | annotations | object | `{}` |  |
 | networkPolicies.enabled | bool | `false` |  |
 | networkPolicies.ingressLabels.app | string | `"istio-ingressgateway"` |  |
