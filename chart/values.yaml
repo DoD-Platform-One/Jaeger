@@ -289,6 +289,9 @@ securityContext:
   runAsNonRoot: true
   runAsUser: 1001
   runAsGroup: 1001
+  capabilities:
+    drop:
+      - all
 
 annotations: {}
   # bigbang.dev/istioVersion: 1.10.3
