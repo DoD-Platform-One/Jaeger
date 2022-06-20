@@ -811,6 +811,9 @@ spec:
                         type: object
                     type: object
                   securityContext:
+                    capabilities:
+                      drop:
+                        - all
                     properties:
                       fsGroup:
                         format: int64
@@ -2085,6 +2088,9 @@ spec:
                         type: object
                     type: object
                   securityContext:
+                    capabilities:
+                      drop:
+                        - all
                     properties:
                       fsGroup:
                         format: int64
@@ -3329,6 +3335,9 @@ spec:
                         type: object
                     type: object
                   securityContext:
+                    capabilities:
+                      drop:
+                        - all
                     properties:
                       fsGroup:
                         format: int64
@@ -4576,6 +4585,9 @@ spec:
                         type: object
                     type: object
                   securityContext:
+                    capabilities:
+                      drop:
+                        - all
                     properties:
                       fsGroup:
                         format: int64
@@ -5819,6 +5831,9 @@ spec:
                   security:
                     type: string
                   securityContext:
+                    capabilities:
+                      drop:
+                        - all
                     properties:
                       fsGroup:
                         format: int64
@@ -7055,6 +7070,9 @@ spec:
                         type: object
                     type: object
                   securityContext:
+                    capabilities:
+                      drop:
+                        - all
                     properties:
                       fsGroup:
                         format: int64
@@ -7906,6 +7924,9 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                 type: object
               securityContext:
+                capabilities:
+                      drop:
+                        - all
                 properties:
                   fsGroup:
                     format: int64
@@ -8760,6 +8781,9 @@ spec:
                       schedule:
                         type: string
                       securityContext:
+                        capabilities:
+                          drop:
+                            - all
                         properties:
                           fsGroup:
                             format: int64
@@ -10051,6 +10075,9 @@ spec:
                       schedule:
                         type: string
                       securityContext:
+                        capabilities:
+                          drop:
+                            - all
                         properties:
                           fsGroup:
                             format: int64
@@ -11266,6 +11293,9 @@ spec:
                       schedule:
                         type: string
                       securityContext:
+                        capabilities:
+                          drop:
+                            - all
                         properties:
                           fsGroup:
                             format: int64
