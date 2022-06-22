@@ -34,6 +34,7 @@ spec:
       serviceAccountName: {{ include "jaeger-operator.serviceAccountName" . }}
       {{- end }}
       {{- with .Values.securityContext }}
+      securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
       {{- if .Values.priorityClassName }}
@@ -48,11 +49,11 @@ spec:
       containers:
         - name: {{ include "jaeger-operator.fullname" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
             capabilities:
               drop:
                 - all
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
           - containerPort: 8383
             name: metrics
