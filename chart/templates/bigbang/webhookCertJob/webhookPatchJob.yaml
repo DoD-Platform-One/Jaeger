@@ -116,6 +116,10 @@ spec:
         - name: patch-mutating
           image: {{ .Values.webhookCertGen.image.repository }}:{{ .Values.webhookCertGen.image.tag }}
           imagePullPolicy: {{ .Values.webhookCertGen.image.pullPolicy }}
+          securityContext:
+            capabilities:
+              drop:
+                - all
           args:
             - patch
             - --webhook-name=jaeger-operator-mutating-webhook-configuration
@@ -130,6 +134,10 @@ spec:
         - name: patch-validating
           image: {{ .Values.webhookCertGen.image.repository }}:{{ .Values.webhookCertGen.image.tag }}
           imagePullPolicy: {{ .Values.webhookCertGen.image.pullPolicy }}
+          securityContext:
+            capabilities:
+              drop:
+                - all
           args:
             - patch
             - --webhook-name=jaeger-operator-validating-webhook-configuration
@@ -144,6 +152,10 @@ spec:
         - name: cleanup-proxy
           image: {{ .Values.webhookCertGen.cleanupProxy.image.repository }}:{{ .Values.webhookCertGen.cleanupProxy.image.tag }}
           imagePullPolicy: {{ .Values.webhookCertGen.cleanupProxy.image.pullPolicy }}
+          securityContext:
+            capabilities:
+              drop:
+                - all
           command:
           - /bin/sh
           - -c
