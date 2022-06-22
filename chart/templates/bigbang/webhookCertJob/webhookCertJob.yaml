@@ -79,6 +79,10 @@ spec:
       containers:
         - name: create
           image: {{ .Values.webhookCertGen.image.repository }}:{{ .Values.webhookCertGen.image.tag }}
+          securityContext:
+            capabilities:
+              drop:
+                - all
           imagePullPolicy: {{ .Values.webhookCertGen.image.pullPolicy }}
           args:
             - create
@@ -92,6 +96,10 @@ spec:
         {{- if .Values.istio.enabled }}
         - name: cleanup-proxy
           image: {{ .Values.webhookCertGen.cleanupProxy.image.repository }}:{{ .Values.webhookCertGen.cleanupProxy.image.tag }}
+          securityContext:
+            capabilities:
+              drop:
+                - all
           imagePullPolicy: {{ .Values.webhookCertGen.cleanupProxy.image.pullPolicy }}
           command:
           - /bin/sh
