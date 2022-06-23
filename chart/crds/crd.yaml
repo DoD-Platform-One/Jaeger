@@ -811,6 +811,9 @@ spec:
                         type: object
                     type: object
                   securityContext:
+                    capabilities:
+                      drop:
+                        - all
                     properties:
                       fsGroup:
                         format: int64
