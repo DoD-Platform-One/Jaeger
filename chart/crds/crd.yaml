@@ -812,8 +812,21 @@ spec:
                     type: object
                   securityContext:
                     capabilities:
-                      drop:
-                        - all
+                      description: The capabilities to add/drop when running containers.
+                      properties:
+                        add:
+                          description: Added capabilities
+                          items:
+                            description: OS capability
+                            type: string
+                          type: array
+                        drop:
+                          description: Removed capabilities
+                          items:
+                            description: OS capability
+                            type: string
+                          type: array
+                      type: object
                     properties:
                       fsGroup:
                         format: int64
@@ -2089,8 +2102,21 @@ spec:
                     type: object
                   securityContext:
                     capabilities:
-                      drop:
-                        - all
+                      description: The capabilities to add/drop when running containers.
+                      properties:
+                        add:
+                          description: Added capabilities
+                          items:
+                            description: OS capability
+                            type: string
+                          type: array
+                        drop:
+                          description: Removed capabilities
+                          items:
+                            description: OS capability
+                            type: string
+                          type: array
+                      type: object
                     properties:
                       fsGroup:
                         format: int64
@@ -3336,8 +3362,21 @@ spec:
                     type: object
                   securityContext:
                     capabilities:
-                      drop:
-                        - all
+                      description: The capabilities to add/drop when running containers.
+                      properties:
+                        add:
+                          description: Added capabilities
+                          items:
+                            description: OS capability
+                            type: string
+                          type: array
+                        drop:
+                          description: Removed capabilities
+                          items:
+                            description: OS capability
+                            type: string
+                          type: array
+                      type: object
                     properties:
                       fsGroup:
                         format: int64
@@ -4586,8 +4625,21 @@ spec:
                     type: object
                   securityContext:
                     capabilities:
-                      drop:
-                        - all
+                      description: The capabilities to add/drop when running containers.
+                      properties:
+                        add:
+                          description: Added capabilities
+                          items:
+                            description: OS capability
+                            type: string
+                          type: array
+                        drop:
+                          description: Removed capabilities
+                          items:
+                            description: OS capability
+                            type: string
+                          type: array
+                      type: object
                     properties:
                       fsGroup:
                         format: int64
@@ -5832,8 +5884,21 @@ spec:
                     type: string
                   securityContext:
                     capabilities:
-                      drop:
-                        - all
+                      description: The capabilities to add/drop when running containers.
+                      properties:
+                        add:
+                          description: Added capabilities
+                          items:
+                            description: OS capability
+                            type: string
+                          type: array
+                        drop:
+                          description: Removed capabilities
+                          items:
+                            description: OS capability
+                            type: string
+                          type: array
+                      type: object
                     properties:
                       fsGroup:
                         format: int64
@@ -7071,8 +7136,21 @@ spec:
                     type: object
                   securityContext:
                     capabilities:
-                      drop:
-                        - all
+                      description: The capabilities to add/drop when running containers.
+                      properties:
+                        add:
+                          description: Added capabilities
+                          items:
+                            description: OS capability
+                            type: string
+                          type: array
+                        drop:
+                          description: Removed capabilities
+                          items:
+                            description: OS capability
+                            type: string
+                          type: array
+                      type: object
                     properties:
                       fsGroup:
                         format: int64
@@ -7925,8 +8003,21 @@ spec:
                 type: object
               securityContext:
                 capabilities:
-                      drop:
-                        - all
+                  description: The capabilities to add/drop when running containers.
+                  properties:
+                    add:
+                      description: Added capabilities
+                      items:
+                        description: OS capability
+                        type: string
+                      type: array
+                    drop:
+                      description: Removed capabilities
+                      items:
+                        description: OS capability
+                        type: string
+                      type: array
+                  type: object
                 properties:
                   fsGroup:
                     format: int64
@@ -8782,8 +8873,21 @@ spec:
                         type: string
                       securityContext:
                         capabilities:
-                          drop:
-                            - all
+                          description: The capabilities to add/drop when running containers.
+                          properties:
+                            add:
+                              description: Added capabilities
+                              items:
+                                description: OS capability
+                                type: string
+                              type: array
+                            drop:
+                              description: Removed capabilities
+                              items:
+                                description: OS capability
+                                type: string
+                              type: array
+                          type: object
                         properties:
                           fsGroup:
                             format: int64
@@ -10076,8 +10180,21 @@ spec:
                         type: string
                       securityContext:
                         capabilities:
-                          drop:
-                            - all
+                          description: The capabilities to add/drop when running containers.
+                          properties:
+                            add:
+                              description: Added capabilities
+                              items:
+                                description: OS capability
+                                type: string
+                              type: array
+                            drop:
+                              description: Removed capabilities
+                              items:
+                                description: OS capability
+                                type: string
+                              type: array
+                          type: object
                         properties:
                           fsGroup:
                             format: int64
@@ -11294,8 +11411,21 @@ spec:
                         type: string
                       securityContext:
                         capabilities:
-                          drop:
-                            - all
+                          description: The capabilities to add/drop when running containers.
+                          properties:
+                            add:
+                              description: Added capabilities
+                              items:
+                                description: OS capability
+                                type: string
+                              type: array
+                            drop:
+                              description: Removed capabilities
+                              items:
+                                description: OS capability
+                                type: string
+                              type: array
+                          type: object
                         properties:
                           fsGroup:
                             format: int64
