@@ -35,9 +35,6 @@ spec:
       {{- end }}
       {{- with .Values.securityContext }}
       securityContext:
-        capabilities:
-          drop:
-            - all
 {{ toYaml . | indent 8 }}
       {{- end }}
       {{- if .Values.priorityClassName }}
