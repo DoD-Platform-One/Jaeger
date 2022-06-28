@@ -12,6 +12,10 @@
         {
             "matchDatasources": ["docker"],
             "groupName": "Ironbank"
+        },
+        {
+            "matchPackageNames": ["registry1.dso.mil/ironbank/big-bang/base"],
+            "allowedVersions": "!/8.4/"
         }
     ],
     "regexManagers": [
@@ -31,6 +35,13 @@
             ],
             "depNameTemplate": "ironbank/opensource/jaegertracing/jaeger-operator",
             "registryUrlTemplate": "https://registry1.dso.mil",
+            "datasourceTemplate": "docker"
+        },
+        {
+            "fileMatch": ["^tests/images\\.txt$"],
+            "matchStrings": [
+                "s*(?<depName>.+):(?<currentValue>.+)"
+            ],
             "datasourceTemplate": "docker"
         }
     ],
