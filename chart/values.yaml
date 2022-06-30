@@ -161,7 +161,7 @@ jaeger:
         runAsGroup: 1001
         capabilities:
           drop:
-            - all
+            - ALL
       strategy:
         type: RollingUpdate
     ingester:
@@ -175,7 +175,7 @@ jaeger:
         runAsGroup: 1001
         capabilities:
           drop:
-            - all
+            - ALL
       strategy:
         type: RollingUpdate
     query:
