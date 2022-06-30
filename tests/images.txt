@@ -1,1 +1,1 @@
-registry1.dso.mil/ironbank/big-bang/base:1.0.0
+registry1.dso.mil/ironbank/big-bang/base:2.0.0
