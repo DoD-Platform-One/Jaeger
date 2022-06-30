@@ -92,10 +92,6 @@ spec:
         {{- if .Values.istio.enabled }}
         - name: cleanup-proxy
           image: {{ .Values.webhookCertGen.cleanupProxy.image.repository }}:{{ .Values.webhookCertGen.cleanupProxy.image.tag }}
-          securityContext:
-            capabilities:
-              drop:
-                - ALL
           imagePullPolicy: {{ .Values.webhookCertGen.cleanupProxy.image.pullPolicy }}
           command:
           - /bin/sh
