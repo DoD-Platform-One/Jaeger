@@ -1,6 +1,6 @@
 # jaeger-operator
 
-![Version: 2.32.2-bb.1](https://img.shields.io/badge/Version-2.32.2--bb.1-informational?style=flat-square) ![AppVersion: 1.34.1](https://img.shields.io/badge/AppVersion-1.34.1-informational?style=flat-square)
+![Version: 2.32.2-bb.2](https://img.shields.io/badge/Version-2.32.2--bb.2-informational?style=flat-square) ![AppVersion: 1.34.1](https://img.shields.io/badge/AppVersion-1.34.1-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -82,7 +82,6 @@ helm install jaeger-operator chart/
 | jaeger.spec.allInOne.securityContext.runAsNonRoot | bool | `true` |  |
 | jaeger.spec.allInOne.securityContext.runAsUser | int | `1001` |  |
 | jaeger.spec.allInOne.securityContext.runAsGroup | int | `1001` |  |
-| jaeger.spec.allInOne.securityContext.capabilities.drop[0] | string | `"all"` |  |
 | jaeger.spec.allInOne.strategy.type | string | `"RollingUpdate"` |  |
 | jaeger.spec.agent.maxReplicas | int | `5` |  |
 | jaeger.spec.agent.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.34.1"` |  |
@@ -91,7 +90,7 @@ helm install jaeger-operator chart/
 | jaeger.spec.agent.securityContext.runAsNonRoot | bool | `true` |  |
 | jaeger.spec.agent.securityContext.runAsUser | int | `1001` |  |
 | jaeger.spec.agent.securityContext.runAsGroup | int | `1001` |  |
-| jaeger.spec.agent.securityContext.capabilities.drop[0] | string | `"all"` |  |
+| jaeger.spec.agent.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | jaeger.spec.agent.strategy.type | string | `"RollingUpdate"` |  |
 | jaeger.spec.ingester.maxReplicas | int | `5` |  |
 | jaeger.spec.ingester.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.34.1"` |  |
@@ -99,7 +98,7 @@ helm install jaeger-operator chart/
 | jaeger.spec.ingester.securityContext.runAsNonRoot | bool | `true` |  |
 | jaeger.spec.ingester.securityContext.runAsUser | int | `1001` |  |
 | jaeger.spec.ingester.securityContext.runAsGroup | int | `1001` |  |
-| jaeger.spec.ingester.securityContext.capabilities.drop[0] | string | `"all"` |  |
+| jaeger.spec.ingester.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | jaeger.spec.ingester.strategy.type | string | `"RollingUpdate"` |  |
 | jaeger.spec.query.replicas | int | `5` |  |
 | jaeger.spec.query.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.34.1"` |  |
@@ -107,7 +106,6 @@ helm install jaeger-operator chart/
 | jaeger.spec.query.securityContext.runAsNonRoot | bool | `true` |  |
 | jaeger.spec.query.securityContext.runAsUser | int | `1001` |  |
 | jaeger.spec.query.securityContext.runAsGroup | int | `1001` |  |
-| jaeger.spec.query.securityContext.capabilities.drop[0] | string | `"all"` |  |
 | jaeger.spec.query.strategy.type | string | `"RollingUpdate"` |  |
 | jaeger.spec.collector.maxReplicas | int | `5` |  |
 | jaeger.spec.collector.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.34.1"` |  |
@@ -119,7 +117,6 @@ helm install jaeger-operator chart/
 | jaeger.spec.collector.securityContext.runAsNonRoot | bool | `true` |  |
 | jaeger.spec.collector.securityContext.runAsUser | int | `1001` |  |
 | jaeger.spec.collector.securityContext.runAsGroup | int | `1001` |  |
-| jaeger.spec.collector.securityContext.capabilities.drop[0] | string | `"all"` |  |
 | jaeger.spec.collector.strategy.type | string | `"RollingUpdate"` |  |
 | jaeger.spec.volumeMounts[0].name | string | `"certificates"` |  |
 | jaeger.spec.volumeMounts[0].mountPath | string | `"/es/certificates/"` |  |
@@ -157,7 +154,6 @@ helm install jaeger-operator chart/
 | securityContext.runAsNonRoot | bool | `true` |  |
 | securityContext.runAsUser | int | `1001` |  |
 | securityContext.runAsGroup | int | `1001` |  |
-| securityContext.capabilities.drop[0] | string | `"all"` |  |
 | annotations | object | `{}` |  |
 | networkPolicies.enabled | bool | `false` |  |
 | networkPolicies.ingressLabels.app | string | `"istio-ingressgateway"` |  |
