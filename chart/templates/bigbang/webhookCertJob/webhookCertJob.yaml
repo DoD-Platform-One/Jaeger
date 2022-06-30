@@ -82,7 +82,7 @@ spec:
           securityContext:
             capabilities:
               drop:
-                - all
+                - ALL
           imagePullPolicy: {{ .Values.webhookCertGen.image.pullPolicy }}
           args:
             - create
@@ -99,7 +99,7 @@ spec:
           securityContext:
             capabilities:
               drop:
-                - all
+                - ALL
           imagePullPolicy: {{ .Values.webhookCertGen.cleanupProxy.image.pullPolicy }}
           command:
           - /bin/sh
