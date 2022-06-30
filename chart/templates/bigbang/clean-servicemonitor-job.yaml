@@ -69,7 +69,7 @@ spec:
           securityContext:
             capabilities:
               drop:
-                - all
+                - ALL
           workingDir: /crds
           command:
             - /bin/bash

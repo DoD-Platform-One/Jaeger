@@ -39,5 +39,5 @@ spec:
     runAsGroup: 1001
     capabilities:
       drop:
-        - all
+        - ALL
 {{- end }}

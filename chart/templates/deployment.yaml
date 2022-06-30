@@ -53,7 +53,7 @@ spec:
           securityContext:
             capabilities:
               drop:
-                - all
+                - ALL
           ports:
           - containerPort: 8383
             name: metrics
