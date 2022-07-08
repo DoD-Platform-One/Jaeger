@@ -1,0 +1,389 @@
+{{- if and .Values.elasticsearch.enabled .Values.elasticsearch.indexTemplateCreation.enabled }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: index-templates
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-5"
+data:
+  jaeger-service.json: |
+    {
+      "priority": {{ .Values.elasticsearch.indexTemplateCreation.servicePriority }},
+      "template": {
+        "settings": {
+          "index": {
+            "mapping": {
+              "nested_fields": {
+                "limit": "50"
+              }
+            },
+            "requests": {
+              "cache": {
+                "enable": "true"
+              }
+            },
+            "number_of_shards": "6",
+            "number_of_replicas": "1"
+          }
+        },
+        "mappings": {
+          "_routing": {
+            "required": false
+          },
+          "numeric_detection": false,
+          "dynamic_date_formats": [
+            "strict_date_optional_time",
+            "yyyy/MM/dd HH:mm:ss Z||yyyy/MM/dd Z"
+          ],
+          "_source": {
+            "excludes": [],
+            "includes": [],
+            "enabled": true
+          },
+          "dynamic": true,
+          "dynamic_templates": [
+            {
+              "span_tags_map": {
+                "path_match": "tag.*",
+                "mapping": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            },
+            {
+              "process_tags_map": {
+                "path_match": "process.tag.*",
+                "mapping": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            }
+          ],
+          "date_detection": true,
+          "properties": {
+            "operationName": {
+              "type": "keyword"
+            },
+            "serviceName": {
+              "type": "keyword"
+            }
+          }
+        }
+      },
+      "index_patterns": [
+        "*jaeger-service-*"
+      ],
+      "composed_of": []
+    }
+  jaeger-span.json: |
+    {
+      "priority": {{ .Values.elasticsearch.indexTemplateCreation.spanPriority }},
+      "template": {
+        "settings": {
+          "index": {
+            "mapping": {
+              "nested_fields": {
+                "limit": "50"
+              }
+            },
+            "requests": {
+              "cache": {
+                "enable": "true"
+              }
+            },
+            "number_of_shards": "6",
+            "number_of_replicas": "1"
+          }
+        },
+        "mappings": {
+          "_routing": {
+            "required": false
+          },
+          "numeric_detection": false,
+          "dynamic_date_formats": [
+            "strict_date_optional_time",
+            "yyyy/MM/dd HH:mm:ss Z||yyyy/MM/dd Z"
+          ],
+          "dynamic": true,
+          "_source": {
+            "excludes": [],
+            "includes": [],
+            "enabled": true
+          },
+          "dynamic_templates": [
+            {
+              "span_tags_map": {
+                "path_match": "tag.*",
+                "mapping": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            },
+            {
+              "process_tags_map": {
+                "path_match": "process.tag.*",
+                "mapping": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            }
+          ],
+          "date_detection": true,
+          "properties": {
+            "traceID": {
+              "type": "keyword"
+            },
+            "process": {
+              "type": "object",
+              "properties": {
+                "tag": {
+                  "type": "object"
+                },
+                "serviceName": {
+                  "type": "keyword"
+                },
+                "tags": {
+                  "type": "nested",
+                  "properties": {
+                    "tagType": {
+                      "type": "keyword"
+                    },
+                    "value": {
+                      "type": "keyword"
+                    },
+                    "key": {
+                      "type": "keyword"
+                    }
+                  }
+                }
+              }
+            },
+            "references": {
+              "type": "nested",
+              "properties": {
+                "spanID": {
+                  "type": "keyword"
+                },
+                "traceID": {
+                  "type": "keyword"
+                },
+                "refType": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "startTimeMillis": {
+              "type": "date"
+            },
+            "flags": {
+              "type": "integer"
+            },
+            "operationName": {
+              "type": "keyword"
+            },
+            "parentSpanID": {
+              "type": "keyword"
+            },
+            "tags": {
+              "type": "nested",
+              "properties": {
+                "tagType": {
+                  "type": "keyword"
+                },
+                "value": {
+                  "type": "keyword"
+                },
+                "key": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "duration": {
+              "type": "long"
+            },
+            "spanID": {
+              "type": "keyword"
+            },
+            "startTime": {
+              "type": "long"
+            },
+            "tag": {
+              "type": "object",
+              "properties": {}
+            },
+            "logs": {
+              "type": "nested",
+              "properties": {
+                "fields": {
+                  "type": "nested",
+                  "properties": {
+                    "tagType": {
+                      "type": "keyword"
+                    },
+                    "value": {
+                      "type": "keyword"
+                    },
+                    "key": {
+                      "type": "keyword"
+                    }
+                  }
+                },
+                "timestamp": {
+                  "type": "long"
+                }
+              }
+            }
+          }
+        }
+      },
+      "index_patterns": [
+        "*jaeger-span-*"
+      ],
+      "composed_of": []
+    }
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: jaeger-index-setup-es-secret
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-5"
+type: Opaque
+data:
+  ES_USERNAME: {{ .Values.elasticsearch.username | b64enc }}
+{{- if .Values.elasticsearch.password }}
+  ES_PASSWORD: {{ .Values.elasticsearch.password | b64enc }}
+{{- else  }}
+  {{- $secretname := printf "%s-es-elastic-user" ( .Values.elasticsearch.name | default "logging-ek" )}}
+  {{- with lookup "v1" "Secret" (.Values.elasticsearch.namespace | default "logging" )  $secretname }}
+  ES_PASSWORD: {{ .data.elastic }}
+  {{- end }}
+{{- end }}
+{{- if .Values.networkPolicies.enabled }}
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: egress-jaeger-elasticsearch-index-job
+  namespace: {{ .Release.Namespace }}
+  # Only needed pre-upgrade since pre-install no networkPolicies exist
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "0"
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      bigbang.dev/job: "jaeger-es-index-creation"
+  egress:
+  - ports:
+    - port: 9200
+    to: 
+    - namespaceSelector:
+        matchLabels:
+          app.kubernetes.io/name: {{ .Values.elasticsearch.namespace }}
+      podSelector:           
+        matchLabels: # copied from svc "logging-ek-es-http" in logging namespace
+          common.k8s.elastic.co/type: elasticsearch
+          elasticsearch.k8s.elastic.co/cluster-name: {{ .Values.elasticsearch.name }}
+{{- end }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jaeger-es-index-templates
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "5"
+spec:
+  # Higher backoff limit since our curl retry on elastic health can still fail in certain scenarios
+  backoffLimit: 5
+  ttlSecondsAfterFinished: 1800
+  template:
+    metadata:
+      name: jaeger-es-index-templates
+      labels:
+        bigbang.dev/job: "jaeger-es-index-creation"
+        app.kubernetes.io/name: jaeger
+    spec:
+      containers:
+        - name: jaeger-es-index-templates
+          image: {{ .Values.elasticsearch.indexTemplateCreation.image.repository }}:{{ .Values.elasticsearch.indexTemplateCreation.image.tag }}
+          command:
+            - /bin/bash
+            - -ec
+            - |
+              echo "Checking if Elastic is up..."
+              curl --retry-delay 5 --retry-max-time 600 --retry 60 --retry-connrefused -skISu "${ES_USERNAME}:${ES_PASSWORD}" ${ES_HOST} &>/dev/null || export ES_DOWN="true"
+              if [[ ${ES_DOWN} == "true" ]]; then
+                echo "Cannot hit Elasticsearch endpoint, curl response:"
+                echo $(curl -sku "${ES_USERNAME}:${ES_PASSWORD}" ${ES_HOST})
+                exit 1
+              fi
+              echo "Elasticsearch is up."
+              # We can curl without checking the existing templates since the PUT request will overwrite if it already exists
+              cd /index-templates
+              echo "Creating Jaeger service index template..."
+              curl -f -X PUT -H "Content-Type: application/json" -sSku "${ES_USERNAME}:${ES_PASSWORD}" -d @jaeger-service.json ${ES_HOST}/_index_template/jaeger-service &>/dev/null \
+                && export SVC_EC=$? || export SVC_EC=$?
+              if [[ ${SVC_EC} -ne 0 ]]; then
+                echo "Error: Failed to create service index template. ES Response:"
+                curl -X PUT -H "Content-Type: application/json" -sku "${ES_USERNAME}:${ES_PASSWORD}" -d @jaeger-service.json ${ES_HOST}/_index_template/jaeger-service; echo
+                exit $SVC_EC
+              fi
+              echo "Creating Jaeger span index template..."
+              curl -f -X PUT -H "Content-Type: application/json" -sSku "${ES_USERNAME}:${ES_PASSWORD}" -d @jaeger-span.json ${ES_HOST}/_index_template/jaeger-span &>/dev/null \
+                && export SPAN_EC=$? || export SPAN_EC=$?
+              if [[ ${SPAN_EC} -ne 0 ]]; then
+                echo "Error: Failed to create span index template. ES Response:"
+                curl -X PUT -H "Content-Type: application/json" -sku "${ES_USERNAME}:${ES_PASSWORD}" -d @jaeger-span.json ${ES_HOST}/_index_template/jaeger-span; echo
+                exit $SPAN_EC
+              fi
+              echo "ES index template creation complete."
+              {{- if .Values.istio.enabled }}
+              until curl -fsI http://localhost:15021/healthz/ready; do
+                echo "Waiting for Istio sidecar proxy..."
+                sleep 3
+              done
+              sleep 5
+              echo "Stopping the istio proxy..."
+              curl -X POST -s http://localhost:15020/quitquitquit
+              {{- end }}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
+          envFrom:
+          - secretRef:
+              name: jaeger-index-setup-es-secret
+          env:
+          - name: ES_HOST
+            value: {{ tpl (index .Values.elasticsearch.storage.options.es "server-urls") . }}
+          volumeMounts:
+            - name: index-templates
+              mountPath: /index-templates
+              readOnly: true
+      volumes:
+        - name: index-templates
+          configMap:
+            name: index-templates
+      {{- if .Values.image.imagePullSecrets }}
+      imagePullSecrets:
+      {{- range .Values.image.imagePullSecrets }}
+        - name: {{ . }}
+      {{- end }}
+      {{- end }}
+      restartPolicy: OnFailure
+{{- end }}

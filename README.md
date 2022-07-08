@@ -1,6 +1,6 @@
 # jaeger-operator
 
-![Version: 2.32.2-bb.1](https://img.shields.io/badge/Version-2.32.2--bb.1-informational?style=flat-square) ![AppVersion: 1.34.1](https://img.shields.io/badge/AppVersion-1.34.1-informational?style=flat-square)
+![Version: 2.32.2-bb.2](https://img.shields.io/badge/Version-2.32.2--bb.2-informational?style=flat-square) ![AppVersion: 1.34.1](https://img.shields.io/badge/AppVersion-1.34.1-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -55,12 +55,17 @@ helm install jaeger-operator chart/
 | image.pullPolicy | string | `"Always"` |  |
 | image.imagePullSecrets[0] | string | `"private-registry"` |  |
 | elasticsearch.enabled | bool | `false` |  |
+| elasticsearch.indexTemplateCreation | object | `{"enabled":true,"image":{"repository":"registry1.dso.mil/ironbank/big-bang/base","tag":"2.0.0"},"servicePriority":10,"spanPriority":11}` | Custom BB job to create required index templates for ES 8.x |
+| elasticsearch.indexTemplateCreation.servicePriority | int | `10` | Priority to add to the service index template, cannot conflict with existing templates |
+| elasticsearch.indexTemplateCreation.spanPriority | int | `11` | Priority to add to the span index template, cannot conflict with existing templates |
 | elasticsearch.username | string | `"elastic"` |  |
 | elasticsearch.name | string | `"logging-ek"` |  |
 | elasticsearch.namespace | string | `"logging"` |  |
 | elasticsearch.storage.options.es.server-urls | string | `"https://{{ $.Values.elasticsearch.name }}-es-http.{{ $.Values.elasticsearch.namespace }}.svc:9200"` |  |
 | elasticsearch.storage.options.es.tls.enabled | string | `"true"` |  |
 | elasticsearch.storage.options.es.tls.ca | string | `"/es/certificates/ca.crt"` |  |
+| elasticsearch.storage.options.es.version | int | `7` |  |
+| elasticsearch.storage.options.es.create-index-templates | bool | `false` |  |
 | retention.enabled | bool | `false` |  |
 | retention.schedule | string | `"0 * * * *"` |  |
 | retention.days | int | `5` |  |

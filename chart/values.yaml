@@ -80,6 +80,16 @@ image:
 
 elasticsearch:
   enabled: false
+  # -- Custom BB job to create required index templates for ES 8.x
+  indexTemplateCreation:
+    enabled: true
+    image:
+      repository: registry1.dso.mil/ironbank/big-bang/base
+      tag: 2.0.0
+    # -- Priority to add to the service index template, cannot conflict with existing templates
+    servicePriority: 10
+    # -- Priority to add to the span index template, cannot conflict with existing templates
+    spanPriority: 11
   username: elastic
   name: logging-ek
   namespace: logging
@@ -92,6 +102,9 @@ elasticsearch:
         tls:
           enabled: "true"
           ca: /es/certificates/ca.crt
+        # Overrides to support ES 8
+        version: 7
+        create-index-templates: false
 
 retention:
   enabled: false
