@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.32.2-bb.2]
+### Added
+- Addition of new index creation job to support ES 8+
+
 ## [2.32.2-bb.1]
 ### Changed
 - Update bb base image to 2.0.0
