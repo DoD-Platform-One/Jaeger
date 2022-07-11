@@ -1,6 +1,6 @@
 # jaeger-operator
 
-![Version: 2.32.2-bb.2](https://img.shields.io/badge/Version-2.32.2--bb.2-informational?style=flat-square) ![AppVersion: 1.34.1](https://img.shields.io/badge/AppVersion-1.34.1-informational?style=flat-square)
+![Version: 2.32.2-bb.3](https://img.shields.io/badge/Version-2.32.2--bb.3-informational?style=flat-square) ![AppVersion: 1.34.1](https://img.shields.io/badge/AppVersion-1.34.1-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
