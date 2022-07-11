@@ -159,6 +159,9 @@ jaeger:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
+        capabilities:
+          drop:
+            - ALL
       strategy:
         type: RollingUpdate
     ingester:
@@ -170,6 +173,9 @@ jaeger:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
+        capabilities:
+          drop:
+            - ALL
       strategy:
         type: RollingUpdate
     query:

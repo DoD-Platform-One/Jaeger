@@ -66,6 +66,10 @@ spec:
       containers:
         - name: bb-jaeger-clean-svc-monitor
           image: {{ .Values.cleanSvcMonitor.image.repository }}:{{ .Values.cleanSvcMonitor.image.tag }}
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
           workingDir: /crds
           command:
             - /bin/bash

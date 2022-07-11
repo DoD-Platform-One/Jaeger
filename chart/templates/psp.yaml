@@ -33,4 +33,11 @@ spec:
       - min: 1
         max: 65535
   readOnlyRootFilesystem: false
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - ALL
 {{- end }}
