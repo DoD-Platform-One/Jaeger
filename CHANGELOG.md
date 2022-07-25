@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.33.0-bb.0]
+### Changed
+- Updated Jaeger images to 1.35.2 (operator version 1.35.0)
+
 ## [2.32.2-bb.3]
 ### Changed
 - All security contexts set to drop all Capabilities
