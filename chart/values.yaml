@@ -49,7 +49,7 @@ webhookCertGen:
   enabled: true
   image:
     repository: registry1.dso.mil/ironbank/opensource/ingress-nginx/kube-webhook-certgen
-    tag: v1.1.1
+    tag: v1.3.0
     pullPolicy: IfNotPresent
   resources:
     limits:
@@ -73,7 +73,7 @@ webhookCertGen:
 
 image:
   repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
-  tag: 1.35.0
+  tag: 1.36.0
   pullPolicy: Always
   imagePullSecrets:
     - private-registry
@@ -110,7 +110,7 @@ retention:
   enabled: false
   schedule: "0 * * * *"
   days: 5
-  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.35.2
+  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.36.0
 
 jaeger:
   # Specifies whether Jaeger instance should be created
@@ -126,7 +126,7 @@ jaeger:
     annotations: {}
     labels: {}
     allInOne:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.35.2
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.36.0
       options:
         log-level: info
         collector:
@@ -150,7 +150,7 @@ jaeger:
         type: RollingUpdate
     agent:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.35.2
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.36.0
       options:
         log-level: info
       imagePullSecrets:
@@ -166,7 +166,7 @@ jaeger:
         type: RollingUpdate
     ingester:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.35.2
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.36.0
       options:
         log-level: info
       securityContext:
@@ -180,7 +180,7 @@ jaeger:
         type: RollingUpdate
     query:
       replicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.35.2
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.36.0
       options:
         log-level: info
       securityContext:
@@ -191,7 +191,7 @@ jaeger:
         type: RollingUpdate
     collector:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.35.2
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.36.0
       options:
         log-level: info
       resources:
