@@ -14,9 +14,4 @@ spec:
     # Webhook exception
     "9443":
       mode: PERMISSIVE
-    {{- if .Values.monitoring.enabled }}
-    # Servicemonitor exception
-    "8383":
-      mode: PERMISSIVE
-    {{- end }}
 {{- end }}
