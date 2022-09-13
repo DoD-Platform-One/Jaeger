@@ -50,7 +50,7 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
     ```yaml
     dependencies:
     - name: gluon
-        version: 0.2.9
+        version: 0.3.0
         repository: oci://registry.dso.mil/platform-one/big-bang/apps/library-charts/gluon
     ```
 - Add bigbang dev annotation for release automation:
@@ -88,11 +88,16 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
       {{ toYaml .Values.annotations | nindent 8 }}
     {{- end }}
     ```
+- Changed `ports: name: metrics` to `http-metrics`
 
 ## chart/templates/jaeger.yaml
 
 - Changed name to `jaeger`
 - Refactored to support certain parts of the spec rather than a simple toYaml (should we re-evaluate this?)
+
+## chart/templates/service.yaml
+
+- Changed `spec: ports: -name: metrics` to `http-metrics`
 
 ## chart/templates/tests
 

@@ -8,7 +8,14 @@ spec:
   endpoints:
     - interval: 30s
       path: /metrics
-      port: metrics
+      port: http-metrics
+      {{- if .Values.monitoring.serviceMonitor.scheme }}
+      scheme: {{ .Values.monitoring.serviceMonitor.scheme }}
+      {{- end }}
+      {{- if .Values.monitoring.serviceMonitor.tlsConfig }}
+      tlsConfig:
+        {{- toYaml .Values.monitoring.serviceMonitor.tlsConfig | nindent 8 }}
+      {{- end }}
   selector:
     matchLabels:
       name: {{ include "jaeger-operator.fullname" . }}

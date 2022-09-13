@@ -11,7 +11,7 @@ metadata:
 {{- end }}
 spec:
   ports:
-  - name: metrics
+  - name: http-metrics
     port: 8383
     protocol: TCP
     targetPort: 8383

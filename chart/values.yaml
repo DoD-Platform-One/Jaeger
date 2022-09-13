@@ -13,6 +13,9 @@ sso:
 # -- Monitoring toggle, affects servicemonitor and networkPolicies
 monitoring:
   enabled: false
+  serviceMonitor:
+    scheme: ""
+    tlsConfig: {}
 
 # -- Hostname to service Jaeger virtualService
 hostname: bigbang.dev
