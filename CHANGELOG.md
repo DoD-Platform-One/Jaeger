@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.36.0-bb.0]
+### Changed
+- Updated Jaeger images to 1.38.0 (latest operator version)
+
 ## [2.35.0-bb.1]
 ### Changed
 - Enabled mTLS for Jaeger metrics
@@ -10,7 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [2.35.0-bb.0]
 ### Changed
-- Updated Jaeger images to 1.36.0 (latest operator version)
+- Updated Jaeger images to 1.37.0 (latest operator version)
 
 ## [2.34.0-bb.0]
 ### Changed
