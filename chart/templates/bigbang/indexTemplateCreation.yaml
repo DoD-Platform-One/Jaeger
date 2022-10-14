@@ -318,6 +318,7 @@ spec:
       containers:
         - name: jaeger-es-index-templates
           image: {{ .Values.elasticsearch.indexTemplateCreation.image.repository }}:{{ .Values.elasticsearch.indexTemplateCreation.image.tag }}
+          securityContext: {{- .Values.elasticsearch.indexTemplateCreation.containerSecurityContext | toYaml | nindent 12 }}
           command:
             - /bin/bash
             - -ec

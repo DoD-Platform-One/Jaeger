@@ -80,6 +80,7 @@ spec:
         - name: create
           image: {{ .Values.webhookCertGen.image.repository }}:{{ .Values.webhookCertGen.image.tag }}
           imagePullPolicy: {{ .Values.webhookCertGen.image.pullPolicy }}
+          securityContext: {{- toYaml .Values.webhookCertGen.containerSecurityContext | nindent 12 }}
           args:
             - create
             - --cert-name=tls.crt
@@ -93,6 +94,7 @@ spec:
         - name: cleanup-proxy
           image: {{ .Values.webhookCertGen.cleanupProxy.image.repository }}:{{ .Values.webhookCertGen.cleanupProxy.image.tag }}
           imagePullPolicy: {{ .Values.webhookCertGen.cleanupProxy.image.pullPolicy }}
+          securityContext: {{- toYaml .Values.webhookCertGen.containerSecurityContext | nindent 12 }}
           command:
           - /bin/sh
           - -c
