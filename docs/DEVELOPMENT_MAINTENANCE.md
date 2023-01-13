@@ -4,19 +4,22 @@ Jaeger is a modified/customized version of an upstream chart. The below details 
 
 1. Navigate to the [upstream chart repo and folder](https://github.com/jaegertracing/helm-charts/tree/main/charts/jaeger-operator) and find the tag that corresponds with the new chart version for this image update. For example, if updating the Jaeger images to 1.28 you would check the [chart values](https://github.com/jaegertracing/helm-charts/blob/main/charts/jaeger-operator/values.yaml#L7) and switch Gitlab tags until you find the latest chart version that uses 1.28 images. In this case that is [`jaeger-operator-2.27.0`](https://github.com/jaegertracing/helm-charts/blob/jaeger-operator-2.27.0/charts/jaeger-operator/values.yaml#L7) (as of this doc construction).
 
-2. Checkout the `renovate/ironbank` branch. This branch will already have the updates you need for the images.
+1. Checkout the `renovate/ironbank` branch. This branch will already have the updates you need for the images.
 
-2. From the root of the repo run `kpt pkg update chart@jaeger-operator-2.27.0 --strategy alpha-git-patch` replacing `jaeger-operator-2.27.0` with the version tag you got in step 1. You may be prompted to resolve some conflicts - choose what makes sense (if there are BB additions/changes keep them, if there are upstream additions/changes keep them).
+1. From the root of the repo run `kpt pkg update chart@jaeger-operator-2.27.0 --strategy alpha-git-patch` replacing `jaeger-operator-2.27.0` with the version tag you got in step 1. You may be prompted to resolve some conflicts - choose what makes sense (if there are BB additions/changes keep them, if there are upstream additions/changes keep them).
 
-3. Modify the `version` in `Chart.yaml` - you will want to append `-bb.0` to the chart version from upstream.
+1. Modify the `version` in `Chart.yaml` - you will want to append `-bb.0` to the chart version from upstream. update dependencies to latest BB gluon library version.
+    ```
+    helm dependency update ./chart
+    ```
 
-5. Update `CHANGELOG.md` adding an entry for the new version and noting all changes (at minimum should include `Updated Jaeger to x.x.x`).
+1. Update `CHANGELOG.md` adding an entry for the new version and noting all changes (at minimum should include `Updated Jaeger to x.x.x`).
 
-6. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/platform-one/big-bang/apps/library-charts/gluon/-/blob/master/docs/bb-package-readme.md).
+1. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/platform-one/big-bang/apps/library-charts/gluon/-/blob/master/docs/bb-package-readme.md).
 
-8. Push up your changes, validate that CI passes. If there are any failures follow the information in the pipeline to make the necessary updates and reach out to the team if needed.
+1. Push up your changes, validate that CI passes. If there are any failures follow the information in the pipeline to make the necessary updates and reach out to the team if needed.
 
-9. Perform the steps below for manual testing. CI provides a good set of basic smoke tests but it is beneficial to run some additional checks.
+1. Perform the steps below for manual testing. CI provides a good set of basic smoke tests but it is beneficial to run some additional checks.
 
 # Manual Testing for Updates
 
@@ -46,11 +49,11 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
 ## chart/Chart.yaml
 
 - Append `-bb.x` versioning to version
-- Add gluon dependency chart for helm tests (also run `helm dependency update chart/` to store this):
+- Add gluon dependency chart for helm tests (also run `helm dependency update ./chart` to store this):
     ```yaml
     dependencies:
     - name: gluon
-        version: 0.3.0
+        version: 0.3.1
         repository: oci://registry.dso.mil/platform-one/big-bang/apps/library-charts/gluon
     ```
 - Add bigbang dev annotation for release automation:
@@ -73,7 +76,6 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
 
 ## chart/templates/deployment.yaml
 
-- `spec.selector.matchLabels` changed to `{{ include "jaeger-operator.selector.labels" . | nindent 6 }}`
 - Upgrade strategy added below `spec.replicas`:
     ```yaml
     {{- if .Values.operatorUpdateStrategy }}
@@ -81,6 +83,7 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
       {{- toYaml .Values.operatorUpdateStrategy | nindent 4 }}
     {{- end }}
     ```
+- `spec.selector.matchLabels` changed to `{{ include "jaeger-operator.selector.labels" . | nindent 6 }}`
 - Annotations values added below `extraLabels`:
     ```yaml
     {{- if .Values.annotations }}
@@ -88,16 +91,28 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
       {{ toYaml .Values.annotations | nindent 8 }}
     {{- end }}
     ```
+- `spec.template.spec.containers` added securityContext
+    ```
+    securityContext:
+    capabilities:
+        drop:
+        - ALL
+    ```
 - Changed `ports: name: metrics` to `http-metrics`
 
 ## chart/templates/jaeger.yaml
 
 - Changed name to `jaeger`
 - Refactored to support certain parts of the spec rather than a simple toYaml (should we re-evaluate this?)
+- added `{{- if .Values.elasticsearch.enabled }}` code block
+
+## chart/templates/psp.yaml
+
+- added `spec.securityContext` code block
 
 ## chart/templates/service.yaml
 
-- Changed `spec: ports: -name: metrics` to `http-metrics`
+- Changed `spec.ports` `-name: metrics` to `http-metrics`
 
 ## chart/templates/tests
 

@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.38.0-bb.0] - 2023-01-12
+### Changed
+- Updated Jaeger images to 1.41.0 (latest operator version)
+- Updated operator chart to 2.38.0
+
 ## [2.37.0-bb.0]
 ### Changed
 - Updated Jaeger images to 1.39.0 (latest operator version)

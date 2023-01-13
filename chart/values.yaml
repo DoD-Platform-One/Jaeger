@@ -2,6 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# BB additions
 # -- Openshift toggle, only affects networkPolicies
 openshift:
   enabled: false
@@ -79,13 +80,6 @@ webhookCertGen:
       drop:
         - ALL
 
-image:
-  repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
-  tag: 1.39.0
-  pullPolicy: Always
-  imagePullSecrets:
-    - private-registry
-
 elasticsearch:
   enabled: false
   # -- Custom BB job to create required index templates for ES 8.x
@@ -123,12 +117,44 @@ retention:
   enabled: false
   schedule: "0 * * * *"
   days: 5
-  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.39.0
+  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.41.0
+
+# This section will be used to configure the operator upgrade strategy in the deployment.yaml
+operatorUpdateStrategy:
+  type: RollingUpdate
+
+image:
+  repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
+  tag: 1.41.0
+  pullPolicy: Always
+  imagePullSecrets:
+    - private-registry
+
+certs:
+  issuer:
+    create: false
+    name: ""
+  certificate:
+    create: false
+    namespace: ""
+    secretName: "jaeger-operator-webhook-cert"
+
+webhooks:
+  mutatingWebhook:
+    create: true
+  validatingWebhook:
+    create: true
+  port: 9443
+  service:
+    annotations: {}
+    create: true
+    name: ""
 
 jaeger:
   # Specifies whether Jaeger instance should be created
   create: true
   # namespace where Jaeger resource should be created default to .Release.Namespace
+  namespace:
   spec:
     # allInOne for dev purposes
     # production for HA setup
@@ -139,7 +165,7 @@ jaeger:
     annotations: {}
     labels: {}
     allInOne:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.39.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.41.0
       options:
         log-level: info
         collector:
@@ -167,7 +193,7 @@ jaeger:
         type: RollingUpdate
     agent:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.39.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.41.0
       options:
         log-level: info
       imagePullSecrets:
@@ -184,7 +210,7 @@ jaeger:
         type: RollingUpdate
     ingester:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.39.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.41.0
       options:
         log-level: info
       securityContext:
@@ -199,7 +225,7 @@ jaeger:
         type: RollingUpdate
     query:
       replicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.39.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.41.0
       options:
         log-level: info
       securityContext:
@@ -214,7 +240,7 @@ jaeger:
         type: RollingUpdate
     collector:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.39.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.41.0
       options:
         log-level: info
       resources:
@@ -243,34 +269,11 @@ jaeger:
         secret:
           secretName: elasticsearch-certificates
 
-# This section will be used to configure the operator upgrade strategy in the deployment.yaml
-operatorUpdateStrategy:
-  type: RollingUpdate
-
 rbac:
   # Specifies whether RBAC resources should be created
   create: true
   pspEnabled: false
   clusterRole: true
-
-certs:
-  issuer:
-    create: false
-    name: ""
-  certificate:
-    create: false
-    namespace: ""
-    secretName: "jaeger-operator-webhook-cert"
-
-webhooks:
-  mutatingWebhook:
-    create: true
-  validatingWebhook:
-    create: true
-  service:
-    annotations: {}
-    create: true
-    name: ""
 
 service:
   type: ClusterIP
@@ -289,14 +292,12 @@ serviceAccount:
   annotations: {}
 
 # Specifies extra environment variables passed to the operator:
-extraEnv:
-  []
+extraEnv: []
   # Specifies log-level for the operator:
   # - name: LOG-LEVEL
   #   value: debug
 
-extraLabels:
-  {}
+extraLabels: {}
   # Specifies extra labels for the operator deployment:
   # foo: bar
 
@@ -319,6 +320,14 @@ securityContext:
   runAsUser: 1001
   runAsGroup: 1001
 
+priorityClassName:
+
+# Specifies weather host network should be used
+hostNetwork: false
+
+metricsPort: 8383
+
+# additional BB additions
 annotations:
   {}
   # bigbang.dev/istioVersion: 1.10.3
@@ -330,8 +339,6 @@ networkPolicies:
     istio: ingressgateway
   # See `kubectl cluster-info` and then resolve to IP
   controlPlaneCidr: 0.0.0.0/0
-
-priorityClassName:
 
 bbtests:
   enabled: false
