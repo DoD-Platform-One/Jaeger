@@ -48,6 +48,7 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
 
 ## chart/Chart.yaml
 
+- Chart renamed jaeger
 - Append `-bb.x` versioning to version
 - Add gluon dependency chart for helm tests (also run `helm dependency update ./chart` to store this):
     ```yaml
@@ -126,3 +127,4 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
 
 - Substantial values additions/changes to use IB images, support BB core interactions, etc
 - When in doubt ask about these changes
+- default nameOverride added and set to original chart name jaeger-operator
