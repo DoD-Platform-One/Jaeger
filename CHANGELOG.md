@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.41.0-bb.0] - 2023-03-17
+### Changed
+- Updated Jager images to 1.42.0 (latest operator version)
+- Updated operator chart to 2.41.0
+- Added upstream value certs.certificate.issuerKind
+
 ## [2.38.0-bb.2] - 2023-03-14
 ### Changed
 - Modify chart name to jaeger from jaeger-operator to match the bb chart values file.
