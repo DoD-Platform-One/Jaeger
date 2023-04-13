@@ -120,7 +120,7 @@ retention:
   enabled: false
   schedule: "0 * * * *"
   days: 5
-  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.42.0
+  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.43.0
 
 # This section will be used to configure the operator upgrade strategy in the deployment.yaml
 operatorUpdateStrategy:
@@ -128,7 +128,7 @@ operatorUpdateStrategy:
 
 image:
   repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
-  tag: 1.42.0
+  tag: 1.43.0
   pullPolicy: Always
   imagePullSecrets:
     - private-registry
@@ -172,7 +172,7 @@ jaeger:
     annotations: {}
     labels: {}
     allInOne:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.42.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.43.0
       options:
         log-level: info
         collector:
@@ -200,7 +200,7 @@ jaeger:
         type: RollingUpdate
     agent:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.42.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.43.0
       options:
         log-level: info
       imagePullSecrets:
@@ -217,7 +217,7 @@ jaeger:
         type: RollingUpdate
     ingester:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.42.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.43.0
       options:
         log-level: info
       securityContext:
@@ -232,7 +232,7 @@ jaeger:
         type: RollingUpdate
     query:
       replicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.42.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.43.0
       options:
         log-level: info
       securityContext:
@@ -247,7 +247,7 @@ jaeger:
         type: RollingUpdate
     collector:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.42.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.43.0
       options:
         log-level: info
       resources:
