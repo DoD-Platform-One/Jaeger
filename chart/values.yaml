@@ -21,8 +21,8 @@ monitoring:
     scheme: ""
     tlsConfig: {}
 
-# -- Hostname to service Jaeger virtualService
-hostname: bigbang.dev
+# -- Domain to service Jaeger virtualService
+domain: bigbang.dev
 
 istio:
   # -- Toggle istio integration
@@ -35,7 +35,7 @@ istio:
     gateways:
       - istio-system/main
     hosts:
-      - tracing.{{ .Values.hostname }}
+      - tracing.{{ .Values.domain }}
   # -- Default jaeger peer authentication
   mtls:
     # -- STRICT = Allow only mutual TLS traffic,

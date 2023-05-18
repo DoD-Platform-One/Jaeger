@@ -1,6 +1,6 @@
 # jaeger
 
-![Version: 2.42.0-bb.0](https://img.shields.io/badge/Version-2.42.0--bb.0-informational?style=flat-square) ![AppVersion: 1.43.0](https://img.shields.io/badge/AppVersion-1.43.0-informational?style=flat-square)
+![Version: 2.42.0-bb.1](https://img.shields.io/badge/Version-2.42.0--bb.1-informational?style=flat-square) ![AppVersion: 1.43.0](https://img.shields.io/badge/AppVersion-1.43.0-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -39,13 +39,13 @@ helm install jaeger chart/
 | openshift | object | `{"enabled":false}` | Openshift toggle, only affects networkPolicies |
 | sso | object | `{"enabled":false}` | SSO toggle, only affects auth policies |
 | monitoring | object | `{"enabled":false,"serviceMonitor":{"scheme":"","tlsConfig":{}}}` | Monitoring toggle, affects servicemonitor and networkPolicies |
-| hostname | string | `"bigbang.dev"` | Hostname to service Jaeger virtualService |
+| domain | string | `"bigbang.dev"` | Domain to service Jaeger virtualService |
 | istio.enabled | bool | `false` | Toggle istio integration |
 | istio.jaeger.enabled | bool | `true` | Toggle vs creation |
 | istio.jaeger.annotations | object | `{}` |  |
 | istio.jaeger.labels | object | `{}` |  |
 | istio.jaeger.gateways[0] | string | `"istio-system/main"` |  |
-| istio.jaeger.hosts[0] | string | `"tracing.{{ .Values.hostname }}"` |  |
+| istio.jaeger.hosts[0] | string | `"tracing.{{ .Values.domain }}"` |  |
 | istio.mtls | object | `{"mode":"STRICT"}` | Default jaeger peer authentication |
 | istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
 | cleanSvcMonitor | object | `{"enabled":false,"image":{"repository":"registry1.dso.mil/ironbank/big-bang/base","tag":"2.0.0"}}` | Only needed for upgrade from pre-1.29.x, Deletes the servicemonitor that targetted deprecated metrics endpoints |
