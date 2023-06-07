@@ -372,6 +372,13 @@ spec:
           env:
           - name: ES_HOST
             value: {{ tpl (index .Values.elasticsearch.storage.options.es "server-urls") . }}
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+            runAsGroup: 1001
+            capabilities:
+              drop:
+                - ALL
           volumeMounts:
             - name: index-templates
               mountPath: /index-templates

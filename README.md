@@ -1,6 +1,6 @@
 # jaeger
 
-![Version: 2.45.0-bb.1](https://img.shields.io/badge/Version-2.45.0--bb.1-informational?style=flat-square) ![AppVersion: 1.45.0](https://img.shields.io/badge/AppVersion-1.45.0-informational?style=flat-square)
+![Version: 2.45.0-bb.2](https://img.shields.io/badge/Version-2.45.0--bb.2-informational?style=flat-square) ![AppVersion: 1.45.0](https://img.shields.io/badge/AppVersion-1.45.0-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -52,7 +52,7 @@ helm install jaeger chart/
 | webhookCertGen | object | `{"affinity":{},"cleanupProxy":{"image":{"pullPolicy":"IfNotPresent","repository":"registry1.dso.mil/ironbank/big-bang/base","tag":"2.0.0"}},"containerSecurityContext":{"capabilities":{"drop":["ALL"]}},"enabled":true,"image":{"pullPolicy":"IfNotPresent","repository":"registry1.dso.mil/ironbank/opensource/ingress-nginx/kube-webhook-certgen","tag":"v1.3.0"},"nodeSelector":{},"resources":{"limits":{"cpu":"50m","memory":"50Mi"},"requests":{"cpu":"50m","memory":"50Mi"}},"securityContext":{"runAsGroup":65532,"runAsNonRoot":true,"runAsUser":65532},"tolerations":{}}` | Job to generate and patch webhooks with certificate |
 | webhookCertGen.enabled | bool | `true` | If disabled must use cert manager and manually patch webhook |
 | elasticsearch.enabled | bool | `false` |  |
-| elasticsearch.indexTemplateCreation | object | `{"containerSecurityContext":{"capabilities":{"drop":["ALL"]}},"enabled":true,"image":{"repository":"registry1.dso.mil/ironbank/big-bang/base","tag":"2.0.0"},"servicePriority":10,"spanPriority":11}` | Custom BB job to create required index templates for ES 8.x |
+| elasticsearch.indexTemplateCreation | object | `{"containerSecurityContext":{"capabilities":{"drop":["ALL"]}},"enabled":true,"image":{"repository":"registry1.dso.mil/ironbank/big-bang/base","tag":"2.0.0"},"securityContext":{"runAsGroup":1001,"runAsNonRoot":true,"runAsUser":1001},"servicePriority":10,"spanPriority":11}` | Custom BB job to create required index templates for ES 8.x |
 | elasticsearch.indexTemplateCreation.servicePriority | int | `10` | Priority to add to the service index template, cannot conflict with existing templates |
 | elasticsearch.indexTemplateCreation.spanPriority | int | `11` | Priority to add to the span index template, cannot conflict with existing templates |
 | elasticsearch.username | string | `"elastic"` |  |
