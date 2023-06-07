@@ -96,6 +96,11 @@ elasticsearch:
     # -- Priority to add to the span index template, cannot conflict with existing templates
     spanPriority: 11
     # Adds securityContext for job jaeger-es-index-template
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      runAsGroup: 1001
+    # Adds containerSecurityContext for job jaeger-es-index-template
     containerSecurityContext:
       capabilities:
         drop:
