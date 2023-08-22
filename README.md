@@ -1,6 +1,6 @@
 # jaeger
 
-![Version: 2.46.0-bb.0](https://img.shields.io/badge/Version-2.46.0--bb.0-informational?style=flat-square) ![AppVersion: 1.46.0](https://img.shields.io/badge/AppVersion-1.46.0-informational?style=flat-square)
+![Version: 2.46.0-bb.1](https://img.shields.io/badge/Version-2.46.0--bb.1-informational?style=flat-square) ![AppVersion: 1.46.0](https://img.shields.io/badge/AppVersion-1.46.0-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -179,6 +179,9 @@ helm install jaeger chart/
 | bbtests.enabled | bool | `false` |  |
 | bbtests.cypress.artifacts | bool | `true` |  |
 | bbtests.cypress.envs.cypress_url | string | `"http://jaeger-query:16686"` |  |
+| bbtests.cypress.envs.cypress_tnr_username | string | `"cypress"` |  |
+| bbtests.cypress.envs.cypress_tnr_password | string | `"tnr_w!G33ZyAt@C8"` |  |
+| bbtests.cypress.envs.cypress_keycloak_test_enable | string | `nil` |  |
 
 ## Contributing
 
