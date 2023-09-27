@@ -16,9 +16,12 @@ describe('Basic', function() {
       cy.get('input[id="kc-accept"]').click(); 
     }
     cy.title().should("eq", "Jaeger UI");
-    // Wait fifteen seconds for the service list to populate, then reload
-    cy.wait(15000)
+    // Wait for services to load before continuing
+    cy.intercept('GET', '**/api/services').as('servicesLoaded')
     cy.reload()
+    cy.wait('@servicesLoaded').then((interception) => {
+      expect(interception.response.statusCode).to.equal(200)
+    })
     cy.get('.ant-form-item-control-wrapper:first').click().type('{enter}');
     cy.get('.ant-btn').click();
     cy.get('.SearchResults--header').should("be.visible")

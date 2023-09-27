@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.46.0-bb.2] - 2023-09-20
+### Removed
+- Updated to gluon 0.4.1 and Cypress 13.x
+- Update cypress test to remove explicit wait and replaced with implicit timeout
+
 ## [2.46.0-bb.2] - 2023-08-22
 ### Removed
 - Removed variables for cypress sso testing
