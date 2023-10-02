@@ -28,7 +28,7 @@ NOTE: For these testing steps it is good to do them on both a clean install and 
 You will want to install with:
 - Jaeger, Logging (elastic, eck operator, and fluentbit), Kiali, Authservice and Monitoring packages enabled
 - Istio enabled
-- [Dev SSO values](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/chart/dev-sso-values.yaml) for Kiali, Monitoring, and Jaeger
+- [Dev SSO values](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/assets/configs/example/dev-sso-values.yaml) for Kiali, Monitoring, and Jaeger
 
 Testing Steps:
 - Login with SSO to Jaeger (if you are not prompted for an SSO login, this could indicate a problem with the authservice connection)

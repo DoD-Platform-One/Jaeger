@@ -67,7 +67,10 @@ spec:
           - mountPath: /tmp/k8s-webhook-server/serving-certs
             name: cert
             readOnly: true
-          args: ["start"]
+          args:
+            - start
+            - {{ printf "--metrics-port=%v" .Values.metricsPort }}
+            - {{ printf "--webhook-bind-port=%v" .Values.webhooks.port }}
           env:
             - name: WATCH_NAMESPACE
               {{- if .Values.rbac.clusterRole }}
