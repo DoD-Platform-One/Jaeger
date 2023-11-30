@@ -30,10 +30,26 @@ component-definition:
       description:
         Controls implemented by jaeger for inheritance by applications      
       implemented-requirements:
+      - uuid: 027dbcf6-bd2d-490d-856d-f916bf8aae33
+        control-id: ir-4.1
+        description: |-
+          Using Service Performance Monitoring (SPM) to visualizes aggregated span data in the form of RED (Requests, Errors, Duration) 
+          metrics to highlight services and/or operations with statistically significant request/error rates or latencies, 
+          then leveraging Jaeger’s Trace Search capabilities to pinpoint specific traces belonging to these services/operations.
+      
+      - uuid: e8aa215d-7fc0-4b55-88ab-df1866030e7e
+        control-id: ir-5.1
+        description: |-
+          Using Service Performance Monitoring (SPM) to visualizes aggregated span data in the form of RED (Requests, Errors, Duration) 
+          metrics to highlight services and/or operations with statistically significant request/error rates or latencies, 
+          then leveraging Jaeger’s Trace Search capabilities to pinpoint specific traces belonging to these services/operations.
+      
       - uuid: 1822457D-461B-482F-8564-8929C85C04DA
         control-id: si-4.4
         description: |-
-          Jaeger is used, in conjunction with Istio configurations, to collect and aggregate network communications within the system.  This allows the moniotiring of inbound/outbound traffic and payloads within the deployed environment.
+          Jaeger is used, in conjunction with Istio configurations, to collect and aggregate network communications within the system.
+          This allows the monitoring of inbound/outbound traffic and payloads within the deployed environment.
+
   back-matter: 
     resources:
     - uuid: 4D1938F1-E044-44AB-8CE7-E6131586CCB1
