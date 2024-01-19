@@ -27,3 +27,4 @@ describe('Basic', function() {
     cy.get('.SearchResults--header').should("be.visible")
   })
 })
+
