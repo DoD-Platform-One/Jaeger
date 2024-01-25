@@ -1,5 +1,7 @@
 istio:
   enabled: true
+  hardened:
+    enabled: false
     
 bbtests:
   enabled: true

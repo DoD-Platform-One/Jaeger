@@ -27,6 +27,29 @@ domain: bigbang.dev
 istio:
   # -- Toggle istio integration
   enabled: false
+  hardened:
+    enabled: false
+    customAuthorizationPolicies: []
+    # - name: "allow-nothing"
+    #   enabled: true
+    #   spec: {}
+    prometheus:
+      enabled: true
+      namespaces:
+        - monitoring
+      principals:
+        - cluster.local/ns/monitoring/sa/monitoring-grafana
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-alertmanager
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-operator
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-prometheus
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-state-metrics
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-prometheus-node-exporter
+    tempo:
+      enabled: false
+      namespaces:
+      - tempo
+      principals:
+      - cluster.local/ns/tempo/sa/tempo-tempo
   jaeger:
     # -- Toggle vs creation
     enabled: true
