@@ -1,6 +1,6 @@
 # jaeger
 
-![Version: 2.47.0-bb.3](https://img.shields.io/badge/Version-2.47.0--bb.3-informational?style=flat-square) ![AppVersion: 1.47.0](https://img.shields.io/badge/AppVersion-1.47.0-informational?style=flat-square)
+![Version: 2.47.0-bb.4](https://img.shields.io/badge/Version-2.47.0--bb.4-informational?style=flat-square) ![AppVersion: 1.47.0](https://img.shields.io/badge/AppVersion-1.47.0-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -41,6 +41,19 @@ helm install jaeger chart/
 | monitoring | object | `{"enabled":false,"serviceMonitor":{"scheme":"","tlsConfig":{}}}` | Monitoring toggle, affects servicemonitor and networkPolicies |
 | domain | string | `"bigbang.dev"` | Domain to service Jaeger virtualService |
 | istio.enabled | bool | `false` | Toggle istio integration |
+| istio.hardened.enabled | bool | `false` |  |
+| istio.hardened.customAuthorizationPolicies | list | `[]` |  |
+| istio.hardened.prometheus.enabled | bool | `true` |  |
+| istio.hardened.prometheus.namespaces[0] | string | `"monitoring"` |  |
+| istio.hardened.prometheus.principals[0] | string | `"cluster.local/ns/monitoring/sa/monitoring-grafana"` |  |
+| istio.hardened.prometheus.principals[1] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-alertmanager"` |  |
+| istio.hardened.prometheus.principals[2] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-operator"` |  |
+| istio.hardened.prometheus.principals[3] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-prometheus"` |  |
+| istio.hardened.prometheus.principals[4] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-state-metrics"` |  |
+| istio.hardened.prometheus.principals[5] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-prometheus-node-exporter"` |  |
+| istio.hardened.tempo.enabled | bool | `false` |  |
+| istio.hardened.tempo.namespaces[0] | string | `"tempo"` |  |
+| istio.hardened.tempo.principals[0] | string | `"cluster.local/ns/tempo/sa/tempo-tempo"` |  |
 | istio.jaeger.enabled | bool | `true` | Toggle vs creation |
 | istio.jaeger.annotations | object | `{}` |  |
 | istio.jaeger.labels | object | `{}` |  |
