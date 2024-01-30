@@ -22,8 +22,11 @@ describe('Basic', function() {
     cy.wait('@servicesLoaded').then((interception) => {
       expect(interception.response.statusCode).to.equal(200)
     })
-    cy.get('.ant-form-item-control-wrapper:first').click().type('{enter}');
-    cy.get('.ant-btn').click();
+    cy.wait(5000)
+    cy.reload()
+    cy.get('.ant-form-item-control:first').click().type('{enter}');
+    cy.get('.ant-select:first').click().type('{enter}');
+    cy.get('.SearchForm--submit').click()
     cy.get('.SearchResults--header').should("be.visible")
   })
 })

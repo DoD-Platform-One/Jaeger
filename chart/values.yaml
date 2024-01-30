@@ -71,7 +71,7 @@ cleanSvcMonitor:
   enabled: false
   image:
     repository: registry1.dso.mil/ironbank/big-bang/base
-    tag: 2.0.0
+    tag: 2.1.0
 
 # -- Job to generate and patch webhooks with certificate
 webhookCertGen:
@@ -91,7 +91,7 @@ webhookCertGen:
   cleanupProxy:
     image:
       repository: registry1.dso.mil/ironbank/big-bang/base
-      tag: 2.0.0
+      tag: 2.1.0
       pullPolicy: IfNotPresent
   nodeSelector: {}
   affinity: {}
@@ -113,7 +113,7 @@ elasticsearch:
     enabled: true
     image:
       repository: registry1.dso.mil/ironbank/big-bang/base
-      tag: 2.0.0
+      tag: 2.1.0
     # -- Priority to add to the service index template, cannot conflict with existing templates
     servicePriority: 10
     # -- Priority to add to the span index template, cannot conflict with existing templates
@@ -148,7 +148,7 @@ retention:
   enabled: false
   schedule: "0 * * * *"
   days: 5
-  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.47.0
+  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.53.0
 
 # This section will be used to configure the operator upgrade strategy in the deployment.yaml
 operatorUpdateStrategy:
@@ -156,7 +156,7 @@ operatorUpdateStrategy:
 
 image:
   repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
-  tag: 1.47.0
+  tag: 1.53.0
   pullPolicy: Always
   imagePullSecrets:
     - private-registry
@@ -200,7 +200,7 @@ jaeger:
     annotations: {}
     labels: {}
     allInOne:
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.47.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.53.0
       options:
         log-level: info
         collector:
@@ -228,7 +228,7 @@ jaeger:
         type: RollingUpdate
     agent:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.47.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.53.0
       options:
         log-level: info
       imagePullSecrets:
@@ -245,7 +245,7 @@ jaeger:
         type: RollingUpdate
     ingester:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.47.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.53.0
       options:
         log-level: info
       securityContext:
@@ -260,7 +260,7 @@ jaeger:
         type: RollingUpdate
     query:
       replicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.47.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.53.0
       options:
         log-level: info
       securityContext:
@@ -275,7 +275,7 @@ jaeger:
         type: RollingUpdate
     collector:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.47.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.53.0
       options:
         log-level: info
       resources:
