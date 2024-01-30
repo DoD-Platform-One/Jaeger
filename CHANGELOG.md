@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.50.1-bb.0] - 2024-01-25
+### Updated
+- Upgrade chart to 2.50.1
+- Upgrade images to 1.53.0
+
 ## [2.47.0-bb.4] - 2024-01-22
 ### Added
 - Added support for Istio Authorization Policies

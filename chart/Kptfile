@@ -5,7 +5,7 @@ metadata:
 upstream:
   type: git
   git:
-    commit: c642bd4311ea251f7fe1dbfa26b0b48afda6ec50
+    commit: e838d5bf2ce2df0c759dda3040427e8f0c3e533e
     repo: https://github.com/jaegertracing/helm-charts
     directory: charts/jaeger-operator
-    ref: jaeger-operator-2.47.0
+    ref: jaeger-operator-2.50.1
