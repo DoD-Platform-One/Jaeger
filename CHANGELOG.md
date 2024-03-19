@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.50.1-bb.1] - 2024-04-18
+### Added
+- Added support ingress gateway authz policy
+
 ## [2.50.1-bb.0] - 2024-01-25
 ### Updated
 - Upgrade chart to 2.50.1
