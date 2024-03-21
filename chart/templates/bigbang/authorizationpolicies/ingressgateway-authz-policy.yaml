@@ -15,7 +15,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: minio
+      app: jaeger
   action: ALLOW
   rules:
   - from:
