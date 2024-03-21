@@ -1,7 +1,7 @@
 apiVersion: v2
 description: jaeger-operator Helm chart for Kubernetes
 name: jaeger
-version: 2.50.1-bb.1
+version: 2.50.1-bb.2
 appVersion: 1.53.0
 home: https://www.jaegertracing.io/
 icon: https://www.jaegertracing.io/img/jaeger-icon-reverse-color.svg
