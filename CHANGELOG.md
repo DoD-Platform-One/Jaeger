@@ -3,7 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
-## [2.50.1-bb.1] - 2024-04-20
+## [2.50.1-bb.3] - 2024-03-21
+### Changed
+- Adding Sidecar to deny egress that is external to istio services
+- Adding customServiceEntries to allow egress to override sidecar
+
+## [2.50.1-bb.2] - 2024-04-20
 ### Updated
 - Fixing ingress gateway authz policy
 
