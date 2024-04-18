@@ -1,6 +1,6 @@
 # jaeger
 
-![Version: 2.50.1-bb.2](https://img.shields.io/badge/Version-2.50.1--bb.2-informational?style=flat-square) ![AppVersion: 1.53.0](https://img.shields.io/badge/AppVersion-1.53.0-informational?style=flat-square)
+![Version: 2.50.1-bb.3](https://img.shields.io/badge/Version-2.50.1--bb.3-informational?style=flat-square) ![AppVersion: 1.53.0](https://img.shields.io/badge/AppVersion-1.53.0-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -42,6 +42,8 @@ helm install jaeger chart/
 | domain | string | `"bigbang.dev"` | Domain to service Jaeger virtualService |
 | istio.enabled | bool | `false` | Toggle istio integration |
 | istio.hardened.enabled | bool | `false` |  |
+| istio.hardened.outboundTrafficPolicyMode | string | `"REGISTRY_ONLY"` |  |
+| istio.hardened.customServiceEntries | list | `[]` |  |
 | istio.hardened.customAuthorizationPolicies | list | `[]` |  |
 | istio.hardened.prometheus.enabled | bool | `true` |  |
 | istio.hardened.prometheus.namespaces[0] | string | `"monitoring"` |  |
