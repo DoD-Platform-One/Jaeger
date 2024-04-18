@@ -1,8 +1,8 @@
 apiVersion: v2
 description: jaeger-operator Helm chart for Kubernetes
 name: jaeger
-version: 2.50.1-bb.3
-appVersion: 1.53.0
+version: 2.53.0-bb.0
+appVersion: 1.56.0
 home: https://www.jaegertracing.io/
 icon: https://www.jaegertracing.io/img/jaeger-icon-reverse-color.svg
 sources:
@@ -14,19 +14,19 @@ maintainers:
     name: batazor
 dependencies:
   - name: gluon
-    version: 0.4.7
+    version: 0.4.9
     repository: oci://registry1.dso.mil/bigbang
 annotations:
   bigbang.dev/applicationVersions: |
-    - Jaeger: 1.53.0
+    - Jaeger: 1.56.0
   helm.sh/images: |
     - name: kube-webhook-certgen
       condition: webhookCertGen.enabled
       image: registry1.dso.mil/ironbank/opensource/ingress-nginx/kube-webhook-certgen:v1.3.0
     - name: all-in-one
       condition: jaeger.create
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.53.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.56.0
     - name: jaeger-operator
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator:1.53.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator:1.56.0
     - name: base
       image: registry1.dso.mil/ironbank/big-bang/base:2.1.0
