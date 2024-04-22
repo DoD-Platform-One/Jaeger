@@ -1,6 +1,6 @@
 # jaeger
 
-![Version: 2.53.0-bb.0](https://img.shields.io/badge/Version-2.53.0--bb.0-informational?style=flat-square) ![AppVersion: 1.56.0](https://img.shields.io/badge/AppVersion-1.56.0-informational?style=flat-square)
+![Version: 2.53.0-bb.1](https://img.shields.io/badge/Version-2.53.0--bb.1-informational?style=flat-square) ![AppVersion: 1.56.0](https://img.shields.io/badge/AppVersion-1.56.0-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -194,6 +194,7 @@ helm install jaeger chart/
 | networkPolicies.ingressLabels.app | string | `"istio-ingressgateway"` |  |
 | networkPolicies.ingressLabels.istio | string | `"ingressgateway"` |  |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` |  |
+| networkPolicies.additionalPolicies | list | `[]` |  |
 | bbtests.enabled | bool | `false` |  |
 | bbtests.cypress.artifacts | bool | `true` |  |
 | bbtests.cypress.envs.cypress_url | string | `"http://jaeger-query:16686"` |  |
