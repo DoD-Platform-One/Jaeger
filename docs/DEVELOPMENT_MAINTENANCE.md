@@ -33,13 +33,11 @@ Jaeger is a modified/customized version of an upstream chart. The below details 
 
 You will want to install with:
 - Jaeger, Logging (elastic, eck operator, and fluentbit), Kiali, Authservice, Monitoring and Istio packages enabled
-- Tempo diabled
+- Tempo disabled
 - [Dev SSO values](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/assets/configs/example/dev-sso-values.yaml) for Kiali, Monitoring, and Jaeger
 
 `overrides/jaeger.yaml`
 ```yaml
-domain: bigbang.dev
-
 flux:
   interval: 1m
   rollback:
