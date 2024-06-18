@@ -1,6 +1,6 @@
-# jaeger-operator
+# jaeger
 
-![Version: 2.54.0-bb.0](https://img.shields.io/badge/Version-2.54.0--bb.0-informational?style=flat-square) ![AppVersion: 1.57.0](https://img.shields.io/badge/AppVersion-1.57.0-informational?style=flat-square)
+![Version: 2.54.0-bb.1](https://img.shields.io/badge/Version-2.54.0--bb.1-informational?style=flat-square) ![AppVersion: 1.57.0](https://img.shields.io/badge/AppVersion-1.57.0-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -28,7 +28,7 @@ https://helm.sh/docs/intro/install/
 * Clone down the repository
 * cd into directory
 ```bash
-helm install jaeger-operator chart/
+helm install jaeger chart/
 ```
 
 ## Values

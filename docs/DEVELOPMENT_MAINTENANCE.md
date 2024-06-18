@@ -130,54 +130,117 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
 
 ## chart/templates/_helpers.tpl
 
-- Added selector label template to support upgrades
+- Line 49-54 Added selector label template to support upgrades
     ```yaml
-    # Generate selector labels -- see issue #512. This allows helm upgrades to happen
+    name: {{ include "jaeger-operator.fullname" . }}
+    {{- end }}
+
+    {{/* Generate selector labels -- see issue #512.  This allows helm upgrades to happen */}}
     {{- define "jaeger-operator.selector.labels" }}
     app.kubernetes.io/name: {{ include "jaeger-operator.name" . }}
-    {{- end }}
     ```
-- Added `name: {{ include "jaeger-operator.fullname" . }}` to `"jaeger-operator.labels"` template
 
 ## chart/templates/deployment.yaml
 
-- Upgrade strategy added below `spec.replicas`:
+- Line 13-15 Upgrade strategy added below `spec.replicas`:
     ```yaml
     {{- if .Values.operatorUpdateStrategy }}
     strategy:
       {{- toYaml .Values.operatorUpdateStrategy | nindent 4 }}
-    {{- end }}
     ```
-- `spec.selector.matchLabels` changed to `{{ include "jaeger-operator.selector.labels" . | nindent 6 }}`
-- Annotations values added below `extraLabels`:
+- Line 19
     ```yaml
-    {{- if .Values.annotations }}
-    annotations:
-      {{ toYaml .Values.annotations | nindent 8 }}
+          {{ include "jaeger-operator.selector.labels" . | nindent 6 }}
+    ```
+- Line 28-31 Annotations values added below `extraLabels`:
+    ```yaml
+      {{- if .Values.annotations }}
+      annotations:
+        {{ toYaml .Values.annotations | nindent 8 }}
     {{- end }}
     ```
-- `spec.template.spec.containers` added securityContext
+- LIne 56-59 `spec.template.spec.containers` added securityContext
     ```yaml
     securityContext:
     capabilities:
         drop:
         - ALL
     ```
-- Changed `ports: name: metrics` to `http-metrics`
+- Line 62 Changed `ports: name: metrics` to `http-metrics`
 
 ## chart/templates/jaeger.yaml
 
 - Changed name to `jaeger`
 - Refactored to support certain parts of the spec rather than a simple toYaml (should we re-evaluate this?)
 - added `{{- if .Values.elasticsearch.enabled }}` code block
+Line 9-46
+```yaml
+  serviceAccount: {{ include "jaeger-operator.serviceAccountName" $ }}
+  strategy: {{ .strategy }}
+  ingress:
+{{ toYaml .ingress | indent 4 }}
+  annotations:
+{{ toYaml .annotations | indent 4 }}
+  labels:
+{{ toYaml .labels | indent 4 }}
+  query:
+{{ toYaml .query | indent 4 }}
+  allInOne:
+{{ toYaml .allInOne | indent 4 }}
+  collector:
+{{ toYaml .collector | indent 4 }}
+{{- end }}
+{{- if .Values.elasticsearch.enabled  }}
+  storage:
+    type: elasticsearch
+    {{- if .Values.elasticsearch.storage.options.es }}
+    options:
+      es:
+        {{- tpl (toYaml .Values.elasticsearch.storage.options.es) . | nindent 8 }}
+    {{- end }}
+    esIndexCleaner:
+      image: {{ .Values.retention.image }}
+      schedule: {{ .Values.retention.schedule }}
+      numberOfDays: {{ .Values.retention.days }}
+      enabled: {{ .Values.retention.enabled }}
+    secretName: jaeger-secret
+  volumeMounts:
+    - name: certificates
+      mountPath: /es/certificates/
+      readOnly: true
+  volumes:
+    - name: certificates
+      secret:
+        secretName: elasticsearch-certificates
+{{ end }}
+```
 
 ## chart/templates/psp.yaml
 
-- added `spec.securityContext` code block
+- Line 36-42 added `spec.securityContext` code block
+```yaml
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - ALL
+```
+
+## chart/templates/role.yaml
+- Line 228 add `ingressclasses` to `apiGroups.resources:`
+```yaml
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
+  - ingressclasses
+```
 
 ## chart/templates/service.yaml
 
-- Changed `spec.ports` `-name: metrics` to `http-metrics`
+- Line 17 Changed `spec.ports` `-name: metrics` to `http-metrics`
 
 ## chart/templates/tests
 
@@ -192,6 +255,411 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
 - Substantial values additions/changes to use IB images, support BB core interactions, etc
 - When in doubt ask about these changes
 - default nameOverride added and set to original chart name jaeger-operator
+
+Line 5-6 Chart `nameOverride`
+```
+# -- Chart name override
+nameOverride: jaeger-operator
+```
+
+Line 9-11 set `openshift`
+```
+# -- Openshift toggle, only affects networkPolicies
+openshift:
+  enabled: false
+```
+
+Line 13-15 set `sso`
+```
+# -- SSO toggle, only affects auth policies
+sso:
+  enabled: false
+```
+
+Line 17-22 set `monitoring`
+```
+# -- Monitoring toggle, affects servicemonitor and networkPolicies
+monitoring:
+  enabled: false
+  serviceMonitor:
+    scheme: ""
+    tlsConfig: {}
+```
+
+Line 24-80 set `istio`
+```
+# -- Domain to service Jaeger virtualService
+domain: bigbang.dev
+
+istio:
+  # -- Toggle istio integration
+  enabled: false
+  hardened:
+    enabled: false
+    outboundTrafficPolicyMode: "REGISTRY_ONLY"
+    customServiceEntries: []
+      # - name: "allow-google"
+      #   enabled: true
+      #   spec:
+      #     hosts:
+      #       - "www.google.com"
+      #       - "google.com"
+      #     location: MESH_EXTERNAL
+      #     ports:
+      #       - number: 443
+      #         protocol: TLS
+      #         name: https
+      #     resolution: DNS
+    customAuthorizationPolicies: []
+    # - name: "allow-nothing"
+    #   enabled: true
+    #   spec: {}
+    prometheus:
+      enabled: true
+      namespaces:
+        - monitoring
+      principals:
+        - cluster.local/ns/monitoring/sa/monitoring-grafana
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-alertmanager
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-operator
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-prometheus
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-state-metrics
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-prometheus-node-exporter
+    tempo:
+      enabled: false
+      namespaces:
+      - tempo
+      principals:
+      - cluster.local/ns/tempo/sa/tempo-tempo
+  jaeger:
+    # -- Toggle vs creation
+    enabled: true
+    annotations: {}
+    labels: {}
+    gateways:
+      - istio-system/main
+    hosts:
+      - tracing.{{ .Values.domain }}
+  # -- Default jaeger peer authentication
+  mtls:
+    # -- STRICT = Allow only mutual TLS traffic,
+    # PERMISSIVE = Allow both plain text and mutual TLS traffic
+    mode: STRICT
+```
+
+Line 82-88 set `cleanSvcMonitor`
+```
+# -- Only needed for upgrade from pre-1.29.x,
+# Deletes the servicemonitor that targetted deprecated metrics endpoints
+cleanSvcMonitor:
+  enabled: false
+  image:
+    repository: registry1.dso.mil/ironbank/big-bang/base
+    tag: 2.1.0
+```
+
+Line 90-121 set `webhookCertGen`
+```
+# -- Job to generate and patch webhooks with certificate
+webhookCertGen:
+  # -- If disabled must use cert manager and manually patch webhook
+  enabled: true
+  image:
+    repository: registry1.dso.mil/ironbank/opensource/ingress-nginx/kube-webhook-certgen
+    tag: v1.3.0
+    pullPolicy: IfNotPresent
+  resources:
+    limits:
+      cpu: 50m
+      memory: 50Mi
+    requests:
+      cpu: 50m
+      memory: 50Mi
+  cleanupProxy:
+    image:
+      repository: registry1.dso.mil/ironbank/big-bang/base
+      tag: 2.1.0
+      pullPolicy: IfNotPresent
+  nodeSelector: {}
+  affinity: {}
+  tolerations: {}
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+  # Adds securityContext to webhookCertJob containers
+  containerSecurityContext:
+    capabilities:
+      drop:
+        - ALL
+```
+
+Line 123-159 set `elasticsearch`
+```
+elasticsearch:
+  enabled: false
+  # -- Custom BB job to create required index templates for ES 8.x
+  indexTemplateCreation:
+    enabled: true
+    image:
+      repository: registry1.dso.mil/ironbank/big-bang/base
+      tag: 2.1.0
+    # -- Priority to add to the service index template, cannot conflict with existing templates
+    servicePriority: 10
+    # -- Priority to add to the span index template, cannot conflict with existing templates
+    spanPriority: 11
+    # Adds securityContext for job jaeger-es-index-template
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      runAsGroup: 1001
+    # Adds containerSecurityContext for job jaeger-es-index-template
+    containerSecurityContext:
+      capabilities:
+        drop:
+          - ALL
+  username: elastic
+  name: logging-ek
+  namespace: logging
+  # password:
+  storage:
+    options:
+      # A complete list of Jaeger-ElasticSearch options is available here: https://github.com/jaegertracing/documentation/blob/master/data/cli/1.28/jaeger-query-elasticsearch.yaml
+      es:
+        server-urls: "https://{{ $.Values.elasticsearch.name }}-es-http.{{ $.Values.elasticsearch.namespace }}.svc:9200"
+        tls:
+          enabled: "true"
+          ca: /es/certificates/ca.crt
+        # Overrides to support ES 8
+        version: 7
+        create-index-templates: false
+```
+
+Line 161-165 set the `retention`
+```
+retention:
+  enabled: false
+  schedule: "0 * * * *"
+  days: 5
+  image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.57.0
+```
+
+Line 167-169 Set the `operatorUpdateStrategy`
+```
+# This section will be used to configure the operator upgrade strategy in the deployment.yaml
+operatorUpdateStrategy:
+  type: RollingUpdate
+```
+
+Line 171-176 set the repository to `registry1.dso.mil/ironbank`
+```
+image:
+  repository: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator
+  tag: 1.57.0
+  pullPolicy: Always
+  imagePullSecrets:
+    - private-registry
+```
+
+line 178-185 ensure that `certs.issuer.create` and `certs.certificate.create` is set to `true`. Set `certs.certificate.secretName` to `jaeger-operator-webhook-cert`
+```
+certs:
+  issuer:
+    create: false
+    name: ""
+  certificate:
+    create: false
+    namespace: ""
+    secretName: "jaeger-operator-webhook-cert"
+```
+
+Line 204 set `jaeger.create` to true
+```
+jaeger:
+  # Specifies whether Jaeger instance should be created
+  create: true
+```
+
+Line 207-319 set `jaeger.spec`
+```
+  spec:
+    # allInOne for dev purposes
+    # production for HA setup
+    strategy: allInOne
+    # Disable ingress by default in favor of istio
+    ingress:
+      enabled: false
+    annotations: {}
+    labels: {}
+    allInOne:
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.57.0
+      options:
+        log-level: info
+        collector:
+          zipkin:
+            host-port: ":9411"
+      annotations:
+        sidecar.istio.io/inject: "true"
+        traffic.sidecar.istio.io/includeInboundPorts: "16686"
+      resources:
+        requests:
+          cpu: 200m
+          memory: 128Mi
+        limits:
+          cpu: 200m
+          memory: 128Mi
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+      containerSecurityContext:
+        capabilities:
+          drop:
+            - ALL
+      strategy:
+        type: RollingUpdate
+    agent:
+      maxReplicas: 5
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.57.0
+      options:
+        log-level: info
+      imagePullSecrets:
+        - private-registry
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+      containerSecurityContext:
+        capabilities:
+          drop:
+            - ALL
+      strategy:
+        type: RollingUpdate
+    ingester:
+      maxReplicas: 5
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.57.0
+      options:
+        log-level: info
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+      containerSecurityContext:
+        capabilities:
+          drop:
+            - ALL
+      strategy:
+        type: RollingUpdate
+    query:
+      replicas: 5
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.57.0
+      options:
+        log-level: info
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+      containerSecurityContext:
+        capabilities:
+          drop:
+            - ALL
+      strategy:
+        type: RollingUpdate
+    collector:
+      maxReplicas: 5
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.57.0
+      options:
+        log-level: info
+      resources:
+        requests:
+          cpu: 200m
+          memory: 128Mi
+        limits:
+          cpu: 200m
+          memory: 128Mi
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+      containerSecurityContext:
+        capabilities:
+          drop:
+            - ALL
+      strategy:
+        type: RollingUpdate
+    volumeMounts:
+      - name: certificates
+        mountPath: /es/certificates/
+        readOnly: true
+    volumes:
+      - name: certificates
+        secret:
+          secretName: elasticsearch-certificates
+```
+
+Line 321-325 set `rbac.clusterRole` to true
+```
+rbac:
+  # Specifies whether RBAC resources should be created
+  create: true
+  pspEnabled: false
+  clusterRole: true
+```
+
+Line 334-339 set `serviceAccount.name` to `jaeger-instance`
+```
+serviceAccount:
+  # Specifies whether a ServiceAccount should be created
+  create: true
+  # The name of the ServiceAccount to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: jaeger-instance
+  # Annotations for serviceAccount
+  annotations: {}
+```
+
+Line 364-370 set `resources`
+```
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+```
+
+Line 380-383 set `securityContext`
+```
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  runAsGroup: 1001
+```
+
+Line 394-413 set `annotations`, `networkPolicies`, `bbtests`, values
+```
+# additional BB additions
+annotations:
+  {}
+  # bigbang.dev/istioVersion: 1.10.3
+
+networkPolicies:
+  enabled: false
+  ingressLabels:
+    app: istio-ingressgateway
+    istio: ingressgateway
+  # See `kubectl cluster-info` and then resolve to IP
+  controlPlaneCidr: 0.0.0.0/0
+  additionalPolicies: []
+
+bbtests:
+  enabled: false
+  cypress:
+    artifacts: true
+    envs:
+      cypress_url: "http://jaeger-query:16686"
+```
 
 ### automountServiceAccountToken
 The mutating Kyverno policy named `update-automountserviceaccounttokens` is leveraged to harden all ServiceAccounts in this package with `automountServiceAccountToken: false`. This policy is configured by namespace in the Big Bang umbrella chart repository at [chart/templates/kyverno-policies/values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/chart/templates/kyverno-policies/values.yaml?ref_type=heads). 
