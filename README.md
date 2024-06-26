@@ -5,11 +5,13 @@
 jaeger-operator Helm chart for Kubernetes
 
 ## Upstream References
+
 * <https://www.jaegertracing.io/>
 
 * <https://github.com/jaegertracing/jaeger-operator>
 
 ## Learn More
+
 * [Application Overview](docs/overview.md)
 * [Other Documentation](docs/)
 
@@ -21,12 +23,13 @@ jaeger-operator Helm chart for Kubernetes
 
 Install Helm
 
-https://helm.sh/docs/intro/install/
+<https://helm.sh/docs/intro/install/>
 
 ## Deployment
 
 * Clone down the repository
 * cd into directory
+
 ```bash
 helm install jaeger chart/
 ```
