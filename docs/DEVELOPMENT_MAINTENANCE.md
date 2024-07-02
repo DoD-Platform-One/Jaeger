@@ -25,7 +25,25 @@ Jaeger is a modified/customized version of an upstream chart. The below details 
     - Add the `debug` label to the MR for more detailed information.
     - Reach out to the CODEOWNERS if needed. 
 
-8. Perform the steps below for manual testing. CI provides a good set of basic smoke tests but it is beneficial to run some additional checks.
+8.  As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages. 
+
+    - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Jaeger enabled (the below is a reference, actual changes could be more depending on what changes where made to Jaeger in the pakcage MR).
+
+### [test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads)
+    ```yaml
+    jaeger:
+      enabled: true
+      git:
+        tag: null
+        branch: <my-package-branch-that-needs-testing>
+      values:
+        istio:
+          hardened:
+            enabled: true
+      ### Additional compononents of Jaeger should be changed to reflect testing changes introduced in the package MR
+    ``` 
+
+9. Perform the steps below for manual testing. CI provides a good set of basic smoke tests but it is beneficial to run some additional checks.
 
 # Manual Testing for Updates
 
