@@ -4,6 +4,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [2.54.0-bb.2] - 2024-07-03
+
+### Removed
+
+- Removed shared authPolicies set at the Istio level
+
 ## [2.54.0-bb.1] - 2024-06-14
 
 ### Added
