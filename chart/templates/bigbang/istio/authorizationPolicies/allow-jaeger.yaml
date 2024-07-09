@@ -1,9 +1,16 @@
-{{- /* the allow-nothing policy should eventually be provided by istio itself cluster-wide */ -}}
 {{- if and .Values.istio.enabled .Values.istio.hardened.enabled -}}
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
-  name: allow-nothing-policy
+  name: jaeger-authz-policy
   namespace: {{ .Release.Namespace }}
-spec: {}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: jaeger-operator
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        ports: ["9443"]
 {{- end }}
