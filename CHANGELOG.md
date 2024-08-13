@@ -4,6 +4,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [2.54.0-bb.3] - 2024-08-12
+
+### Updated
+
+- Updated templating in `chart/templates/deployment.yaml` and `chart/templates/jaeger.yaml` to add `tpl` for label interpretation
+
 ## [2.54.0-bb.2] - 2024-07-03
 
 ### Removed

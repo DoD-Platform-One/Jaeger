@@ -13,7 +13,7 @@ spec:
   annotations:
 {{ toYaml .annotations | indent 4 }}
   labels:
-{{ toYaml .labels | indent 4 }}
+{{ tpl (toYaml .labels | indent 4) $ }}
   query:
 {{ toYaml .query | indent 4 }}
   allInOne:
