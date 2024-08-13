@@ -1,15 +1,30 @@
+<!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # jaeger
 
-![Version: 2.54.0-bb.2](https://img.shields.io/badge/Version-2.54.0--bb.2-informational?style=flat-square) ![AppVersion: 1.57.0](https://img.shields.io/badge/AppVersion-1.57.0-informational?style=flat-square)
+![Version: 2.54.0-bb.3](https://img.shields.io/badge/Version-2.54.0--bb.3-informational?style=flat-square) ![AppVersion: 1.57.0](https://img.shields.io/badge/AppVersion-1.57.0-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
 ## Upstream References
+
 * <https://www.jaegertracing.io/>
 
 * <https://github.com/jaegertracing/jaeger-operator>
 
+### Upstream Release Notes
+
+This package has no upstream release note links on file. Please add some to [chart/Chart.yaml](chart/Chart.yaml) under `annotations.bigbang.dev/upstreamReleaseNotesMarkdown`.
+Example:
+
+```yaml
+annotations:
+  bigbang.dev/upstreamReleaseNotesMarkdown: |
+    - [Find our upstream chart's CHANGELOG here](https://link-goes-here/CHANGELOG.md)
+    - [and our upstream application release notes here](https://another-link-here/RELEASE_NOTES.md)
+```
+
 ## Learn More
+
 * [Application Overview](docs/overview.md)
 * [Other Documentation](docs/)
 
@@ -21,12 +36,13 @@ jaeger-operator Helm chart for Kubernetes
 
 Install Helm
 
-https://helm.sh/docs/intro/install/
+<https://helm.sh/docs/intro/install/>
 
 ## Deployment
 
 * Clone down the repository
 * cd into directory
+
 ```bash
 helm install jaeger chart/
 ```
@@ -194,3 +210,7 @@ helm install jaeger chart/
 ## Contributing
 
 Please see the [contributing guide](./CONTRIBUTING.md) if you are interested in contributing.
+
+---
+
+_This file is programatically generated using `helm-docs` and some BigBang-specific templates. The `gluon` repository has [instructions for regenerating package READMEs](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md)._

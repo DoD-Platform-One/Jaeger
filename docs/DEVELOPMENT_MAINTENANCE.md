@@ -168,13 +168,17 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
     ```
 - Line 19
     ```yaml
-          {{ include "jaeger-operator.selector.labels" . | nindent 6 }}
+    {{ include "jaeger-operator.selector.labels" . | nindent 6 }}
+    ```
+- Updated templating to include `tpl` for `metadata.labels` and `spec.template.metadata.labels`, line 9 and 26
+    ```yaml
+    {{ tpl (. | toYaml | indent 4) $ }}
     ```
 - Line 28-31 Annotations values added below `extraLabels`:
     ```yaml
-      {{- if .Values.annotations }}
-      annotations:
-        {{ toYaml .Values.annotations | nindent 8 }}
+    {{- if .Values.annotations }}
+    annotations:
+      {{ toYaml .Values.annotations | nindent 8 }}
     {{- end }}
     ```
 - LIne 56-59 `spec.template.spec.containers` added securityContext

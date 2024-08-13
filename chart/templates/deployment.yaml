@@ -4,9 +4,9 @@ metadata:
   name: {{ include "jaeger-operator.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-{{ include "jaeger-operator.labels" . | indent 4 }}
+{{- include "jaeger-operator.labels" . | indent 4 }}
 {{- with .Values.extraLabels }}
-{{ . | toYaml | indent 4 }}
+{{ tpl (. | toYaml | indent 4) $ }}
 {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
@@ -21,9 +21,9 @@ spec:
     metadata:
       name: {{ include "jaeger-operator.fullname" . }}
       labels:
-{{ include "jaeger-operator.labels" . | indent 8 }}
+{{- include "jaeger-operator.labels" . | indent 8 }}
 {{- with .Values.extraLabels }}
-{{ . | toYaml | indent 8 }}
+{{ tpl (. | toYaml | indent 8) $ }}
 {{- end }}
       {{- if .Values.annotations }}
       annotations:
