@@ -4,6 +4,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [2.56.0-bb.0] - 2024-08-22
+
+### Added
+
+- Update jaegar 2.54.0 -> 2.56.0
+- Update jaegertracing 1.57.0 -> 1.60.0
+- Update gluon 0.5.0 -> 0.5.3
+
 ## [2.54.0-bb.3] - 2024-08-12
 
 ### Updated
