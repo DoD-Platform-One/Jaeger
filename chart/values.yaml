@@ -400,4 +400,15 @@ bbtests:
     envs:
       cypress_url: "http://jaeger-query:16686"
 
+waitJob:
+  enabled: true
+  scripts:
+    image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.29.6
+  permissions:
+    apiGroups:
+     - jaeger.io
+     - jaeger.io/v1alpha1
+    resources:
+     - jaeger
+
 

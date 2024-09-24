@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # jaeger
 
-![Version: 2.56.0-bb.0](https://img.shields.io/badge/Version-2.56.0--bb.0-informational?style=flat-square) ![AppVersion: 1.57.0](https://img.shields.io/badge/AppVersion-1.57.0-informational?style=flat-square)
+![Version: 2.56.0-bb.1](https://img.shields.io/badge/Version-2.56.0--bb.1-informational?style=flat-square) ![AppVersion: 1.57.0](https://img.shields.io/badge/AppVersion-1.57.0-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
