@@ -1,7 +1,7 @@
 apiVersion: v2
 description: jaeger-operator Helm chart for Kubernetes
 name: jaeger
-version: 2.56.0-bb.0
+version: 2.56.0-bb.1
 appVersion: 1.57.0
 home: https://www.jaegertracing.io/
 icon: https://www.jaegertracing.io/img/jaeger-icon-reverse-color.svg
@@ -14,7 +14,7 @@ maintainers:
     name: batazor
 dependencies:
   - name: gluon
-    version: 0.5.3
+    version: 0.5.4
     repository: oci://registry1.dso.mil/bigbang
 annotations:
   bigbang.dev/applicationVersions: |
@@ -30,3 +30,5 @@ annotations:
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator:1.60.1
     - name: base
       image: registry1.dso.mil/ironbank/big-bang/base:2.1.0
+    - name: kubectl
+      image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.29.6
