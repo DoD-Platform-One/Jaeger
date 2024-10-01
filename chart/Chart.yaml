@@ -1,7 +1,7 @@
 apiVersion: v2
 description: jaeger-operator Helm chart for Kubernetes
 name: jaeger
-version: 2.56.0-bb.1
+version: 2.57.0-bb.0
 appVersion: 1.57.0
 home: https://www.jaegertracing.io/
 icon: https://www.jaegertracing.io/img/jaeger-icon-reverse-color.svg
@@ -18,17 +18,27 @@ dependencies:
     repository: oci://registry1.dso.mil/bigbang
 annotations:
   bigbang.dev/applicationVersions: |
-    - Jaeger: 1.60.1
+    - Jaeger: 1.61.0
   helm.sh/images: |
     - name: kube-webhook-certgen
       condition: webhookCertGen.enabled
       image: registry1.dso.mil/ironbank/opensource/ingress-nginx/kube-webhook-certgen:v1.4.3
     - name: all-in-one
       condition: jaeger.create
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.60.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.61.0
     - name: jaeger-operator
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator:1.60.1
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator:1.61.0
     - name: base
       image: registry1.dso.mil/ironbank/big-bang/base:2.1.0
     - name: kubectl
-      image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.29.6
+      image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.30.5
+    - name: jaeger-es-index-cleaner
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.61.0
+    - name: jaeger-agent
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.61.0
+    - name: jaeger-ingester
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.61.0
+    - name: jaeger-query
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.61.0
+    - name: jaeger-collector
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.61.0

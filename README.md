@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # jaeger
 
-![Version: 2.56.0-bb.1](https://img.shields.io/badge/Version-2.56.0--bb.1-informational?style=flat-square) ![AppVersion: 1.57.0](https://img.shields.io/badge/AppVersion-1.57.0-informational?style=flat-square)
+![Version: 2.57.0-bb.0](https://img.shields.io/badge/Version-2.57.0--bb.0-informational?style=flat-square) ![AppVersion: 1.57.0](https://img.shields.io/badge/AppVersion-1.57.0-informational?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -85,10 +85,10 @@ helm install jaeger chart/
 | retention.enabled | bool | `false` |  |
 | retention.schedule | string | `"0 * * * *"` |  |
 | retention.days | int | `5` |  |
-| retention.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.60.0"` |  |
+| retention.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-es-index-cleaner:1.61.0"` |  |
 | operatorUpdateStrategy.type | string | `"RollingUpdate"` |  |
 | image.repository | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator"` |  |
-| image.tag | string | `"1.60.1"` |  |
+| image.tag | string | `"1.61.0"` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.imagePullSecrets[0] | string | `"private-registry"` |  |
 | certs.issuer.create | bool | `false` |  |
@@ -109,7 +109,7 @@ helm install jaeger chart/
 | jaeger.spec.ingress.enabled | bool | `false` |  |
 | jaeger.spec.annotations | object | `{}` |  |
 | jaeger.spec.labels | object | `{}` |  |
-| jaeger.spec.allInOne.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.60.0"` |  |
+| jaeger.spec.allInOne.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.61.0"` |  |
 | jaeger.spec.allInOne.options.log-level | string | `"info"` |  |
 | jaeger.spec.allInOne.options.collector.zipkin.host-port | string | `":9411"` |  |
 | jaeger.spec.allInOne.annotations."sidecar.istio.io/inject" | string | `"true"` |  |
@@ -124,7 +124,7 @@ helm install jaeger chart/
 | jaeger.spec.allInOne.containerSecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | jaeger.spec.allInOne.strategy.type | string | `"RollingUpdate"` |  |
 | jaeger.spec.agent.maxReplicas | int | `5` |  |
-| jaeger.spec.agent.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.60.0"` |  |
+| jaeger.spec.agent.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-agent:1.61.0"` |  |
 | jaeger.spec.agent.options.log-level | string | `"info"` |  |
 | jaeger.spec.agent.imagePullSecrets[0] | string | `"private-registry"` |  |
 | jaeger.spec.agent.securityContext.runAsNonRoot | bool | `true` |  |
@@ -133,7 +133,7 @@ helm install jaeger chart/
 | jaeger.spec.agent.containerSecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | jaeger.spec.agent.strategy.type | string | `"RollingUpdate"` |  |
 | jaeger.spec.ingester.maxReplicas | int | `5` |  |
-| jaeger.spec.ingester.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.60.0"` |  |
+| jaeger.spec.ingester.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.61.0"` |  |
 | jaeger.spec.ingester.options.log-level | string | `"info"` |  |
 | jaeger.spec.ingester.securityContext.runAsNonRoot | bool | `true` |  |
 | jaeger.spec.ingester.securityContext.runAsUser | int | `1001` |  |
@@ -141,7 +141,7 @@ helm install jaeger chart/
 | jaeger.spec.ingester.containerSecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | jaeger.spec.ingester.strategy.type | string | `"RollingUpdate"` |  |
 | jaeger.spec.query.replicas | int | `5` |  |
-| jaeger.spec.query.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.60.0"` |  |
+| jaeger.spec.query.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.61.0"` |  |
 | jaeger.spec.query.options.log-level | string | `"info"` |  |
 | jaeger.spec.query.securityContext.runAsNonRoot | bool | `true` |  |
 | jaeger.spec.query.securityContext.runAsUser | int | `1001` |  |
@@ -149,7 +149,7 @@ helm install jaeger chart/
 | jaeger.spec.query.containerSecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | jaeger.spec.query.strategy.type | string | `"RollingUpdate"` |  |
 | jaeger.spec.collector.maxReplicas | int | `5` |  |
-| jaeger.spec.collector.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.60.0"` |  |
+| jaeger.spec.collector.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.61.0"` |  |
 | jaeger.spec.collector.options.log-level | string | `"info"` |  |
 | jaeger.spec.collector.resources.requests.cpu | string | `"200m"` |  |
 | jaeger.spec.collector.resources.requests.memory | string | `"128Mi"` |  |
@@ -202,6 +202,11 @@ helm install jaeger chart/
 | bbtests.enabled | bool | `false` |  |
 | bbtests.cypress.artifacts | bool | `true` |  |
 | bbtests.cypress.envs.cypress_url | string | `"http://jaeger-query:16686"` |  |
+| waitJob.enabled | bool | `true` |  |
+| waitJob.scripts.image | string | `"registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.30.5"` |  |
+| waitJob.permissions.apiGroups[0] | string | `"jaeger.io"` |  |
+| waitJob.permissions.apiGroups[1] | string | `"jaeger.io/v1alpha1"` |  |
+| waitJob.permissions.resources[0] | string | `"jaeger"` |  |
 
 ## Contributing
 
