@@ -3,7 +3,7 @@
 Jaeger is a modified/customized version of an upstream chart. The below details the steps required to update to a new version of the Jaeger package.
 
 1. Navigate to the [upstream chart repo and folder](https://github.com/jaegertracing/helm-charts/tree/main/charts/jaeger-operator) and find the tag that corresponds with the new chart version for this image update. 
-    - For example, if updating the Jaeger images to 1.28 you would check the [chart values](https://github.com/jaegertracing/helm-charts/blob/main/charts/jaeger-operator/values.yaml#L7) and switch Gitlab tags until you find the latest chart version that uses 1.28 images. In this case that is [`jaeger-operator-2.27.0`](https://github.com/jaegertracing/helm-charts/blob/jaeger-operator-2.27.0/charts/jaeger-operator/values.yaml#L7) (as of this doc construction).
+    - For example, if updating the Jaeger images to 1.61 you would check the [chart values](https://github.com/jaegertracing/helm-charts/blob/main/charts/jaeger-operator/values.yaml#L7) and switch Gitlab tags until you find the latest chart version that uses 1.61 images. In this case that is [`jaeger-operator-2.57.0`](https://github.com/jaegertracing/helm-charts/blob/jaeger-operator-2.57.0/charts/jaeger-operator/Chart.yaml#L4) (as of this doc construction).
 
 2. Checkout the `renovate/ironbank` branch. This branch will already have the updates you need for the images.
 
