@@ -19,6 +19,9 @@ dependencies:
 annotations:
   bigbang.dev/applicationVersions: |
     - Jaeger: 1.61.0
+  bigbang.dev/upstreamReleaseNotesMarkdown: |
+    - [Find upstream chart's release notes and CHANGELOG here](https://github.com/jaegertracing/helm-charts/releases?q=jaeger-operator&expanded=true)
+    - [Find upstream applications's release notes and CHANGELOG here](https://github.com/jaegertracing/jaeger/releases/)
   helm.sh/images: |
     - name: kube-webhook-certgen
       condition: webhookCertGen.enabled
