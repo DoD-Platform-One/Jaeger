@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - jaegertracing/jaeger-query to 1.61.0
 - jaegertracing/jaeger-collector to 1.61.0
 - kubernetes/kubectl to v1.30.5
+- Added the maintenance track annotation and badge
 
 ## [2.56.0-bb.1] - 2024-09-05
 
