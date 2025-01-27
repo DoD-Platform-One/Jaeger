@@ -3,6 +3,21 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.57.0-bb.1] - 2025-01-17
+
+### Updated
+
+- jaegertracing/jaeger-operator 1.61.0 -> 1.62.0
+- ingress-nginx/kube-webhook-certgen v1.4.3 -> v1.5.1
+- aegertracing/all-in-one 1.61.0 -> 1.64.0
+- jaegertracing/jaeger-agent 1.61.0 -> 1.62.0
+- jaegertracing/jaeger-collector 1.61.0 -> 1.65.0
+- jaegertracing/jaeger-es-index-cleaner 1.61.0 -> 1.65.0
+- jaegertracing/jaeger-ingester 1.61.0 -> 1.65.0
+- jaegertracing/jaeger-operator 1.61.0 -> 1.62.0
+- jaegertracing/jaeger-query 1.61.0 -> 1.65.0
+- kubernetes/kubectl v1.30.5 -> v1.30.9
+
 ## [2.57.0-bb.0] - 2024-10-01
 
 ### Updated
