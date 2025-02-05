@@ -4,54 +4,60 @@
     "dependencyDashboard": true,
     "dependencyDashboardTitle": "Renovate: Upgrade Jaeger Package Dependencies",
     "draftPR": true,
-    "enabledManagers": ["helm-values","regex","helmv3"],
+    "enabledManagers": ["custom.regex", "helm-values", "helmv3"],
     "ignorePaths": ["chart/charts/**"],
-    "labels": ["jaeger","renovate"],
-    "commitMessagePrefix": "SKIP UPDATE CHECK",
+    "labels": ["jaeger", "renovate", "kind::maintenance", "team::Observability"],
+    "postUpdateOptions": ["helmUpdateSubChartArchives"],
+    "separateMajorMinor": false,
     "packageRules": [
         {
-            "matchDatasources": ["docker"],
-            "groupName": "Ironbank"
-        },
-        {
-            "matchPackageNames": ["registry1.dso.mil/ironbank/big-bang/base"],
-            "allowedVersions": "!/8.4/"
+            "matchDatasources": ["docker", "helm"],
+            "groupName": "Ironbank",
+            "postUpgradeTasks": {
+                "commands": [
+                    "regenerate-helm-docs",
+                    "bump-changelog '- {{{replace 'registry1.dso.mil/' '' depName}}} updated from {{{currentVersion}}} to {{{newVersion}}}'"
+                ],
+                "executionMode": "update",
+                "fileFilters": ["chart/Chart.yaml", "README.md", "CHANGELOG.md"]
+            }
         }
     ],
-    "regexManagers": [
+    "customManagers": [
         {
-            "fileMatch": ["^chart/values\\.yaml$"],
-            "matchStrings": [
-                "image:\\s*(?<depName>.+):(?<currentValue>[\\d\\.]+)"
-            ],
-            "datasourceTemplate": "docker"
-        },
-        {
+            "customType": "regex",
+            "description": "Update app version chart annotations",
             "fileMatch": ["^chart/Chart\\.yaml$"],
             "matchStrings": [
                 "- Jaeger:\\s+(?<currentValue>.+)",
                 "appVersion:\\s+(?<currentValue>.+)"
-
             ],
-            "depNameTemplate": "ironbank/opensource/jaegertracing/jaeger-operator",
-            "registryUrlTemplate": "https://registry1.dso.mil",
+            "depNameTemplate": "registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-operator",
             "datasourceTemplate": "docker"
         },
         {
-            "fileMatch": ["^tests/images\\.txt$"],
-            "matchStrings": [
-                "s*(?<depName>.+):(?<currentValue>.+)"
-            ],
-            "datasourceTemplate": "docker"
-        },
-        {
+            "customType": "regex",
+            "description": "Update docker image references",
             "fileMatch": ["^chart/Chart\\.yaml$"],
-            "matchStrings": [
-                "image:[^\\S\\r\\n]+(?<depName>.+):(?<currentValue>.+)"
-            ],
+            "matchStrings": ["image:[^\\S\\r\\n]+(?<depName>.+):(?<currentValue>.+)"],
             "datasourceTemplate": "docker"
+        },
+        {
+            "customType": "regex",
+            "description": "Update test image references",
+            "fileMatch": ["^tests/images\\.txt$"],
+            "matchStrings": ["s*(?<depName>.+):(?<currentValue>.+)"],
+            "datasourceTemplate": "docker"
+        },
+        {
+            "customType": "regex",
+            "description": "Update chart version",
+            "fileMatch": ["^chart/Chart\\.yaml$"],
+            "matchStrings": ["version:\\s+(?<currentValue>.+)-bb\\.\\d+"],
+            "autoReplaceStringTemplate": "version: {{newValue}}-bb.0",
+            "depNameTemplate": "jaeger-operator",
+            "datasourceTemplate": "helm",
+            "registryUrlTemplate": "https://jaegertracing.github.io/helm-charts"
         }
-    ],
-    "separateMajorMinor": false,
-    "postUpdateOptions": ["helmUpdateSubChartArchives"]
+    ]
 }
