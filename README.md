@@ -1,13 +1,13 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # jaeger
 
-![Version: 2.57.0-bb.1](https://img.shields.io/badge/Version-2.57.0--bb.1-informational?style=flat-square) ![AppVersion: 1.62.0](https://img.shields.io/badge/AppVersion-1.62.0-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 2.57.0-bb.2](https://img.shields.io/badge/Version-2.57.0--bb.2-informational?style=flat-square) ![AppVersion: 1.62.0](https://img.shields.io/badge/AppVersion-1.62.0-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
 ## Upstream References
-- <https://www.jaegertracing.io/>
 
+- <https://www.jaegertracing.io/>
 - <https://github.com/jaegertracing/jaeger-operator>
 
 ## Upstream Release Notes
@@ -105,7 +105,7 @@ helm install jaeger chart/
 | jaeger.spec.ingress.enabled | bool | `false` |  |
 | jaeger.spec.annotations | object | `{}` |  |
 | jaeger.spec.labels | object | `{}` |  |
-| jaeger.spec.allInOne.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.64.0"` |  |
+| jaeger.spec.allInOne.image | string | `"registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.65.0"` |  |
 | jaeger.spec.allInOne.options.log-level | string | `"info"` |  |
 | jaeger.spec.allInOne.options.collector.zipkin.host-port | string | `":9411"` |  |
 | jaeger.spec.allInOne.annotations."sidecar.istio.io/inject" | string | `"true"` |  |
