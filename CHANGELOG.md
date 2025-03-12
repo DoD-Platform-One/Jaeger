@@ -3,6 +3,16 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.57.0-bb.4] - 2025-03-11
+
+### Updated
+
+- jaegertracing/jaeger-collector 1.65.0 -> 1.66.0
+- jaegertracing/jaeger-es-index-cleaner 1.65.0 -> 1.67.0
+- jaegertracing/jaeger-ingester 1.65.0 -> 1.66.0
+- jaegertracing/jaeger-query 1.65.0 -> 1.66.0
+- kubernetes/kubectl v1.30.9 -> v1.30.10
+
 ## [2.57.0-bb.3] - 2025-03-10
 
 ### Add
