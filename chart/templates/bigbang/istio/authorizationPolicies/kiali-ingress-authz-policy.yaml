@@ -1,0 +1,26 @@
+{{- if and .Values.istio.enabled .Values.istio.hardened.enabled -}}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: kiali-jaeger-authz-policy
+  namespace: {{ .Release.Namespace }}
+spec:
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        namespaces:
+        - kiali
+    - source:
+        principals:
+        - cluster.local/ns/kiali/sa/kiali-service-account
+    to:
+    - operation:
+        methods:
+        - GET
+        paths:
+        - /api/services
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Chart.Name }}
+{{- end }}
