@@ -82,7 +82,7 @@ webhookCertGen:
   enabled: true
   image:
     repository: registry1.dso.mil/ironbank/opensource/ingress-nginx/kube-webhook-certgen
-    tag: v1.5.1
+    tag: v1.5.2
     pullPolicy: IfNotPresent
   resources:
     limits:
@@ -248,7 +248,7 @@ jaeger:
         type: RollingUpdate
     ingester:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.66.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-ingester:1.67.0
       options:
         log-level: info
       securityContext:
@@ -263,7 +263,7 @@ jaeger:
         type: RollingUpdate
     query:
       replicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.66.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-query:1.67.0
       options:
         log-level: info
       securityContext:
@@ -278,7 +278,7 @@ jaeger:
         type: RollingUpdate
     collector:
       maxReplicas: 5
-      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.66.0
+      image: registry1.dso.mil/ironbank/opensource/jaegertracing/jaeger-collector:1.67.0
       options:
         log-level: info
       resources:
@@ -403,7 +403,7 @@ bbtests:
 waitJob:
   enabled: true
   scripts:
-    image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.30.10
+    image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.30.11
   permissions:
     apiGroups:
      - jaeger.io
