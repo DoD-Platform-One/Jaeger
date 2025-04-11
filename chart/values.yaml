@@ -201,7 +201,10 @@ jaeger:
     ingress:
       enabled: false
     annotations: {}
-    labels: {}
+    labels: 
+    # setting required Kiali labels
+      app: jaeger
+      version: "{{ .Values.image.tag }}"
     allInOne:
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.65.0
       options:
@@ -343,9 +346,11 @@ serviceExtraLabels: {}
   # Specifies extra labels for the operator-metric service:
   # foo: bar
 
-extraLabels: {}
+extraLabels: 
   # Specifies extra labels for the operator deployment:
-  # foo: bar
+  # setting required Kiali labels
+  app: jaeger
+  version: "{{ .Values.image.tag }}"
 
 # Specifies desired number of operator pods
 replicaCount: 1
