@@ -512,7 +512,10 @@ Line 207-319 set `jaeger.spec`
     ingress:
       enabled: false
     annotations: {}
-    labels: {}
+    labels: 
+    # setting required Kiali labels
+      app: jaeger
+      version: "{{ .Values.image.tag }}"
     allInOne:
       image: registry1.dso.mil/ironbank/opensource/jaegertracing/all-in-one:1.57.0
       options:
@@ -638,6 +641,15 @@ serviceAccount:
   name: jaeger-instance
   # Annotations for serviceAccount
   annotations: {}
+```
+
+Line 351-352 set `extraLabels` for jaeger-operator as required by Kiali
+```
+extraLabels: 
+  # Specifies extra labels for the operator deployment:
+  # setting required Kiali labels
+  app: jaeger
+  version: "{{ .Values.image.tag }}"
 ```
 
 Line 364-370 set `resources`
