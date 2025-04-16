@@ -3,6 +3,20 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.57.0-bb.8] - 2025-04-15
+
+### Removed
+
+- Removed kubectl image from chart.yaml and values, as its been included by gluon
+
+### Updated
+
+- gluon 0.5.14 -> 0.5.15
+- jaegertracing/jaeger-collector 1.67.0 -> 1.68.0
+- jaegertracing/jaeger-es-index-cleaner 1.67.0 -> 1.68.0
+- jaegertracing/jaeger-ingester 1.67.0 -> 1.68.0
+- jaegertracing/jaeger-query 1.67.0 -> 1.68.0
+
 ## [2.57.0-bb.7] - 2025-04-02
 
 ### Updated
