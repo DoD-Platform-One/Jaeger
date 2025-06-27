@@ -23,8 +23,26 @@ addons:
 ########################
 # Required for package #
 ########################
-jaeger:
-  enabled: true
+packages:
+  jaeger:
+    enabled: true
+    git:
+      repo: https://repo1.dso.mil/big-bang/product/packages/jaeger.git
+      tag: null
+    values:
+      istio:
+        enabled: true
+        hardened: 
+          enabled: true
+        jaeger:
+          gateways:
+            - istio-gateway/public-ingressgateway 
+          hosts:
+            - tracing.dev.bigbang.mil
+      monitoring:
+        enabled: true
+      networkPolicies:
+        enabled: true
 kyvernoPolicies:
   values:
     bbtests:

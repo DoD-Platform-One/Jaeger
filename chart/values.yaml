@@ -17,12 +17,19 @@ sso:
 # -- Monitoring toggle, affects servicemonitor and networkPolicies
 monitoring:
   enabled: false
+  # enabled: true
   serviceMonitor:
-    scheme: ""
-    tlsConfig: {}
+    # scheme: ""
+    scheme: https
+    tlsConfig:
+      caFile: /etc/prom-certs/root-cert.pem
+      certFile: /etc/prom-certs/cert-chain.pem
+      keyFile: /etc/prom-certs/key.pem
+      insecureSkipVerify: true
+    # tlsConfig: {}
 
 # -- Domain to service Jaeger virtualService
-domain: bigbang.dev
+domain: dev.bigbang.mil
 
 istio:
   # -- Toggle istio integration
@@ -59,7 +66,7 @@ istio:
     annotations: {}
     labels: {}
     gateways:
-      - istio-system/main
+      - istio-gateway/public-ingressgateway 
     hosts:
       - tracing.{{ .Values.domain }}
   # -- Default jaeger peer authentication
@@ -392,7 +399,7 @@ annotations: {}
 networkPolicies:
   enabled: false
   ingressLabels:
-    app: istio-ingressgateway
+    app: public-ingressgateway
     istio: ingressgateway
   # See `kubectl cluster-info` and then resolve to IP
   controlPlaneCidr: 0.0.0.0/0
