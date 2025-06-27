@@ -61,14 +61,17 @@ flux:
   rollback:
     cleanupOnFail: false
 
-istioOperator:
-  enabled: true
-
-istio:
-  enabled: true
-
 elasticsearchKibana:
   enabled: true
+  # Set Elasticsearch/Kibana version to 8.18.1 (1.28.0-bb.6) for Jaeger Compatibility 
+  git:
+    repo: https://repo1.dso.mil/big-bang/product/packages/elasticsearch-kibana.git
+    path: "./chart"
+    tag: "1.28.0-bb.6"
+  helmRepo:
+    repoName: "registry1"
+    chartName: "elasticsearch-kibana"
+    tag: "1.28.0-bb.6"
 
 eckOperator:
   enabled: true
@@ -85,14 +88,25 @@ monitoring:
     alertmanager:
       client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-alertmanager
 
-jaeger:
-  enabled: true
-  git:
-    tag: null
-    branch: "renovate/ironbank"
-  sso:
+packages:
+  jaeger:
     enabled: true
-    client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-jaeger
+    git:
+      repo: https://repo1.dso.mil/big-bang/product/packages/jaeger.git
+      tag: null
+      branch: "renovate/ironbank"
+    sso:
+      enabled: true
+      client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-jaeger
+    values:
+      istio:
+        enabled: true
+        hardened: 
+          enabled: true
+      monitoring:
+        enabled: true
+      networkPolicies:
+        enabled: true
 
 kiali:
   enabled: true

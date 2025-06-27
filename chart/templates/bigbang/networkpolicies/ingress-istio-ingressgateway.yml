@@ -26,6 +26,6 @@ spec:
           {{- if .Values.networkPolicies.istioNamespaceSelector }}
           app.kubernetes.io/name: {{ .Values.networkPolicies.istioNamespaceSelector.ingress }}
           {{- else }}
-          app.kubernetes.io/name: "istio-controlplane" # label name for istio-system namespace
+          app.kubernetes.io/name: "istio-gateway" # label name for istio-system namespace
           {{- end }}
 {{- end }}
