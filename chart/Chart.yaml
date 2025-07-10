@@ -1,7 +1,7 @@
 apiVersion: v2
 description: jaeger-operator Helm chart for Kubernetes
 name: jaeger
-version: 2.57.0-bb.8
+version: 2.57.0-bb.9
 appVersion: 1.62.0
 home: https://www.jaegertracing.io/
 icon: https://www.jaegertracing.io/img/jaeger-icon-reverse-color.svg
@@ -17,7 +17,7 @@ dependencies:
     version: 0.5.15
     repository: oci://registry1.dso.mil/bigbang
 annotations:
-  bigbang.dev/maintenanceTrack: bb_integrated
+  bigbang.dev/maintenanceTrack: bb_maintainted
   bigbang.dev/applicationVersions: |
     - Jaeger: 1.62.0
   bigbang.dev/upstreamReleaseNotesMarkdown: |
