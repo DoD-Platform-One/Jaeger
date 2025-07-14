@@ -3,6 +3,24 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+
+## [2.57.0-bb.10] - 2025-07-14
+
+### Updated
+
+- gluon 0.5.15 -> 0.5.20    
+- ingress-nginx/kube-webhook-certgen v1.5.2 -> v1.5.3
+- jaegertracing/all-in-one 1.65.0 -> 1.69.0
+- jaegertracing/jaeger-collector 1.68.0 -> 1.69.0
+- jaegertracing/jaeger-es-index-cleaner 1.68.0 -> 1.69.0
+- jaegertracing/jaeger-ingester 1.68.0 -> 1.69.0
+- jaegertracing/jaeger-operator 1.62.0 -> 1.65.0
+- jaegertracing/jaeger-query 1.68.0 -> 1.69.0
+- Updated network policies egress-istiod.yaml and ingress-istio-ingressgateway.yml to refactor changes needed as Jaeger has moved to maintained repo
+- Updated test-values and overrides in maintenance docs
+- Updated values to accomodate the configuration changes for service monitoring thru Prometheus
+
+---
 ## [2.57.0-bb.9] - 2025-06-10
 
 ### Updated

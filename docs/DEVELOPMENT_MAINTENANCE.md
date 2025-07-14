@@ -27,22 +27,6 @@ Jaeger is a modified/customized version of an upstream chart. The below details 
 
 8.  As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages. 
 
-    - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Jaeger enabled (the below is a reference, actual changes could be more depending on what changes where made to Jaeger in the pakcage MR).
-
-### [test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads)
-    ```yaml
-    jaeger:
-      enabled: true
-      git:
-        tag: null
-        branch: <my-package-branch-that-needs-testing>
-      values:
-        istio:
-          hardened:
-            enabled: true
-      ### Additional compononents of Jaeger should be changed to reflect testing changes introduced in the package MR
-    ``` 
-
 9. Perform the steps below for manual testing. CI provides a good set of basic smoke tests but it is beneficial to run some additional checks.
 
 # Manual Testing for Updates
@@ -64,6 +48,7 @@ flux:
 elasticsearchKibana:
   enabled: true
   # Set Elasticsearch/Kibana version to 8.18.1 (1.28.0-bb.6) for Jaeger Compatibility 
+  # Jaeger tracing is not compatible with new major version Elasticsearch 9.X. To continue using Jaeger with Elasticsearch, configure your values.yaml to use the latest 8.X Big Bang ElasticsearchKibana chart (1.28.0-bb.6). Big Bang recommends planning to migrate to Grafana Tempo, and attaching Grafana as a frontend UI.
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/elasticsearch-kibana.git
     path: "./chart"
