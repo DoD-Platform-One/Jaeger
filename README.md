@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # jaeger
 
-![Version: 2.57.0-bb.10](https://img.shields.io/badge/Version-2.57.0--bb.10-informational?style=flat-square) ![AppVersion: 1.65.0](https://img.shields.io/badge/AppVersion-1.65.0-informational?style=flat-square) ![Maintenance Track: bb_maintainted](https://img.shields.io/badge/Maintenance_Track-bb_maintainted-red?style=flat-square)
+![Version: 2.57.0-bb.11](https://img.shields.io/badge/Version-2.57.0--bb.11-informational?style=flat-square) ![AppVersion: 1.65.0](https://img.shields.io/badge/AppVersion-1.65.0-informational?style=flat-square) ![Maintenance Track: bb_maintainted](https://img.shields.io/badge/Maintenance_Track-bb_maintainted-red?style=flat-square)
 
 jaeger-operator Helm chart for Kubernetes
 
@@ -196,6 +196,7 @@ helm install jaeger chart/
 | networkPolicies.ingressLabels.app | string | `"public-ingressgateway"` |  |
 | networkPolicies.ingressLabels.istio | string | `"ingressgateway"` |  |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` |  |
+| networkPolicies.vpcCidr | string | `"0.0.0.0/0"` |  |
 | networkPolicies.additionalPolicies | list | `[]` |  |
 | bbtests.enabled | bool | `false` |  |
 | bbtests.cypress.artifacts | bool | `true` |  |
