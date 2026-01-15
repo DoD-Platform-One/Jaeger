@@ -1,6 +1,11 @@
 packages:
   jaeger:
+    namespace:
+      name: jaeger
+    helmRelease:
+      namespace: "bigbang"
     enabled: true
+    sourceType: "git"
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/jaeger.git
       tag: null
@@ -9,6 +14,22 @@ packages:
         enabled: true
         hardened:
           enabled: true
+          # Whitelists the Cypress test runner (Service Account: default)
+          customAuthorizationPolicies:
+            - name: allow-cypress-tests
+              enabled: true
+              spec:
+                selector:
+                  matchLabels:
+                    app.kubernetes.io/name: jaeger
+                action: ALLOW
+                rules:
+                  - from:
+                      - source:
+                          principals: ["cluster.local/ns/jaeger/sa/default"]
+                    to:
+                      - operation:
+                          ports: ["16686"]
         jaeger:
           gateways:
             - istio-gateway/public-ingressgateway
@@ -18,10 +39,40 @@ packages:
         enabled: true
       networkPolicies:
         enabled: true
+      bbtests:
+        enabled: true
+
 kyvernoPolicies:
   values:
     bbtests:
       enabled: false
+    additionalPolicyExceptions:
+      # This ensures the following kyverno-policy waiver ONLY applies to the specific jaeger Cypress test pod
+      allow-jaeger-cypress-tests:
+        enabled: true
+        kind: PolicyException
+        namespace: kyverno
+        spec:
+          exceptions:
+            - policyName: restrict-volume-types
+              ruleNames:
+                - restrict-volume-types
+            - policyName: restrict-host-path-mount
+              ruleNames:
+                - restrict-hostpath-dirs
+            - policyName: restrict-host-path-write
+              ruleNames:
+                - require-readonly-hostpath
+          match:
+            any:
+              - resources:
+                  kinds:
+                    - Pod
+                  names:
+                    - jaeger-cypress-test*
+                  namespaces:
+                    - jaeger
+
 kyverno:
   values:
     bbtests:
