@@ -8,6 +8,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Updates the egress-kube-api NetworkPolicy to allow for setting the vpcCidr value
 
+## [2.57.0-bb.12] - 2025-12-09
+
+### Updated
+
+- gluon 0.5.20 -> 0.9.7 
+- ingress-nginx/kube-webhook-certgen v1.5.3 -> v1.6.3
+- jaegertracing/all-in-one 1.69.0 -> 1.74
+- jaegertracing/jaeger-collector 1.69.0 -> 1.74
+- jaegertracing/jaeger-es-index-cleaner 1.69.0 -> 1.74
+- jaegertracing/jaeger-ingester 1.69.0 -> 1.74
+- jaegertracing/jaeger-operator 1.69.0 -> 1.74
+- jaegertracing/jaeger-query 1.69.0 -> 1.74
+- Removed SSO in package to refelect current authservice in Big Bang umbrella
+
+
 ## [2.57.0-bb.10] - 2025-07-14
 
 ### Updated

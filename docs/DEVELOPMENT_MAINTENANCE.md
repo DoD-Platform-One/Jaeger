@@ -36,7 +36,6 @@ Jaeger is a modified/customized version of an upstream chart. The below details 
 You will want to install with:
 - Jaeger, Logging (elastic, eck operator, and fluentbit), Kiali, Authservice, Monitoring and Istio packages enabled
 - Tempo disabled
-- [Dev SSO values](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/assets/configs/example/dev-sso-values.yaml) for Kiali, Monitoring, and Jaeger
 
 `overrides/jaeger.yaml`
 ```yaml
@@ -49,14 +48,6 @@ elasticsearchKibana:
   enabled: true
   # Set Elasticsearch/Kibana version to 8.18.1 (1.28.0-bb.6) for Jaeger Compatibility 
   # Jaeger tracing is not compatible with new major version Elasticsearch 9.X. To continue using Jaeger with Elasticsearch, configure your values.yaml to use the latest 8.X Big Bang ElasticsearchKibana chart (1.28.0-bb.6). Big Bang recommends planning to migrate to Grafana Tempo, and attaching Grafana as a frontend UI.
-  git:
-    repo: https://repo1.dso.mil/big-bang/product/packages/elasticsearch-kibana.git
-    path: "./chart"
-    tag: "1.28.0-bb.6"
-  helmRepo:
-    repoName: "registry1"
-    chartName: "elasticsearch-kibana"
-    tag: "1.28.0-bb.6"
 
 eckOperator:
   enabled: true
@@ -66,12 +57,6 @@ fluentbit:
 
 monitoring:
   enabled: true
-  sso:
-    enabled: true
-    prometheus:
-      client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-prometheus
-    alertmanager:
-      client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-alertmanager
 
 packages:
   jaeger:
@@ -80,9 +65,6 @@ packages:
       repo: https://repo1.dso.mil/big-bang/product/packages/jaeger.git
       tag: null
       branch: "renovate/ironbank"
-    sso:
-      enabled: true
-      client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-jaeger
     values:
       istio:
         enabled: true
@@ -95,9 +77,6 @@ packages:
 
 kiali:
   enabled: true
-  sso:
-    enabled: true
-    client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kiali
 
 tempo:
   enabled: false
@@ -108,10 +87,10 @@ addons:
 ```
 
 Testing Steps:
-- Login with SSO to Jaeger (if you are not prompted for an SSO login, this could indicate a problem with the authservice connection)
+- Navigate to Jaeger UI 
 - On the search fields on the left pick a service and click `find traces`. 
     - Validate that traces load.
-- Navigate to Kiali and login with SSO 
+- Navigate to Kiali UI
     - Under applications find the namespace and service that corresponds with the service you picked in Jaeger earlier. 
     - Validate that traces show under the traces tab.
 - Navigate to Prometheus 
@@ -287,13 +266,6 @@ Line 9-11 set `openshift`
 ```
 # -- Openshift toggle, only affects networkPolicies
 openshift:
-  enabled: false
-```
-
-Line 13-15 set `sso`
-```
-# -- SSO toggle, only affects auth policies
-sso:
   enabled: false
 ```
 
