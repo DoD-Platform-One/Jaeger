@@ -1,8 +1,8 @@
 # Istio Hardened
-Big Bang has added the `.Values.istio.hardened` map attibute to the values of applications that can be istio-injected (when `.Values.istio.enabled` is `true`).  This document walks through the impact of setting `.Values.istio.hardened: true` on how traffic is managed within a given istio-injected package.
+Big Bang has added the `.Values.istio.hardened` map attribute to the values of applications that can be istio-injected (when `.Values.istio.enabled` is `true`).  This document walks through the impact of setting `.Values.istio.hardened: true` on how traffic is managed within a given istio-injected package.
 
 ## Prerequisites
-In order for `.Values.istio.hardened.enabled: true` to have any impact, the package must also have `.Values.istio.enabled: true` set.  This is because all of the resources created by setting `.Values.istio.hardened.enabled: true` are applied to the istio service mesh, which includes istio sidecar proxies.  If there are no istio proxies, then no mesh components exist in the namespace and therefore istio Kubernetes resources in the namespace will not effect anything.
+In order for `.Values.istio.hardened.enabled: true` to have any impact, the package must also have `.Values.istio.enabled: true` set.  This is because all of the resources created by setting `.Values.istio.hardened.enabled: true` are applied to the istio service mesh, which includes istio sidecar proxies.  If there are no istio proxies, then no mesh components exist in the namespace and therefore istio Kubernetes resources in the namespace will not affect anything.
 
 ## REGISTRY_ONLY Istio Sidecar resources
 When `.Values.istio.hardened.enabled: true` is set, a `Sidecar` resource is applied to the package's namespace that sets the outboundTrafficPolicy of the Sidecar to `REGISTRY_ONLY`.  What this means is that for pods with an istio-proxy running as a "sidecar", the only egress traffic allowed is for traffic that is destinated for a service that exists within the istio service mesh registry.
@@ -37,7 +37,7 @@ istio:
 
 This would result in the following ServiceEntry being created:
 ```yaml
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: allow-google
@@ -53,7 +53,7 @@ spec:
   resolution: DNS
 ```
 
-For more information on writting ServiceEntries, see [this documentation](https://istio.io/latest/docs/reference/config/networking/service-entry/)
+For more information on writing ServiceEntries, see [this documentation](https://istio.io/latest/docs/reference/config/networking/service-entry/)
 
 ## Authorization Policies
 [Istio Authorization Policies](https://istio.io/latest/docs/reference/config/security/authorization-policy/#AuthorizationPolicy) will be created provided `istio.enabled` and `istio.hardened.enabled` are set to `true`. There is a default deny policy which will deny everything that is not explicitly allowed with another policy. Denials look like a 403 with the message `RBAC: access denied`. Other policies that are created might include allow ingress gateways, allow monitoring, or allow a supported service that needs access to these resources. You will find these listed under `istio.hardened` as named objects that have 3 properties: `enabled`, `namespaces`, and `principals`. There are also templates which allow you to create custom authorization policies through additional values, these are described in greater detail below. The last rules to note are global rules. These are any rules created in the `istio-system` namespace. Rather than affecting just the `istio-system` namespace, they will apply to all namespaces.

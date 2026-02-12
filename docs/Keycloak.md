@@ -1,10 +1,9 @@
-# Keycloak Configuration
+# Keycloak / SSO Configuration
 
-#### Jaeger
-1. Create a jaeger client
-   - Change the following configuration items
-      - access type: confidential _this will enable a "Credentials" tab within the client configuration page_
-      - Direct Access Grants Enabled: Off
-      - Valid Redirect URIs: https://tracing.${DOMAIN}/login
-      - Base URL: https://tracing.${DOMAIN}
-    - Take note of the client secret in the credentia
+As of chart version 2.57.0-bb.12, SSO configuration has been removed from the Jaeger package. Jaeger SSO is now managed through Big Bang's [authservice](https://repo1.dso.mil/big-bang/product/packages/authservice) integration at the umbrella level.
+
+## Configuration
+
+To enable SSO for Jaeger, configure authservice in your Big Bang values override. No Jaeger-specific Keycloak client setup is required — authservice handles authentication transparently via Istio.
+
+Refer to the [Big Bang documentation](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/authservice.md) for details on configuring authservice and SSO for protected packages.
